@@ -1,12 +1,12 @@
 package pos.java.bora_comer.service;
 
-import org.springframework.stereotype.Service;
-import pos.java.bora_comer.model.User;
-import pos.java.bora_comer.repository.UserRepository;
-
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import pos.java.bora_comer.model.User;
+import pos.java.bora_comer.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -31,20 +31,18 @@ public class UserService {
 
     // Criar novo usuário
     public User criarUsuario(User user) {
-        user.setDataUltimaAlteracao(LocalDate.now());
+        user.atualizarDataUltimaAlteracao();
         return userRepository.save(user);
     }
 
-    // Atualizar usuário existente
+    // Atualizar usuário existente (apenas nome, senha e endereço)
     public User atualizarUsuario(Long id, User userAtualizado) {
         User userExistente = buscarPorId(id);
 
         userExistente.setNome(userAtualizado.getNome());
-        userExistente.setEmail(userAtualizado.getEmail());
-        userExistente.setLogin(userAtualizado.getLogin());
         userExistente.setSenha(userAtualizado.getSenha());
         userExistente.setEndereco(userAtualizado.getEndereco());
-        userExistente.setDataUltimaAlteracao(LocalDate.now());
+        userExistente.atualizarDataUltimaAlteracao();
 
         return userRepository.save(userExistente);
     }
