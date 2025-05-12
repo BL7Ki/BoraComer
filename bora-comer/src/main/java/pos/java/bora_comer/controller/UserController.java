@@ -3,23 +3,31 @@ package pos.java.bora_comer.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import pos.java.bora_comer.model.User;
 import pos.java.bora_comer.service.UserService;
 
 import java.net.URI;
 import java.util.List;
 
+
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+    private final UserService userService = null;
 
     // Construtor manual sem Lombok e sem @Autowired (boa prática)
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
+    @Operation(
+            description = "Busca o todos os usuários",
+            summary = "Busca de usuários",
+            responses = {
+                    @ApiResponse(description = "Ok", responseCode = "200")
+            }
+    )
     // Listar todos os usuários
     @GetMapping
     public ResponseEntity<List<User>> listarTodos() {
@@ -27,6 +35,13 @@ public class UserController {
         return ResponseEntity.ok(usuarios);
     }
 
+    @Operation(
+            description = "Busca o usuário pelo seu ID",
+            summary = "Busca de usuário ID",
+            responses = {
+                    @ApiResponse(description = "Ok", responseCode = "200")
+            }
+    )
     // Buscar usuário por ID
     @GetMapping("/{id}")
     public ResponseEntity<User> buscarPorId(@PathVariable Long id) {
@@ -34,6 +49,13 @@ public class UserController {
         return ResponseEntity.ok(usuario);
     }
 
+    @Operation(
+            description = "Insere um novo usuário",
+            summary = "Inserir usuário",
+            responses = {
+                    @ApiResponse(description = "Ok", responseCode = "200")
+            }
+    )
     // Criar novo usuário
     @PostMapping
     public ResponseEntity<User> criarUsuario(@RequestBody User user) {
@@ -43,6 +65,13 @@ public class UserController {
         return ResponseEntity.created(location).body(novoUsuario);
     }
 
+    @Operation(
+            description = "Atualiza o usuário",
+            summary = "Atualiza usuário pelo ID ",
+            responses = {
+                    @ApiResponse(description = "Ok", responseCode = "200")
+            }
+    )
     // Atualizar usuário existente
     @PutMapping("/{id}")
     public ResponseEntity<User> atualizarUsuario(@PathVariable Long id, @RequestBody User userAtualizado) {
@@ -50,6 +79,13 @@ public class UserController {
         return ResponseEntity.ok(usuarioAtualizado);
     }
 
+    @Operation(
+            description = "Excluir o usuário",
+            summary = "Exclui usuário pelo ID ",
+            responses = {
+                    @ApiResponse(description = "Ok", responseCode = "200")
+            }
+    )
     // Deletar usuário
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
@@ -57,6 +93,13 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(
+            description = "Validação do usuário para saer se existe na base",
+            summary = "Valida usuário",
+            responses = {
+                    @ApiResponse(description = "Ok", responseCode = "200")
+            }
+    )
     // Validar login (recebe login e senha como query params)
     @PostMapping("/login")
     public ResponseEntity<String> validarLogin(@RequestParam String login, @RequestParam String senha) {

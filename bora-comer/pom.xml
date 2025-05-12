@@ -11,13 +11,8 @@
 	<groupId>pos.java</groupId>
 	<artifactId>bora-comer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<modules>
-		<module>demo</module>
-	</modules>
 	<name>bora-comer</name>
 	<description>Demo project for Spring Boot</description>
-	<url/>
 	<licenses>
 		<license/>
 	</licenses>
@@ -102,6 +97,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+                	<mainClass>pos.java.bora_comer.BoraComerApplication</mainClass>
+            	</configuration>
 			</plugin>
 		</plugins>
 	</build>

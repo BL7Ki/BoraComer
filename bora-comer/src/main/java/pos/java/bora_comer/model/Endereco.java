@@ -1,14 +1,30 @@
 package pos.java.bora_comer.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class Endereco {
 
+    @Schema(description = "Rua do endereço",
+            example = "Rua das Flores",
+            required = true)
     private String rua;
+    @Schema(description = "Bairro do endereço",
+            example = "Centro",
+            required = true)
     private String bairro;
+    @Schema(description = "Cidade do endereço",
+            example = "São Paulo",
+            required = true)
     private String cidade;
+    @Schema(description = "Estado do endereço",
+            example = "SP",
+            required = true)
     private String estado;
+    @Schema(description = "CEP do endereço",
+            example = "12345-678",
+            required = true)
     private String cep;
 
     // Getters e Setters
