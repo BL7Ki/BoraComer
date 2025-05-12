@@ -1,0 +1,8 @@
+package pos.java.bora_comer.core.usercase;
+
+import pos.java.bora_comer.core.errors.UserDomainException;
+
+public interface DeleteUserUseCase {
+
+    void execute(Long id) throws UserDomainException;
+}
