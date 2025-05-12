@@ -3,8 +3,7 @@ package pos.java.bora_comer.service;
 import org.springframework.stereotype.Service;
 import pos.java.bora_comer.model.User;
 import pos.java.bora_comer.repository.UserRepository;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +30,7 @@ public class UserService {
 
     // Criar novo usuário
     public User criarUsuario(User user) {
-        user.setDataUltimaAlteracao(LocalDate.now());
+        user.setDataUltimaAlteracao(LocalDateTime.now());
         return userRepository.save(user);
     }
 
@@ -44,7 +43,7 @@ public class UserService {
         userExistente.setLogin(userAtualizado.getLogin());
         userExistente.setSenha(userAtualizado.getSenha());
         userExistente.setEndereco(userAtualizado.getEndereco());
-        userExistente.setDataUltimaAlteracao(LocalDate.now());
+        userExistente.setDataUltimaAlteracao(LocalDateTime.now());
 
         return userRepository.save(userExistente);
     }
