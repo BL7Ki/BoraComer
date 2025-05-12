@@ -1,4 +1,4 @@
-package pos.java.bora_comer.core;
+package pos.java.bora_comer.core.usercase;
 
 import pos.java.bora_comer.core.domain.LoginResponseEnum;
 
