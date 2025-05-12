@@ -44,6 +44,7 @@ public class UserService {
         userExistente.setEndereco(userAtualizado.getEndereco());
         userExistente.atualizarDataUltimaAlteracao();
 
+
         return userRepository.save(userExistente);
     }
 
