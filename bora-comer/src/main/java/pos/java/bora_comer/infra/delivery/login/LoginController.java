@@ -1,5 +1,8 @@
 package pos.java.bora_comer.infra.delivery.login;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,19 @@ public class LoginController {
         this.userLoginUseCase = userLoginUseCase;
     }
 
+    @Operation(
+            summary = "Validar login",
+            description = "Endpoint para validar o login do usuário com base no nome de usuário e senha fornecidos."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Login válido"),
+            @ApiResponse(responseCode = "401", description = "Login inválido"),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor"),
+            @ApiResponse(content = @io.swagger.v3.oas.annotations.media.Content(
+                    mediaType = "application/json",
+                    schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = LoginRequestDTO.class)
+            ))
+    })
     @PostMapping
     public ResponseEntity<String> validateLogin(
             @RequestBody LoginRequestDTO loginRequestDTO

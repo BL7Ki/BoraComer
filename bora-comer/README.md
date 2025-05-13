@@ -208,3 +208,10 @@ src/
 ````
 
 ``
+
+# 11. Acessar a Documentação da API (Swagger UI)
+
+Acesse essa URL após iniciar a aplicação para visualizar os endpoints disponíveis e testar as requisições diretamente pela interface do Swagger.
+```
+http://localhost:8080/swagger-ui/index.html
+```

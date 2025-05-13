@@ -46,4 +46,16 @@ public class CustomExceptionHandler {
                 request.getServletPath()
         );
     }
+
+    @ExceptionHandler(SummerNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErroView SummerNotFoundException(SummerNotFoundException exception, HttpServletRequest request) {
+        return new ErroView(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.name(),
+                exception.getMessage(),
+                request.getServletPath()
+        );
+    }
 }

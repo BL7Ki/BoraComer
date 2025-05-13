@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pos.java.bora_comer.core.domain.User;
+import pos.java.bora_comer.core.errors.SummerNotFoundException;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.UserMapper;
 import pos.java.bora_comer.core.usercase.SearchUserUseCase;
@@ -26,7 +27,7 @@ public class SearchUserUseCaseImpl implements SearchUserUseCase {
     public User findById(Long id) throws UserDomainException {
 
         UserEntity userEntity = userRepository.findById(id)
-                .orElseThrow(() -> new UserDomainException("User with ID " + id + " not found"));
+                .orElseThrow(() -> new SummerNotFoundException("User with ID " + id + " not found"));
 
         return userMapper.toDomain(userEntity);
     }

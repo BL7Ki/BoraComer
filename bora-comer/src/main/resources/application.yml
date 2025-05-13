@@ -1,3 +1,4 @@
 spring:
   profiles:
     active: test
+    # http://localhost:8080/swagger-ui/index.html
