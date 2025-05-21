@@ -1,8 +1,11 @@
 # Projeto: Bora Comer
 
 ## 1. Equipe
-- Nome do Aluno 1 - RM12345
-- Nome do Aluno 2 - RM67890
+- Leonardo Felipe Ventura Ferreira - rm363339
+-  Everton Cristiano de Souza Teixeira -
+-  Wagner de Lima Braga Silva - RM364223
+-  Suelen dos Santos Peres -
+-  Gabriel Oliveira
 
 ---
 
