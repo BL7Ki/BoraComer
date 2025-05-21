@@ -1,11 +1,10 @@
 # Projeto: Bora Comer
 
 ## 1. Equipe
-- Leonardo Felipe Ventura Ferreira - rm363339
--  Everton Cristiano de Souza Teixeira -
--  Wagner de Lima Braga Silva - RM364223
--  Suelen dos Santos Peres -
--  Gabriel Oliveira -
+- Leonardo Felipe Ventura Ferreira - RM363339
+- Gabriel Cardoso de Oliveira - RM361190
+- Wagner de Lima Braga Silva - RM364223
+- Everton Cristiano de Souza Teixeira -
 
 ## 2. Introdução
 
