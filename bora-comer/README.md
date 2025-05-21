@@ -5,15 +5,7 @@
 -  Everton Cristiano de Souza Teixeira -
 -  Wagner de Lima Braga Silva - RM364223
 -  Suelen dos Santos Peres -
--  Gabriel Oliveira
-=======
-## Equipe
-- Leonardo Felipe Ventura Ferreira - rm363339
-- Everton Cristiano de Souza Teixeira -
-- Wagner de Lima Braga Silva -
-- Suelen dos Santos Peres - 
-- Gabriel Oliveira
----
+-  Gabriel Oliveira -
 
 ## 2. Introdução
 
@@ -95,8 +87,7 @@ src/
 │   │   │   │   ├── application/         # Configurações da aplicação
 ````
 
-``   
-
+``
 
 ## 7. Arquitetura do Sistema
 
