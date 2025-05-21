@@ -4,7 +4,7 @@
 - Leonardo Felipe Ventura Ferreira - RM363339
 - Gabriel Cardoso de Oliveira - RM361190
 - Wagner de Lima Braga Silva - RM364223
-- Everton Cristiano de Souza Teixeira -
+- Everton Cristiano de Souza Teixeira - RM362065
 
 ## 2. Introdução
 
@@ -42,7 +42,20 @@ cd bora-comer
 ```
 ### 5.2 Configurar o banco de dados
 - Para o H2, não é necessário configuração adicional, pois ele roda em memória.
-
+- Nesta aplicação, o Hibernate está configurado para **não criar, alterar ou validar o esquema do banco de dados automaticamente**. Isso significa que o banco de dados deve ser configurado manualmente utilizando scripts SQL, como `data.sql`.
+- spring.jpa.hibernate.ddl-auto: none: Desativa a criação ou alteração automática do esquema pelo Hibernate.
+- spring.sql.init.mode: always: Garante que os scripts SQL (data.sql) sejam executados ao iniciar a aplicação.
+#### Configuração no `application-test.yml`:
+```yaml
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      mode: always
+      
+```
 
 ### 5.3 Rodar o projeto
 ```bash
@@ -172,6 +185,7 @@ Essa abordagem promove a separação de responsabilidades e mantém as camadas d
 | `/users`            | `GET`      | Buscar todos os usuários com paginação.|
 | `/users/{id}`       | `PUT`      | Atualizar um usuário por ID.           |
 | `/users/{id}`       | `DELETE`   | Deletar um usuário por ID.             |
+| `/login`            | `POST`     | Validar o login do usuário com base no nome de usuário e senha fornecidos. |
 
 
 ## 10. Exemplos de Uso
@@ -217,6 +231,36 @@ Content-Type: application/json
 }
 ```
 
+### Validar Login
+O endpoint `/login` permite validar as credenciais de um usuário. Ele verifica o login e a senha fornecidos e retorna uma mensagem indicando o sucesso ou falha da autenticação.
+
+**Requisição:**
+```bash
+POST /login
+Content-Type: application/json
+
+{
+  "login": "admin",
+  "password": "senhaAdmin123"
+}
+
+```
+
+**Resposta:**
+Login bem-sucedido (HTTP 200):
+```json
+{
+  "message": "Login realizado com sucesso."
+}
+
+ ```
+Credenciais inválidas (HTTP 401):
+```json
+{
+  "message": "Credenciais inválidas."
+}
+```
+
 ---
 
 ### Acessar a aplicação
@@ -241,3 +285,24 @@ Contribuições são bem-vindas! Para contribuir:
 5. Abra um Pull Request.
 
 ---
+
+## 13. Collection do Insomnia
+
+Para facilitar os testes das requisições da API, incluímos uma collection do Insomnia no projeto.
+
+**Localização do arquivo:**
+`collection/bora_comer_collection_insomnia.json`
+
+**Como importar:**
+1. Abra o Insomnia.
+2. Clique em **Application** > **Import/Export** > **Import Data** > **From File**.
+3. Selecione o arquivo `bora_comer_collection_insomnia.json` localizado na pasta `collection` do projeto.
+4. A collection será importada com os endpoints configurados para facilitar os testes.
+
+**Endpoints disponíveis na collection:**
+- Criar usuário (`POST /users`)
+- Buscar usuário por ID (`GET /users/{id}`)
+- Atualizar usuário (`PUT /users/{id}`)
+- Deletar usuário (`DELETE /users/{id}`)
+- Listar todos os usuários (`GET /users`)
+- Validar login (`POST /login`)

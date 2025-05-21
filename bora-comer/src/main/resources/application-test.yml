@@ -5,6 +5,8 @@ spring:
     username: sa
     password:
   jpa:
+    hibernate:
+      ddl-auto: none
     database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
@@ -18,7 +20,7 @@ spring:
         web-allow-others: true
   sql:
     init:
-      enabled: always
+      mode: always
 
 server:
   port: 8080
