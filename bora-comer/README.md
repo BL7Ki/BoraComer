@@ -79,11 +79,13 @@ mvn spring-boot:run
 ## 6. Estrutura de Pastas
 
 ````
+collection/                              # Coleção do Insomnia para testes arquivos json requisições
 src/
 ├── main/
 │   ├── java/
 │   │   ├── br/com/sistemalima/app/
 │   │   │   ├── modelo/
+│   │   │   │   ├── config/              # Configurações adicionais
 │   │   │   │   ├── core/                # Camada de domínio e casos de uso
 │   │   │   │   │   ├── domain/          # Entidades de domínio
 │   │   │   │   │   ├── usercase/        # Interfaces e implementações dos casos de uso
