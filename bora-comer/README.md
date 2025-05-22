@@ -79,11 +79,13 @@ mvn spring-boot:run
 ## 6. Estrutura de Pastas
 
 ````
+collection/                              # Coleção do Insomnia para testes arquivos json requisições
 src/
 ├── main/
 │   ├── java/
 │   │   ├── br/com/sistemalima/app/
 │   │   │   ├── modelo/
+│   │   │   │   ├── config/              # Configurações adicionais
 │   │   │   │   ├── core/                # Camada de domínio e casos de uso
 │   │   │   │   │   ├── domain/          # Entidades de domínio
 │   │   │   │   │   ├── usercase/        # Interfaces e implementações dos casos de uso
@@ -147,7 +149,7 @@ O sistema foi desenvolvido utilizando a **Clean Architecture (Arquitetura Limpa)
   - `CreateUserUseCaseImpl` utiliza a abstração `UserMapper` para realizar o mapeamento de objetos.
 
 ### 1. **Camada de Domínio**
-- Contém as classes centrais do domínio, como `UserDomain` e `AddressDomain`.
+- Contém as classes centrais do domínio, como `User` e `Address`.
 - Representa o núcleo da aplicação, independente de frameworks ou tecnologias externas.
 
 ### 2. **Camada de Casos de Uso**
