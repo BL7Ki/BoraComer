@@ -149,7 +149,7 @@ O sistema foi desenvolvido utilizando a **Clean Architecture (Arquitetura Limpa)
   - `CreateUserUseCaseImpl` utiliza a abstração `UserMapper` para realizar o mapeamento de objetos.
 
 ### 1. **Camada de Domínio**
-- Contém as classes centrais do domínio, como `UserDomain` e `AddressDomain`.
+- Contém as classes centrais do domínio, como `User` e `Address`.
 - Representa o núcleo da aplicação, independente de frameworks ou tecnologias externas.
 
 ### 2. **Camada de Casos de Uso**
