@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS tb_usuarios (
-    id INT PRIMARY KEY,
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     login VARCHAR(255) NOT NULL,
@@ -14,5 +14,5 @@ CREATE TABLE IF NOT EXISTS tb_usuarios (
     cep VARCHAR(10)
 );
 
-INSERT INTO tb_usuarios (id, nome, email, login, senha, data_alteracao, role, rua, bairro, cidade, estado, cep)
-VALUES (1, 'Admin', 'admin@example.com', 'admin', 'senhaAdmin123', CURRENT_TIMESTAMP, 'ADMIN', 'Rua Principal', 'Centro', 'Cidade Exemplo', 'SP', '12345-678');
+INSERT INTO tb_usuarios (nome, email, login, senha, data_alteracao, role, rua, bairro, cidade, estado, cep)
+VALUES ('Admin', 'admin@example.com', 'admin', 'senhaAdmin123', CURRENT_TIMESTAMP, 'ADMIN', 'Rua Principal', 'Centro', 'Cidade Exemplo', 'SP', '12345-678');
