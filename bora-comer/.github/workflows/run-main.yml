@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build and Test for Main Branch
 
 on:
   push:
