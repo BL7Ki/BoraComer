@@ -28,6 +28,10 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     @Override
     public User execute(User user) throws UserDomainException {
 
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new UserDomainException("O userName já está em uso.");
+        }
+
         var userEntity = userMapper.toEntity(user);
 
         var userEntitySave = userRepository.save(userEntity);
