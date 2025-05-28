@@ -1,8 +1,8 @@
-package pos.java.bora_comer.core.usercase.impl;
+package pos.java.bora_comer.core.usercase.login.impl;
 
 import org.springframework.stereotype.Service;
 import pos.java.bora_comer.core.domain.LoginResponseEnum;
-import pos.java.bora_comer.core.usercase.UserLoginUseCase;
+import pos.java.bora_comer.core.usercase.login.UserLoginUseCase;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 

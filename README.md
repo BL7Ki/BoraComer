@@ -89,7 +89,10 @@ src/
 │   │   │   │   ├── core/                # Camada de domínio e casos de uso
 │   │   │   │   │   ├── domain/          # Entidades de domínio
 │   │   │   │   │   ├── usercase/        # Interfaces e implementações dos casos de uso
-│   │   │   │   │   │   ├── impl/        # Implementações dos casos de uso
+│   │   │   │   │   │   ├── user         # Exemplo de caso de uso usuario
+│   │   │   │   │   │   │   ├── impl/    # Implementações dos casos de uso usuario
+│   │   │   │   │   │   ├── login/       # Exemplo de caso de uso login
+│   │   │   │   │   │   │   ├── impl/    # Implementações dos casos de uso login
 │   │   │   │   │   ├── mapper/          # Mapeadores de domínio
 │   │   │   │   ├── infra/               # Camada de infraestrutura
 │   │   │   │   │   ├── delivery/        # Controladores e mapeadores de DTOs

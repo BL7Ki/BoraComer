@@ -5,8 +5,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.mapper.UserMapper;
-import pos.java.bora_comer.core.usercase.UppdateUserUseCase;
+import pos.java.bora_comer.core.mapper.user.UserMapper;
+import pos.java.bora_comer.core.usercase.user.UppdateUserUseCase;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserUpdateRequestDTO;
 

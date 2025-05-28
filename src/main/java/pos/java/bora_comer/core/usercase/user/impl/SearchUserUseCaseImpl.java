@@ -1,4 +1,4 @@
-package pos.java.bora_comer.core.usercase.impl;
+package pos.java.bora_comer.core.usercase.user.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.errors.SummerNotFoundException;
 import pos.java.bora_comer.core.errors.UserDomainException;
-import pos.java.bora_comer.core.mapper.UserMapper;
-import pos.java.bora_comer.core.usercase.SearchUserUseCase;
+import pos.java.bora_comer.core.mapper.user.UserMapper;
+import pos.java.bora_comer.core.usercase.user.SearchUserUseCase;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 

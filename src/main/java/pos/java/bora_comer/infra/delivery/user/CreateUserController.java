@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.mapper.UserMapper;
-import pos.java.bora_comer.core.usercase.CreateUserUseCase;
+import pos.java.bora_comer.core.mapper.user.UserMapper;
+import pos.java.bora_comer.core.usercase.user.CreateUserUseCase;
 import pos.java.bora_comer.infra.delivery.user.dto.UserRequestDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
 
