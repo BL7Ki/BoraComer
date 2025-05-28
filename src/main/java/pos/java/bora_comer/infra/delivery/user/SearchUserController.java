@@ -6,8 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.mapper.UserMapper;
-import pos.java.bora_comer.core.usercase.SearchUserUseCase;
+import pos.java.bora_comer.core.mapper.user.UserMapper;
+import pos.java.bora_comer.core.usercase.user.SearchUserUseCase;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
 
 import java.util.List;

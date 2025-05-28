@@ -1,4 +1,4 @@
-package pos.java.bora_comer.core.mapper;
+package pos.java.bora_comer.core.mapper.user;
 
 import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.infra.delivery.user.dto.UserRequestDTO;

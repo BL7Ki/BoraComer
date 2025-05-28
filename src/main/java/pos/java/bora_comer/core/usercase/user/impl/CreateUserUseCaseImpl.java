@@ -1,10 +1,10 @@
-package pos.java.bora_comer.core.usercase.impl;
+package pos.java.bora_comer.core.usercase.user.impl;
 
 import org.springframework.stereotype.Service;
 import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
-import pos.java.bora_comer.core.mapper.UserMapper;
-import pos.java.bora_comer.core.usercase.CreateUserUseCase;
+import pos.java.bora_comer.core.mapper.user.UserMapper;
+import pos.java.bora_comer.core.usercase.user.CreateUserUseCase;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 
 @Service

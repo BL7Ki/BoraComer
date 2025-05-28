@@ -1,4 +1,4 @@
-package pos.java.bora_comer.core.usercase;
+package pos.java.bora_comer.core.usercase.user;
 
 import pos.java.bora_comer.core.errors.UserDomainException;
 
