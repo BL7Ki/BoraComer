@@ -2,31 +2,30 @@ package pos.java.bora_comer.core.usercase.login.impl;
 
 import org.springframework.stereotype.Service;
 import pos.java.bora_comer.core.domain.LoginResponseEnum;
+import pos.java.bora_comer.core.domain.User;
+import pos.java.bora_comer.core.gateway.login.UserLoginGateway;
 import pos.java.bora_comer.core.usercase.login.UserLoginUseCase;
-import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
-import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 
 import java.util.Optional;
 
 @Service
 public class UserLoginUseCaseImpl implements UserLoginUseCase {
 
-    private final UserRepository userRepository;
+    private final UserLoginGateway userLoginGateway;
 
-    public UserLoginUseCaseImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserLoginUseCaseImpl(UserLoginGateway userLoginGateway) {
+        this.userLoginGateway = userLoginGateway;
     }
 
     @Override
     public LoginResponseEnum execute(String login, String password) {
-        Optional<UserEntity> userEntity = userRepository.findByLogin(login);
+        Optional<User> user = userLoginGateway.findByLogin(login);
 
-        if (userEntity.isEmpty()) {
+        if (user.isEmpty()) {
             return LoginResponseEnum.INVALID_LOGIN;
         }
 
-        UserEntity user = userEntity.get();
-        if (!user.getPassword().equals(password)) {
+        if (!user.get().getPassword().equals(password)) {
             return LoginResponseEnum.INVALID_PASSWORD;
         }
 

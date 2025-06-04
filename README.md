@@ -6,6 +6,13 @@
 - Wagner de Lima Braga Silva - RM364223
 - Everton Cristiano de Souza Teixeira - RM362065
 
+## 1.1 Link Repositorio:
+branch: Main
+```
+https://github.com/BL7Ki/BoraComer
+
+```
+
 ## 2. Introdução
 
 **Descrição do problema**  
@@ -88,6 +95,8 @@ src/
 │   │   │   │   ├── config/              # Configurações adicionais
 │   │   │   │   ├── core/                # Camada de domínio e casos de uso
 │   │   │   │   │   ├── domain/          # Entidades de domínio
+│   │   │   │   │   ├── errors/          # Exceções e erros personalizados
+│   │   │   │   │   ├── gateway/         # Interfaces de gateway responsável por abstraem a comunicação entre os casos de uso (use cases) e a camada de infraestrutura.
 │   │   │   │   │   ├── usercase/        # Interfaces e implementações dos casos de uso
 │   │   │   │   │   │   ├── user         # Exemplo de caso de uso usuario
 │   │   │   │   │   │   │   ├── impl/    # Implementações dos casos de uso usuario
