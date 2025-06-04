@@ -105,7 +105,7 @@ src/
 │   │   │   │   │   ├── mapper/          # Mapeadores de domínio
 │   │   │   │   ├── infra/               # Camada de infraestrutura
 │   │   │   │   │   ├── delivery/        # Controladores e mapeadores de DTOs
-│   │   │   │   │   │   
+│   │   │   │   │   ├── gateway/         # Implementações de gateways (persistência e APIs externas)   
 │   │   │   │   │   ├── persistence/     # Persistência
 │   │   │   │   │   │   ├── entity/      # Entidades mapeadas para persistência
 │   │   │   │   │   │   ├── mapper/      # Mapeadores para conversão entre entidades de persistência e objetos de domínio

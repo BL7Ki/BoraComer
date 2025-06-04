@@ -3,7 +3,7 @@ package pos.java.bora_comer.core.gateway.user;
 
 import pos.java.bora_comer.core.domain.User;
 
-public interface UserGateway {
+public interface UserCreateGateway {
 
     boolean existsByUsername(String username);
 

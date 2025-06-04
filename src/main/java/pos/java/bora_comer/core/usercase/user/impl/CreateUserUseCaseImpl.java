@@ -3,16 +3,16 @@ package pos.java.bora_comer.core.usercase.user.impl;
 import org.springframework.stereotype.Service;
 import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
-import pos.java.bora_comer.core.gateway.user.UserGateway;
+import pos.java.bora_comer.core.gateway.user.UserCreateGateway;
 import pos.java.bora_comer.core.usercase.user.CreateUserUseCase;
 
 @Service
 public class CreateUserUseCaseImpl implements CreateUserUseCase {
 
-    private final UserGateway userGateway;
+    private final UserCreateGateway userCreateGateway;
 
-    public CreateUserUseCaseImpl(UserGateway userGateway) {
-        this.userGateway = userGateway;
+    public CreateUserUseCaseImpl(UserCreateGateway userCreateGateway) {
+        this.userCreateGateway = userCreateGateway;
     }
     /**
      * Método para criar um novo usuário.
@@ -25,10 +25,10 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     @Override
     public User execute(User user) throws UserDomainException {
 
-        if (userGateway.existsByUsername(user.getUsername())) {
+        if (userCreateGateway.existsByUsername(user.getUsername())) {
             throw new UserDomainException("O userName já está em uso.");
         }
 
-        return userGateway.save(user);
+        return userCreateGateway.save(user);
     }
 }

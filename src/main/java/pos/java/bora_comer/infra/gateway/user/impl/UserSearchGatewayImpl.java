@@ -1,4 +1,4 @@
-package pos.java.bora_comer.core.gateway.user.impl;
+package pos.java.bora_comer.infra.gateway.user.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

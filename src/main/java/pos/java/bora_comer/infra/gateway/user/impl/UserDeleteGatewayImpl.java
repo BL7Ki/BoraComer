@@ -1,7 +1,8 @@
-package pos.java.bora_comer.core.gateway.user;
+package pos.java.bora_comer.infra.gateway.user.impl;
 
 import org.springframework.stereotype.Component;
 import pos.java.bora_comer.core.errors.SummerNotFoundException;
+import pos.java.bora_comer.core.gateway.user.UserDeleteGateway;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 
 @Component
