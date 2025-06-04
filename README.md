@@ -149,8 +149,11 @@ O sistema foi desenvolvido utilizando a **Clean Architecture (Arquitetura Limpa)
 * Camada de Domínio: Entidades centrais e regras de negócio.
 
 * Camada de Persistência: Entidades JPA e repositórios.
+
+* Camada de Gateway: Interfaces que abstraem a comunicação entre os casos de uso e a infraestrutura, como persistência e APIs externas.
+
 * Fluxo:
-  Usuário → Controller (Infra) → UseCase (Aplicação) → Domínio → Persistência (Repository/Entity)
+  Usuário → Controller (Infra) → UseCase (Aplicação) → Domínio → Gateway → Persistência (Repository/Entity)
   E vice-versa para respostas.
 
 ### 8. Princípios SOLID Aplicados
