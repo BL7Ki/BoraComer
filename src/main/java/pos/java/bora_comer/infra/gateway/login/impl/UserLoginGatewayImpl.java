@@ -1,4 +1,4 @@
-package pos.java.bora_comer.core.gateway.login.impl;
+package pos.java.bora_comer.infra.gateway.login.impl;
 
 import org.springframework.stereotype.Component;
 import pos.java.bora_comer.core.domain.User;

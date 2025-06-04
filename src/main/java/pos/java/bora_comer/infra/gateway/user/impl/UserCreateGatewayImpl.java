@@ -1,19 +1,19 @@
-package pos.java.bora_comer.core.gateway.user.impl;
+package pos.java.bora_comer.infra.gateway.user.impl;
 
 import org.springframework.stereotype.Component;
 import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.gateway.user.UserGateway;
+import pos.java.bora_comer.core.gateway.user.UserCreateGateway;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 
 @Component
-public class UserGatewayImpl implements UserGateway {
+public class UserCreateGatewayImpl implements UserCreateGateway {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public  UserGatewayImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserCreateGatewayImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
     }
