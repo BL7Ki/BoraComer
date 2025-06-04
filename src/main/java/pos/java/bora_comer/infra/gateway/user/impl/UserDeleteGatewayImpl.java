@@ -15,14 +15,6 @@ public class UserDeleteGatewayImpl implements UserDeleteGateway {
     }
 
     @Override
-    public boolean existsById(Long id) throws SummerNotFoundException {
-        if (!userRepository.existsById(id)) {
-            throw new SummerNotFoundException("User with ID " + id + " not found");
-        }
-        return true;
-    }
-
-    @Override
     public void deleteById(Long id) throws SummerNotFoundException {
         if (!userRepository.existsById(id)) {
             throw new SummerNotFoundException("User with ID " + id + " not found");
