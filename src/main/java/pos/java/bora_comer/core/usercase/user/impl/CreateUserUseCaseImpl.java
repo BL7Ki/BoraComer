@@ -3,19 +3,16 @@ package pos.java.bora_comer.core.usercase.user.impl;
 import org.springframework.stereotype.Service;
 import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
-import pos.java.bora_comer.core.mapper.user.UserMapper;
+import pos.java.bora_comer.core.gateway.user.UserGateway;
 import pos.java.bora_comer.core.usercase.user.CreateUserUseCase;
-import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 
 @Service
 public class CreateUserUseCaseImpl implements CreateUserUseCase {
 
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final UserGateway userGateway;
 
-    public CreateUserUseCaseImpl(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
+    public CreateUserUseCaseImpl(UserGateway userGateway) {
+        this.userGateway = userGateway;
     }
     /**
      * Método para criar um novo usuário.
@@ -28,14 +25,10 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     @Override
     public User execute(User user) throws UserDomainException {
 
-        if (userRepository.existsByUsername(user.getUsername())) {
+        if (userGateway.existsByUsername(user.getUsername())) {
             throw new UserDomainException("O userName já está em uso.");
         }
 
-        var userEntity = userMapper.toEntity(user);
-
-        var userEntitySave = userRepository.save(userEntity);
-
-        return userMapper.toDomain(userEntitySave);
+        return userGateway.save(user);
     }
 }
