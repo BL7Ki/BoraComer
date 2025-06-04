@@ -95,7 +95,7 @@ src/
 │   │   │   │   ├── config/              # Configurações adicionais
 │   │   │   │   ├── core/                # Camada de domínio e casos de uso
 │   │   │   │   │   ├── domain/          # Entidades de domínio
-│   │   │   │   │   ├── errors/          # Exceções e erros personalizados da aplicação
+│   │   │   │   │   ├── errors/          # Exceções e erros personalizados
 │   │   │   │   │   ├── gateway/         # Interfaces de gateway responsável por abstraem a comunicação entre os casos de uso (use cases) e a camada de infraestrutura.
 │   │   │   │   │   ├── usercase/        # Interfaces e implementações dos casos de uso
 │   │   │   │   │   │   ├── user         # Exemplo de caso de uso usuario
