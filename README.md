@@ -124,18 +124,23 @@ O sistema foi desenvolvido utilizando a **Clean Architecture (Arquitetura Limpa)
 ### 7.1 **Diagrama da Arquitetura**
 ```
 +------------------------------------------------------------+
-                |        Camada de            |
-                |      Infraestrutura         |
-                | (Controllers REST, Mappers) |
-                +-------------+---------------+
+|                        Camada de Infraestrutura            |
+|               (Controllers REST, Mappers, Frameworks)      |
++-----------------------------+------------------------------+
                               |
                               v
 +----------------+     +---------------------+     +-------------------+
 |  Camada de     |<--->|  Camada de Casos    |<--->|  Camada de        |
 |  Persistência  |     |  de Uso (UseCases)  |     |  Domínio          |
 | (Entities,     |     | (Interfaces e Impl) |     | (Entidades,       |
-|  Repositórios) |     +---------------------+     |  regras de negócio|
+|  Repositórios) |     +---------------------+     |  Regras de Negócio|
 +----------------+                               +----------------------+
+                              ^
+                              |
++-----------------------------+------------------------------+
+|                        Camada de Gateway                  |
+|       (Abstrações para APIs externas e persistência)      |
++------------------------------------------------------------+
 
 ```
 ---
