@@ -1,6 +1,7 @@
 package pos.java.bora_comer.infra.gateway.user.impl;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pos.java.bora_comer.core.errors.SummerNotFoundException;
 import pos.java.bora_comer.core.gateway.user.UserDeleteGateway;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
@@ -14,6 +15,7 @@ public class UserDeleteGatewayImpl implements UserDeleteGateway {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) throws SummerNotFoundException {
         if (!userRepository.existsById(id)) {
