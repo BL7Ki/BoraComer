@@ -1,6 +1,7 @@
 package pos.java.bora_comer.infra.gateway.login.impl;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.gateway.login.UserLoginGateway;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
@@ -19,6 +20,7 @@ public class UserLoginGatewayImpl implements UserLoginGateway {
         this.userMapper = userMapper;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<User> findByLogin(String login) {
         return userRepository.findByLogin(login).map(userMapper::toDomain);
