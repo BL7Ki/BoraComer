@@ -13,24 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Git
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-
-      - name: Generate tag
-        id: tag
-        run: |
-          TAG="v$(date +'%Y%m%d-%H%M%S')"
-          git tag $TAG
-          git push origin $TAG
-          echo "tag=$TAG" >> $GITHUB_OUTPUT
-
       - name: Create GitHub Release
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ steps.tag.outputs.tag }}
-          release_name: Release ${{ steps.tag.outputs.tag }}
+          tag_name: v${{ github.run_number }}
+          release_name: Release v${{ github.run_number }}
           draft: false
           prerelease: false
         env:
