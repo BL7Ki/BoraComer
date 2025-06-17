@@ -1,6 +1,7 @@
 package pos.java.bora_comer.infra.gateway.user.impl;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserUpdateGateway;
@@ -18,6 +19,7 @@ public class UserUpdateGatewayImpl implements UserUpdateGateway {
         this.userMapper = userMapper;
     }
 
+    @Transactional
     @Override
     public User update(User user) throws UserDomainException {
         // Implementação do método para atualizar o usuário

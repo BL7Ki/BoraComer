@@ -1,6 +1,7 @@
 package pos.java.bora_comer.infra.gateway.user.impl;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.gateway.user.UserCreateGateway;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
@@ -24,6 +25,7 @@ public class UserCreateGatewayImpl implements UserCreateGateway {
         return userRepository.existsByUsername(username);
     }
 
+    @Transactional
     @Override
     public User save(User user) {
         // Implementação do método para salvar o usuário
