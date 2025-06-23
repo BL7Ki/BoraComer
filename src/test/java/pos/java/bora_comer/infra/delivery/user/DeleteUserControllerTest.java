@@ -1,4 +1,4 @@
-package pos.java.bora_comer.infra.delivery;
+package pos.java.bora_comer.infra.delivery.user;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import pos.java.bora_comer.infra.delivery.user.DeleteUserController;
 
 @ExtendWith(MockitoExtension.class)
 class DeleteUserControllerTest {

@@ -1,4 +1,4 @@
-package pos.java.bora_comer.infra.delivery;
+package pos.java.bora_comer.infra.delivery.user;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,7 +10,6 @@ import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.domain.UserRoleEnum;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.UppdateUserUseCase;
-import pos.java.bora_comer.infra.delivery.user.UppdateUserController;
 import pos.java.bora_comer.infra.delivery.user.dto.*;
 
 import static org.junit.jupiter.api.Assertions.*;
