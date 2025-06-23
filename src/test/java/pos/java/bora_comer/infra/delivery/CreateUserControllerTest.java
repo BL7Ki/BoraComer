@@ -1,4 +1,4 @@
-package test.java.pos.java.bora_comer;
+package pos.java.bora_comer.infra.delivery;
 
 import java.util.Objects;
 
