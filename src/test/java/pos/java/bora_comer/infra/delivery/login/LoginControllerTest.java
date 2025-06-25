@@ -9,8 +9,9 @@ import pos.java.bora_comer.core.domain.LoginResponseEnum;
 import pos.java.bora_comer.core.usercase.login.UserLoginUseCase;
 import pos.java.bora_comer.infra.delivery.login.dto.LoginRequestDTO;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
