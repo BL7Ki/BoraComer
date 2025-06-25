@@ -3,7 +3,10 @@ package pos.java.bora_comer.core.usercase.user.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import pos.java.bora_comer.core.domain.Address;
 import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.domain.UserRoleEnum;
@@ -14,8 +17,13 @@ import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class SearchUserUseCaseImplTest {
 

@@ -7,8 +7,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pos.java.bora_comer.core.usercase.user.DeleteUserUseCase;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.verify;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

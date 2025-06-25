@@ -10,10 +10,16 @@ import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.domain.UserRoleEnum;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.UppdateUserUseCase;
-import pos.java.bora_comer.infra.delivery.user.dto.*;
+import pos.java.bora_comer.infra.delivery.user.dto.AddressRequestDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.AddressResponseDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.UserUpdateRequestDTO;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -90,4 +96,5 @@ class UppdateUserControllerTest {
         verify(updateUserUseCase).execute(domainUser);
         verify(userMapper).toResponseDTO(domainUser);
     }
+
 }
