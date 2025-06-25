@@ -96,4 +96,5 @@ class UppdateUserControllerTest {
         verify(updateUserUseCase).execute(domainUser);
         verify(userMapper).toResponseDTO(domainUser);
     }
+
 }
