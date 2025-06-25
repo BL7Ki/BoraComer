@@ -6,7 +6,10 @@ import pos.java.bora_comer.core.errors.SummerNotFoundException;
 import pos.java.bora_comer.core.gateway.user.UserDeleteGateway;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 class DeleteUserUseCaseImplTest {
 
