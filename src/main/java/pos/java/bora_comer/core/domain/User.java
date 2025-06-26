@@ -6,7 +6,7 @@ public class User {
     private final  String name;
     private final String email;
     private final String username;
-    private final String password;
+    private String password;
     private final Address address;
     private final UserRoleEnum userRoleEnum;
     private final String lastModifiedDate;
@@ -62,5 +62,9 @@ public class User {
 
     public String getLastModifiedDate() {
         return lastModifiedDate;
+    }
+
+    public void updatePassward(String newPassword) {
+        this.password = newPassword;
     }
 }
