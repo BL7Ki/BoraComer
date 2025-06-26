@@ -15,7 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.never;
 
 class UppdateUserUseCaseImplTest {
@@ -23,7 +25,6 @@ class UppdateUserUseCaseImplTest {
     private UserUpdateGateway userUpdateGateway;
     private UserSearchGateway userSearchGateway;
     private UppdateUserUseCaseImpl uppdateUserUseCase;
-
 
     @BeforeEach
     void setUp() {
@@ -128,5 +129,4 @@ class UppdateUserUseCaseImplTest {
         assertEquals("Senha atual incorreta.", ex.getMessage());
         verify(userUpdateGateway, never()).update(any());
     }
-
 }

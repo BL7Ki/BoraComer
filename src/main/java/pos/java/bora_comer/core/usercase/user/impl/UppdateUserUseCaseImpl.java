@@ -42,4 +42,5 @@ public class UppdateUserUseCaseImpl implements UppdateUserUseCase {
         user.updatePassward(newPassword);
         userUpdateGateway.update(user);
     }
+
 }
