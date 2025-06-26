@@ -1,14 +1,13 @@
-# Usar uma imagem base do OpenJDK
-FROM openjdk:21-jdk-slim
-
-# Definir o diretório de trabalho dentro do container
+# Etapa 1: Build
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Copiar o arquivo JAR gerado para o container
-COPY target/bora-comer-0.0.1-SNAPSHOT.jar app.jar
-
-# Expor a porta padrão do Spring Boot
+# Etapa 2: Runtime
+FROM openjdk:21-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/bora-comer-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Comando para executar a aplicação
 ENTRYPOINT ["java", "-jar", "app.jar"]
