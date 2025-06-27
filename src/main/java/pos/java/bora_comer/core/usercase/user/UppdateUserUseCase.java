@@ -13,4 +13,7 @@ public interface UppdateUserUseCase {
      * @throws UserDomainException Se ocorrer algum erro durante a atualização do usuário.
      */
     User execute(User user) throws UserDomainException;
+
+    void changeUserPassword(Long userId, String currentPassword, String newPassword) throws UserDomainException;
+
 }
