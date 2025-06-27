@@ -1,0 +1,12 @@
+{
+  "nome": "teste update Silva ",
+  "email": "teste.silva@example.com",
+  "senha": "senha123456789",
+  "endereco": {
+    "rua": "Rua das Flores pretas",
+    "bairro": "Bairro das cascatas azuis",
+    "cidade": "SMinas",
+    "estado": "PE",
+    "cep": "12345-400"
+  }
+}
