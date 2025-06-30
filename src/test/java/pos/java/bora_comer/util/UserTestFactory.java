@@ -35,28 +35,16 @@ public class UserTestFactory {
         );
     }
 
-    public static User umUserNovoSemId() {
+    public static User umUserPadraoCliente() {
         return User.create(
-                "Novo Messi",
-                "novo@ex.com",
-                "novomessi",
+                1L,
+                "Messi",
+                "messi@ex.com",
+                "messi",
                 "Messi@123",
-                Address.create("Rua Nova", "Bairro Novo", "Cidade Z", "SP", "00000-000"),
+                Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
                 UserRoleEnum.CLIENTE,
-                "2024-06-26"
-        );
-    }
-
-    public static User umUserAdmin() {
-        return User.create(
-                2L,
-                "Admin",
-                "admin@ex.com",
-                "admin",
-                "Admin@123",
-                Address.create("Rua Admin", "Centro", "Cidade Y", "RJ", "11111-111"),
-                UserRoleEnum.ADMIN,
-                "2024-06-26"
+                "2024-06-25"
         );
     }
 
@@ -70,4 +58,21 @@ public class UserTestFactory {
                 UserRoleEntityEnum.CLIENTE
         );
     }
+
+    public static UserEntity umUserEntityPadraoCliente() {
+        return UserEntity.create(
+                "Messi",
+                "messi@ex.com",
+                "messi",
+                "Messi@123",
+                AddressEntity.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
+                UserRoleEntityEnum.CLIENTE
+        );
+    }
+
+//    public static User umUserAtualizadoComId(Long id) {
+//        User user = umUserAtualizado();
+//        user.setId(id);
+//        return user;
+//    } tentativa de otimizar testes que usam id diretamente
 }
