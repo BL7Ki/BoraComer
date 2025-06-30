@@ -9,6 +9,24 @@ import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEnti
 
 public class UserTestFactory {
 
+    public static User umUserComId(Long id) {
+        return User.create(
+                id,
+                "Messi",
+                "messi@ex.com",
+                "messi",
+                "Messi@123",
+                Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
+                UserRoleEnum.CLIENTE,
+                "2024-06-25"
+        );
+    }
+
+    public static User umUserComIdRandomico() {
+        long idRandomico = (long) (Math.random() * 10000);
+        return umUserComId(idRandomico);
+    }
+
     public static User umUserPadrao() {
         return User.create(
                 1L,
