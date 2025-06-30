@@ -2,7 +2,6 @@ package pos.java.bora_comer.infra.gateway.user.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pos.java.bora_comer.core.domain.Address;
 import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.domain.UserRoleEnum;
 import pos.java.bora_comer.core.errors.UserDomainException;
@@ -11,6 +10,7 @@ import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;
+import pos.java.bora_comer.util.AddressTestFactory;
 
 import java.util.Optional;
 
@@ -34,19 +34,17 @@ class UserUpdateGatewayImplTest {
     void deveAtualizarUsuarioQuandoExistir() throws UserDomainException {
         Long id = 1L;
 
-        Address address = Address.create("Rua Nova", "Bairro Novo", "Cidade X", "SP", "98765-432");
-        User user = User.create(id, "Messi Atualizado", "messi_novo@ex.com", "messi", "NovaSenha@123",
-                address, UserRoleEnum.CLIENTE, "2024-06-25");
+        var user = User.create(id, "Messi Atualizado", "messi_novo@ex.com", "messi", "NovaSenha@123",
+                AddressTestFactory.umEnderecoAtualizado(), UserRoleEnum.CLIENTE, "2024-06-25");
 
-        AddressEntity addressEntity = AddressEntity.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        UserEntity userEntity = UserEntity.create("Messi", "messi@ex.com", "messi", "Messi@123", addressEntity, UserRoleEntityEnum.CLIENTE);
+        var userEntity = UserEntity.create("Messi", "messi@ex.com", "messi", "Messi@123",
+                AddressTestFactory.umEnderecoEntityPadrao(), UserRoleEntityEnum.CLIENTE);
+
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
-
-        // Quando salvar, devolve o próprio userEntity
         when(userRepository.save(userEntity)).thenReturn(userEntity);
         when(userMapper.toDomain(userEntity)).thenReturn(user);
 
-        User result = userUpdateGateway.update(user);
+        var result = userUpdateGateway.update(user);
 
         assertNotNull(result);
         assertEquals("Messi Atualizado", result.getName());
@@ -60,14 +58,12 @@ class UserUpdateGatewayImplTest {
     void deveLancarIllegalArgumentExceptionQuandoUsuarioNaoExistir() {
         Long id = 2L;
 
-        Address address = Address.create("Rua Nova", "Bairro Novo", "Cidade X", "SP", "98765-432");
-        User user = User.create(id, "Messi Atualizado", "messi_novo@ex.com", "messi", "NovaSenha@123",
-                address, UserRoleEnum.CLIENTE, "2024-06-25");
+        var user = User.create(id, "Messi Atualizado", "messi_novo@ex.com", "messi", "NovaSenha@123",
+                AddressTestFactory.umEnderecoAtualizado(), UserRoleEnum.CLIENTE, "2024-06-25");
 
         when(userRepository.findById(id)).thenReturn(Optional.empty());
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> userUpdateGateway.update(user));
+        var exception = assertThrows(IllegalArgumentException.class, () -> userUpdateGateway.update(user));
 
         assertEquals("User with ID 2 not found", exception.getMessage());
         verify(userRepository, times(1)).findById(id);

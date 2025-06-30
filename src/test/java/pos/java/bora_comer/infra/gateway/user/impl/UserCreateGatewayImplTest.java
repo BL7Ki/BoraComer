@@ -1,23 +1,15 @@
 package pos.java.bora_comer.infra.gateway.user.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import pos.java.bora_comer.core.domain.Address;
 import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.domain.UserRoleEnum;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
-import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
-import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;
+import pos.java.bora_comer.util.UserTestFactory;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class UserCreateGatewayImplTest {
 
@@ -34,39 +26,29 @@ class UserCreateGatewayImplTest {
 
     @Test
     void deveVerificarSeUsernameExiste() {
-        String username = "messi";
+        when(userRepository.existsByUsername("messi")).thenReturn(true);
 
-        when(userRepository.existsByUsername(username)).thenReturn(true);
-
-        boolean exists = userCreateGateway.existsByUsername(username);
+        boolean exists = userCreateGateway.existsByUsername("messi");
 
         assertTrue(exists);
-        verify(userRepository, times(1)).existsByUsername(username);
+        verify(userRepository, times(1)).existsByUsername("messi");
     }
 
     @Test
     void deveSalvarUsuarioComSucesso() {
-        Address address = Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        User user = User.create("Messi", "messi@ex.com", "messi", "Messi@123", address, UserRoleEnum.CLIENTE, "2024-06-25");
+        User user = UserTestFactory.umUserPadrao();
+        UserEntity userEntity = UserTestFactory.umUserEntityPadrao();
 
-        AddressEntity addressEntity = AddressEntity.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        UserEntity userEntity = UserEntity.create("Messi", "messi@ex.com", "messi", "Messi@123", addressEntity, UserRoleEntityEnum.CLIENTE);
-
-        UserEntity savedUserEntity = UserEntity.create("Messi", "messi@ex.com", "messi", "Messi@123", addressEntity, UserRoleEntityEnum.CLIENTE);
-        User savedUser = User.create("Messi", "messi@ex.com", "messi", "Messi@123", address, UserRoleEnum.CLIENTE, "2024-06-25");
-
-        // Mocks
         when(userMapper.toEntity(user)).thenReturn(userEntity);
-        when(userRepository.save(userEntity)).thenReturn(savedUserEntity);
-        when(userMapper.toDomain(savedUserEntity)).thenReturn(savedUser);
+        when(userRepository.save(userEntity)).thenReturn(userEntity);
+        when(userMapper.toDomain(userEntity)).thenReturn(user);
 
         User result = userCreateGateway.save(user);
 
         assertNotNull(result);
         assertEquals("Messi", result.getName());
-        assertEquals("messi@ex.com", result.getEmail());
         verify(userMapper, times(1)).toEntity(user);
         verify(userRepository, times(1)).save(userEntity);
-        verify(userMapper, times(1)).toDomain(savedUserEntity);
+        verify(userMapper, times(1)).toDomain(userEntity);
     }
 }

@@ -2,23 +2,15 @@ package pos.java.bora_comer.infra.gateway.login.impl;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-import pos.java.bora_comer.core.domain.Address;
 import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.domain.UserRoleEnum;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
-import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntity;
-import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
+import pos.java.bora_comer.util.UserTestFactory;
 
 class UserLoginGatewayImplTest {
 
@@ -37,17 +29,13 @@ class UserLoginGatewayImplTest {
     void deveRetornarUsuarioQuandoLoginExistir() {
         String login = "messi";
 
-        // Mocks
-        AddressEntity addressEntity = AddressEntity.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        UserEntity userEntity = UserEntity.create("Messi", "messi@ex.com", "messi", "Messi@123", addressEntity, pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum.CLIENTE);
-        User user = User.create("Messi", "messi@ex.com", "messi", "Messi@123",
-                Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
-                UserRoleEnum.CLIENTE, "2024-06-25");
+        var userEntity = UserTestFactory.umUserEntityPadrao();
+        var user = UserTestFactory.umUserPadrao();
 
         when(userRepository.findByLogin(login)).thenReturn(Optional.of(userEntity));
         when(userMapper.toDomain(userEntity)).thenReturn(user);
 
-        Optional<User> result = userLoginGateway.findByLogin(login);
+        var result = userLoginGateway.findByLogin(login);
 
         assertTrue(result.isPresent());
         assertEquals("Messi", result.get().getName());
@@ -61,7 +49,7 @@ class UserLoginGatewayImplTest {
 
         when(userRepository.findByLogin(login)).thenReturn(Optional.empty());
 
-        Optional<User> result = userLoginGateway.findByLogin(login);
+        var result = userLoginGateway.findByLogin(login);
 
         assertTrue(result.isEmpty());
         verify(userRepository, times(1)).findByLogin(login);
