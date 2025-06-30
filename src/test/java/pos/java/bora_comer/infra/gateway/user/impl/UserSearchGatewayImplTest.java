@@ -4,14 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.data.domain.*;
-import pos.java.bora_comer.core.domain.Address;
 import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.domain.UserRoleEnum;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
-import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
-import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;
+import pos.java.bora_comer.util.UserTestFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,11 +33,8 @@ class UserSearchGatewayImplTest {
     void deveBuscarUsuarioPorIdQuandoExistir() {
         Long id = 1L;
 
-        AddressEntity addressEntity = AddressEntity.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        UserEntity userEntity = UserEntity.create("Messi", "messi@ex.com", "messi", "Messi@123", addressEntity, UserRoleEntityEnum.CLIENTE);
-        User user = User.create("Messi", "messi@ex.com", "messi", "Messi@123",
-                Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
-                UserRoleEnum.CLIENTE, "2024-06-25");
+        UserEntity userEntity = UserTestFactory.umUserEntityPadrao();
+        User user = UserTestFactory.umUserPadrao();
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
         when(userMapper.toDomain(userEntity)).thenReturn(user);
@@ -70,15 +64,10 @@ class UserSearchGatewayImplTest {
     void deveBuscarTodosUsuariosComPaginacao() {
         Pageable pageable = PageRequest.of(0, 10);
 
-        AddressEntity addressEntity = AddressEntity.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        UserEntity userEntity = UserEntity.create("Messi", "messi@ex.com", "messi", "Messi@123", addressEntity, UserRoleEntityEnum.CLIENTE);
-        List<UserEntity> userEntities = List.of(userEntity);
+        UserEntity userEntity = UserTestFactory.umUserEntityPadrao();
+        User user = UserTestFactory.umUserPadrao();
 
-        Page<UserEntity> userEntityPage = new PageImpl<>(userEntities, pageable, 1);
-
-        User user = User.create("Messi", "messi@ex.com", "messi", "Messi@123",
-                Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
-                UserRoleEnum.CLIENTE, "2024-06-25");
+        Page<UserEntity> userEntityPage = new PageImpl<>(List.of(userEntity), pageable, 1);
 
         when(userRepository.findAll(pageable)).thenReturn(userEntityPage);
         when(userMapper.toDomain(userEntity)).thenReturn(user);
