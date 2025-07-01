@@ -40,9 +40,9 @@ public class UserTestFactory {
         );
     }
 
-    public static User umUserAtualizado() {
+    public static User umUserAtualizado(Long id) {
         return User.create(
-                1L,
+                id,
                 "Messi Atualizado",
                 "messi_novo@ex.com",
                 "messi",
@@ -85,6 +85,23 @@ public class UserTestFactory {
                 "Messi@123",
                 AddressEntity.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
                 UserRoleEntityEnum.CLIENTE
+        );
+    }
+
+    public static UserEntity umUserEntityComDadosDe(User user) {
+        return UserEntity.create(
+                user.getName(),
+                user.getEmail(),
+                user.getUsername(),
+                user.getPassword(),
+                AddressEntity.create(
+                        user.getAddress().getStreet(),
+                        user.getAddress().getCity(),
+                        user.getAddress().getState(),
+                        user.getAddress().getZipCode(),
+                        user.getAddress().getZipCode()
+                ),
+                UserRoleEntityEnum.valueOf(user.getUserRoleEnum().name())
         );
     }
 
