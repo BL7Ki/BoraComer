@@ -3,14 +3,10 @@ package pos.java.bora_comer.infra.gateway.user.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.domain.UserRoleEnum;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
-import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
-import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;
-import pos.java.bora_comer.util.AddressTestFactory;
 import pos.java.bora_comer.util.UserTestFactory;
 
 import java.util.Optional;
@@ -33,65 +29,59 @@ class UserUpdateGatewayImplTest {
 
     @Test
     void deveAtualizarUsuarioQuandoExistir() throws UserDomainException {
+        // Arrange
         Long id = 1L;
-
-        var user = User.create(id, "Messi Atualizado", "messi_novo@ex.com", "messi", "NovaSenha@123",
-                AddressTestFactory.umEnderecoAtualizado(), UserRoleEnum.CLIENTE, "2024-06-25");
-
-        var userEntity = UserEntity.create("Messi", "messi@ex.com", "messi", "Messi@123",
-                AddressTestFactory.umEnderecoEntityPadrao(), UserRoleEntityEnum.CLIENTE);
+        var user = UserTestFactory.umUserAtualizado(id);
+        var userEntity = UserTestFactory.umUserEntityPadrao();
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
         when(userRepository.save(userEntity)).thenReturn(userEntity);
         when(userMapper.toDomain(userEntity)).thenReturn(user);
 
+        // Act
         var result = userUpdateGateway.update(user);
 
+        // Assert
         assertNotNull(result);
-        assertEquals("Messi Atualizado", result.getName());
-        assertEquals("messi_novo@ex.com", result.getEmail());
-        verify(userRepository, times(1)).findById(id);
-        verify(userRepository, times(1)).save(userEntity);
-        verify(userMapper, times(1)).toDomain(userEntity);
+        assertEquals(user.getName(), result.getName());
+        assertEquals(user.getEmail(), result.getEmail());
+        verify(userRepository).findById(id);
+        verify(userRepository).save(userEntity);
+        verify(userMapper).toDomain(userEntity);
     }
 
     @Test
     void deveLancarIllegalArgumentExceptionQuandoUsuarioNaoExistir() {
+        // Arrange
         Long id = 2L;
-
-        var user = User.create(id, "Messi Atualizado", "messi_novo@ex.com", "messi", "NovaSenha@123",
-                AddressTestFactory.umEnderecoAtualizado(), UserRoleEnum.CLIENTE, "2024-06-25");
+        var user = UserTestFactory.umUserAtualizado(id);
 
         when(userRepository.findById(id)).thenReturn(Optional.empty());
 
+        // Act + Assert
         var exception = assertThrows(IllegalArgumentException.class, () -> userUpdateGateway.update(user));
 
         assertEquals("User with ID 2 not found", exception.getMessage());
-        verify(userRepository, times(1)).findById(id);
+        verify(userRepository).findById(id);
         verify(userRepository, never()).save(any());
         verifyNoInteractions(userMapper);
     }
 
     @Test
     void deveAtualizarUsuarioComIdRandomicoUsandoFactory() throws UserDomainException {
+        // Arrange
         var user = UserTestFactory.umUserComIdRandomico();
         var id = user.getId();
-
-        var userEntity = UserEntity.create(
-                user.getName(),
-                user.getEmail(),
-                user.getUsername(),
-                user.getPassword(),
-                AddressTestFactory.umEnderecoEntityPadrao(),
-                UserRoleEntityEnum.CLIENTE
-        );
+        var userEntity = UserTestFactory.umUserEntityComDadosDe(user);
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
         when(userRepository.save(userEntity)).thenReturn(userEntity);
         when(userMapper.toDomain(userEntity)).thenReturn(user);
 
+        // Act
         var result = userUpdateGateway.update(user);
 
+        // Assert
         assertNotNull(result);
         assertEquals(user.getName(), result.getName());
         verify(userRepository).findById(id);
