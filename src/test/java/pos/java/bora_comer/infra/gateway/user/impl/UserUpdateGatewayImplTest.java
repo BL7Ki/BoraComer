@@ -11,6 +11,7 @@ import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntit
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;
 import pos.java.bora_comer.util.AddressTestFactory;
+import pos.java.bora_comer.util.UserTestFactory;
 
 import java.util.Optional;
 
@@ -69,5 +70,32 @@ class UserUpdateGatewayImplTest {
         verify(userRepository, times(1)).findById(id);
         verify(userRepository, never()).save(any());
         verifyNoInteractions(userMapper);
+    }
+
+    @Test
+    void deveAtualizarUsuarioComIdRandomicoUsandoFactory() throws UserDomainException {
+        var user = UserTestFactory.umUserComIdRandomico();
+        var id = user.getId();
+
+        var userEntity = UserEntity.create(
+                user.getName(),
+                user.getEmail(),
+                user.getUsername(),
+                user.getPassword(),
+                AddressTestFactory.umEnderecoEntityPadrao(),
+                UserRoleEntityEnum.CLIENTE
+        );
+
+        when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
+        when(userRepository.save(userEntity)).thenReturn(userEntity);
+        when(userMapper.toDomain(userEntity)).thenReturn(user);
+
+        var result = userUpdateGateway.update(user);
+
+        assertNotNull(result);
+        assertEquals(user.getName(), result.getName());
+        verify(userRepository).findById(id);
+        verify(userRepository).save(userEntity);
+        verify(userMapper).toDomain(userEntity);
     }
 }
