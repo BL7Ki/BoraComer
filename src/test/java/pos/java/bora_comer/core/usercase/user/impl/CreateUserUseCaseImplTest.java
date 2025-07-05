@@ -7,6 +7,7 @@ import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.domain.UserRoleEnum;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserCreateGateway;
+import pos.java.bora_comer.util.UserTestFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -34,16 +35,7 @@ class CreateUserUseCaseImplTest {
         Address someAddress = mock(Address.class);
 
         // Criação do usuário via método estático create
-        User user = User.create(
-                1L,
-                "Lionel Messi",
-                "messi@example.com",
-                "messi",
-                "Messi@123",
-                someAddress,
-                UserRoleEnum.CLIENTE,
-                "2025-06-24"
-        );
+        User user = UserTestFactory.umUserPadrao();
 
         when(userCreateGateway.existsByUsername(user.getUsername())).thenReturn(false);
         when(userCreateGateway.save(user)).thenReturn(user);
@@ -61,16 +53,7 @@ class CreateUserUseCaseImplTest {
     void deveLancarExcecaoQuandoUsernameJaExiste() {
         Address someAddress = mock(Address.class);
 
-        User user = User.create(
-                1L,
-                "Lionel Messi",
-                "messi@example.com",
-                "messi",
-                "Messi@123",
-                someAddress,
-                UserRoleEnum.CLIENTE,
-                "2025-06-24"
-        );
+        User user = UserTestFactory.umUserPadrao();
 
         when(userCreateGateway.existsByUsername(user.getUsername())).thenReturn(true);
 

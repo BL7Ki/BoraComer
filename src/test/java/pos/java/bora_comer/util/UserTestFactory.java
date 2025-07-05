@@ -104,10 +104,4 @@ public class UserTestFactory {
                 UserRoleEntityEnum.valueOf(user.getUserRoleEnum().name())
         );
     }
-
-//    public static User umUserAtualizadoComId(Long id) {
-//        User user = umUserAtualizado();
-//        user.setId(id);
-//        return user;
-//    } tentativa de otimizar testes que usam id diretamente
 }
