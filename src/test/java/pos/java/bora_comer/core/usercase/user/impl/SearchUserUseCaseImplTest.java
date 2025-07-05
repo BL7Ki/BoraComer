@@ -13,6 +13,7 @@ import pos.java.bora_comer.core.domain.UserRoleEnum;
 import pos.java.bora_comer.core.errors.SummerNotFoundException;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
+import pos.java.bora_comer.util.UserTestFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,7 @@ class SearchUserUseCaseImplTest {
 
     private UserSearchGateway userSearchGateway;
     private SearchUserUseCaseImpl searchUserUseCase;
+    Long id = 1L;
 
     @BeforeEach
     void setUp() {
@@ -39,16 +41,7 @@ class SearchUserUseCaseImplTest {
     @Test
     void findById_deveRetornarUsuario_quandoExistir() throws SummerNotFoundException {
         Address someAddress = mock(Address.class);
-        User user = User.create(
-                1L,
-                "Lionel Messi",
-                "messi@example.com",
-                "messi",
-                "Messi@123",
-                someAddress,
-                UserRoleEnum.CLIENTE,
-                "2025-06-24"
-        );
+        User user = UserTestFactory.umUserComId(id);
 
         when(userSearchGateway.findById(1L)).thenReturn(Optional.of(user));
 
@@ -74,26 +67,8 @@ class SearchUserUseCaseImplTest {
     @Test
     void findAll_deveRetornarPaginaDeUsuarios() throws UserDomainException {
         Address someAddress = mock(Address.class);
-        User user1 = User.create(
-                1L,
-                "Lionel Messi",
-                "messi@example.com",
-                "messi",
-                "Messi@123",
-                someAddress,
-                UserRoleEnum.CLIENTE,
-                "2025-06-24"
-        );
-        User user2 = User.create(
-                2L,
-                "Cristiano Ronaldo",
-                "cr7@example.com",
-                "cr7",
-                "CR7@123",
-                someAddress,
-                UserRoleEnum.ADMIN,
-                "2025-06-24"
-        );
+        User user1 = UserTestFactory.umUserComId(id);
+        User user2 = UserTestFactory.umUserComId(id);
 
         List<User> users = List.of(user1, user2);
         Pageable pageable = PageRequest.of(0, 2);

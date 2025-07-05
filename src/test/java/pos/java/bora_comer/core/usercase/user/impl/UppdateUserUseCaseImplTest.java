@@ -8,6 +8,7 @@ import pos.java.bora_comer.core.domain.UserRoleEnum;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
 import pos.java.bora_comer.core.gateway.user.UserUpdateGateway;
+import pos.java.bora_comer.util.UserTestFactory;
 
 import java.util.Optional;
 
@@ -25,6 +26,7 @@ class UppdateUserUseCaseImplTest {
     private UserUpdateGateway userUpdateGateway;
     private UserSearchGateway userSearchGateway;
     private UppdateUserUseCaseImpl uppdateUserUseCase;
+    Long id = 2L;
 
     @BeforeEach
     void setUp() {
@@ -37,16 +39,7 @@ class UppdateUserUseCaseImplTest {
     void deveAtualizarUsuarioComSucesso() throws UserDomainException {
         Address someAddress = mock(Address.class);
 
-        User user = User.create(
-                1L,
-                "Lionel Messi",
-                "messi@example.com",
-                "messi",
-                "Messi@123",
-                someAddress,
-                UserRoleEnum.CLIENTE,
-                "2025-06-24"
-        );
+        User user = UserTestFactory.umUserAtualizado(id);
 
         when(userUpdateGateway.update(user)).thenReturn(user);
 
@@ -61,16 +54,7 @@ class UppdateUserUseCaseImplTest {
     void deveLancarUserDomainException_quandoUpdateGatewayLancarIllegalArgumentException() {
         Address someAddress = mock(Address.class);
 
-        User user = User.create(
-                1L,
-                "Lionel Messi",
-                "messi@example.com",
-                "messi",
-                "Messi@123",
-                someAddress,
-                UserRoleEnum.CLIENTE,
-                "2025-06-24"
-        );
+        User user = UserTestFactory.umUserAtualizado(id);
 
         when(userUpdateGateway.update(user))
                 .thenThrow(new IllegalArgumentException("Dados inválidos"));
@@ -86,31 +70,23 @@ class UppdateUserUseCaseImplTest {
     @Test
     void deveTrocarSenhaComSucesso() throws UserDomainException {
         Address address = mock(Address.class);
-        User user = User.create(
-                1L,
-                "Nome",
-                "email@email.com",
-                "user",
-                "senhaAntiga",
-                address,
-                UserRoleEnum.CLIENTE,
-                "2024-06-24");
+        User user = UserTestFactory.umUserAtualizado(id);
 
-        when(userSearchGateway.findById(1L)).thenReturn(Optional.of(user));
+        when(userSearchGateway.findById(2L)).thenReturn(Optional.of(user));
         when(userUpdateGateway.update(user)).thenReturn(user);
 
-        uppdateUserUseCase.changeUserPassword(1L, "senhaAntiga", "novaSenha");
+        uppdateUserUseCase.changeUserPassword(2L, "NovaSenha@123", "NovaSenha@1234");
 
-        assertEquals("novaSenha", user.getPassword());
+        assertEquals("NovaSenha@1234", user.getPassword());
         verify(userUpdateGateway).update(user);
     }
 
     @Test
     void deveLancarExcecaoQuandoUsuarioNaoEncontrado() {
-        when(userSearchGateway.findById(1L)).thenReturn(Optional.empty());
+        when(userSearchGateway.findById(2L)).thenReturn(Optional.empty());
 
         UserDomainException ex = assertThrows(UserDomainException.class, () ->
-                uppdateUserUseCase.changeUserPassword(1L, "qualquer", "novaSenha")
+                uppdateUserUseCase.changeUserPassword(2L, "qualquer", "novaSenha")
         );
         assertEquals("Usuário não encontrado.", ex.getMessage());
         verify(userUpdateGateway, never()).update(any());
@@ -119,12 +95,12 @@ class UppdateUserUseCaseImplTest {
     @Test
     void deveLancarExcecaoQuandoSenhaAtualIncorreta() {
         Address address = mock(Address.class);
-        User user = User.create(1L, "Nome", "email@email.com", "user", "senhaCorreta", address, UserRoleEnum.CLIENTE, "2024-06-24");
+        User user = UserTestFactory.umUserAtualizado(id);
 
-        when(userSearchGateway.findById(1L)).thenReturn(Optional.of(user));
+        when(userSearchGateway.findById(2L)).thenReturn(Optional.of(user));
 
         UserDomainException ex = assertThrows(UserDomainException.class, () ->
-                uppdateUserUseCase.changeUserPassword(1L, "senhaErrada", "novaSenha")
+                uppdateUserUseCase.changeUserPassword(2L, "senhaErrada", "novaSenha")
         );
         assertEquals("Senha atual incorreta.", ex.getMessage());
         verify(userUpdateGateway, never()).update(any());
