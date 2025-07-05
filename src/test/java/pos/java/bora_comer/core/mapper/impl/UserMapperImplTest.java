@@ -13,6 +13,7 @@ import pos.java.bora_comer.infra.delivery.user.dto.*;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;
+import pos.java.bora_comer.util.UserTestFactory;
 
 import java.time.LocalDateTime;
 
@@ -74,13 +75,13 @@ class UserMapperImplTest {
     @Test
     void deveConverterDomainParaResponseDTO() {
         Address address = Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        User user = User.create(1L, "Messi", "messi@ex.com", "messi", "Messi@123", address, UserRoleEnum.ADMIN, "2024-06-25");
+        User user = UserTestFactory.umUserPadraoCliente();
 
         UserResponseDTO dto = userMapper.toResponseDTO(user);
 
         assertEquals("Messi", dto.name());
         assertEquals("messi@ex.com", dto.email());
-        assertEquals("ADMIN", dto.userRoleEnum());
+        assertEquals("CLIENTE", dto.userRoleEnum());
     }
 
     @Test
