@@ -6,7 +6,7 @@ import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
-import pos.java.bora_comer.util.UserTestFactory;
+import pos.java.bora_comer.factory.UserFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -36,8 +36,8 @@ class UserCreateGatewayImplTest {
 
     @Test
     void deveSalvarUsuarioComSucesso() {
-        User user = UserTestFactory.umUserPadrao();
-        UserEntity userEntity = UserTestFactory.umUserEntityPadrao();
+        User user = UserFactory.umUserPadrao();
+        UserEntity userEntity = UserFactory.umUserEntityPadrao();
 
         when(userMapper.toEntity(user)).thenReturn(userEntity);
         when(userRepository.save(userEntity)).thenReturn(userEntity);

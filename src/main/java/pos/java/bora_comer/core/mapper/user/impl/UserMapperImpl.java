@@ -28,7 +28,7 @@ public class UserMapperImpl implements UserMapper {
                         userRequestDTO.addressRequestDTO().zipCode()
                 ),
                 toUserTypeEnumRequestConverter(userRequestDTO.userType()),
-                null
+                null, null
 
         );
     }
@@ -67,7 +67,8 @@ public class UserMapperImpl implements UserMapper {
                         userEntity.getAddress().getZipCode()
                 ),
                 toUserTypeEnumEntityConverter(userEntity.getRole()),
-                userEntity.getLastModifiedDate().toString()
+                userEntity.getCreatedDate().toString(),
+                userEntity.getLastModifiedDate() != null ? userEntity.getLastModifiedDate().toString() : null
         );
     }
 
@@ -86,6 +87,7 @@ public class UserMapperImpl implements UserMapper {
                         user.getAddress().getZipCode()
                 ),
                 user.getUserRoleEnum().name(),
+                user.getCreatedDate(),
                 user.getLastModifiedDate()
         );
     }
@@ -105,6 +107,7 @@ public class UserMapperImpl implements UserMapper {
                         userUpdateRequestDTO.address().state(),
                         userUpdateRequestDTO.address().zipCode()
                 ),
+                null,
                 null,
                 null
         );
