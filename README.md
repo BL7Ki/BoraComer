@@ -270,19 +270,20 @@ Content-Type: application/json
 **Resposta:**
 ```json
 {
-  "id": 1,
-  "nome": "Joao Silva ",
-  "email": "joao.silva@example.com",
-  "nome_usuario": "tiagosilva",
-  "endereco": {
-    "rua": "Rua das Flores doces",
-    "bairro": "Bairro das cascatas pretas",
-    "cidade": "Minas",
-    "estado": "PE",
-    "cep": "12345-400"
-  },
-  "tipo_usuario": "ADMIN",
-  "data_alteracao": "2025-05-12T13:21:47.537211300"
+	"id": 2,
+	"nome": "Joao Silva ",
+	"email": "joao.silva@example.com",
+	"nome_usuario": "tiagosilva",
+	"endereco": {
+		"rua": "Rua das Flores doces",
+		"bairro": "Bairro das cascatas pretas",
+		"cidade": "Minas",
+		"estado": "PE",
+		"cep": "12345-400"
+	},
+	"tipo_usuario": "ADMIN",
+	"data_criacao": "2025-07-11T18:40:50.459824200",
+	"data_alteracao": null
 }
 ```
 

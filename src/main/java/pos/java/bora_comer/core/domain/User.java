@@ -3,32 +3,34 @@ package pos.java.bora_comer.core.domain;
 public class User {
 
     private Long id;
-    private final  String name;
+    private final String name;
     private final String email;
     private final String username;
     private String password;
     private final Address address;
     private final UserRoleEnum userRoleEnum;
+    private final String createdDate;
     private final String lastModifiedDate;
 
 
-    public static User create(String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String lastModifiedDate) {
-        return new User(name, email, username, password, address, userRoleEnum, lastModifiedDate);
+    public static User create(String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String createdDate, String lastModifiedDate) {
+        return new User(name, email, username, password, address, userRoleEnum, createdDate, lastModifiedDate);
     }
 
-    public static User create(Long id, String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String lastModifiedDate) {
-        User user = new User(name, email, username, password, address, userRoleEnum, lastModifiedDate);
+    public static User create(Long id, String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String createdDate, String lastModifiedDate) {
+        User user = new User(name, email, username, password, address, userRoleEnum, createdDate, lastModifiedDate);
         user.id = id;
         return user;
     }
 
-    private User(String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String lastModifiedDate) {
+    private User(String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String createdDate, String lastModifiedDate) {
         this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
         this.address = address;
         this.userRoleEnum = userRoleEnum;
+        this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
     }
 
@@ -60,6 +62,10 @@ public class User {
         return userRoleEnum;
     }
 
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
     public String getLastModifiedDate() {
         return lastModifiedDate;
     }
@@ -68,7 +74,4 @@ public class User {
         this.password = newPassword;
     }
 
-//    public void setId(Long id) {
-//        this.id = id;
-//    } tentativa de otimizar testes que usam id diretamente
 }

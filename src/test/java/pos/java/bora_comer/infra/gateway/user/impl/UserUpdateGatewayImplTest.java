@@ -2,12 +2,10 @@ package pos.java.bora_comer.infra.gateway.user.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
-import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
-import pos.java.bora_comer.util.UserTestFactory;
+import pos.java.bora_comer.factory.UserFactory;
 
 import java.util.Optional;
 
@@ -31,8 +29,8 @@ class UserUpdateGatewayImplTest {
     void deveAtualizarUsuarioQuandoExistir() throws UserDomainException {
         // Arrange
         Long id = 1L;
-        var user = UserTestFactory.umUserAtualizado(id);
-        var userEntity = UserTestFactory.umUserEntityPadrao();
+        var user = UserFactory.umUserAtualizado(id);
+        var userEntity = UserFactory.umUserEntityPadrao();
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
         when(userRepository.save(userEntity)).thenReturn(userEntity);
@@ -54,7 +52,7 @@ class UserUpdateGatewayImplTest {
     void deveLancarIllegalArgumentExceptionQuandoUsuarioNaoExistir() {
         // Arrange
         Long id = 2L;
-        var user = UserTestFactory.umUserAtualizado(id);
+        var user = UserFactory.umUserAtualizado(id);
 
         when(userRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -70,9 +68,9 @@ class UserUpdateGatewayImplTest {
     @Test
     void deveAtualizarUsuarioComIdRandomicoUsandoFactory() throws UserDomainException {
         // Arrange
-        var user = UserTestFactory.umUserComIdRandomico();
+        var user = UserFactory.umUserComIdRandomico();
         var id = user.getId();
-        var userEntity = UserTestFactory.umUserEntityComDadosDe(user);
+        var userEntity = UserFactory.umUserEntityComDadosDe(user);
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
         when(userRepository.save(userEntity)).thenReturn(userEntity);
