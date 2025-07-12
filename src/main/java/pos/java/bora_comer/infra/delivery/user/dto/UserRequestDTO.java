@@ -8,7 +8,7 @@ public record UserRequestDTO(
         @JsonProperty("login") String username,
         @JsonProperty("senha") String password,
         @JsonProperty("endereco") AddressRequestDTO addressRequestDTO,
-        @JsonProperty("tipo_usuario") UserRoleRequestEnumDTO userType
+        @JsonProperty("papel") UserRoleRequestEnumDTO userType
 
 ) {
 }
