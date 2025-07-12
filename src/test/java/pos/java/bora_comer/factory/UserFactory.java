@@ -17,7 +17,7 @@ public class UserFactory {
                 "messi",
                 "Messi@123",
                 Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
-                UserRoleEnum.CLIENTE,
+                UserRoleEnum.DEFAULT,
                 "2025-07-11T17:51:23.554623",
                 "2025-07-11T17:52:05.342190700"
         );
@@ -36,7 +36,7 @@ public class UserFactory {
                 "messi",
                 "Messi@123",
                 Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
-                UserRoleEnum.CLIENTE,
+                UserRoleEnum.DEFAULT,
                 null, null
         );
     }
@@ -63,7 +63,7 @@ public class UserFactory {
                 "messi",
                 "Messi@123",
                 Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
-                UserRoleEnum.CLIENTE,
+                UserRoleEnum.DEFAULT,
                 "2025-07-11T17:51:23.554623",
                 "2025-07-11T17:52:05.342190700"
         );
@@ -76,7 +76,7 @@ public class UserFactory {
                 "messi",
                 "Messi@123",
                 AddressEntity.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
-                UserRoleEntityEnum.CLIENTE
+                UserRoleEntityEnum.DEFAULT
         );
     }
 

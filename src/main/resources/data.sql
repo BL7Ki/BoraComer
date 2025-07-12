@@ -14,5 +14,11 @@ CREATE TABLE IF NOT EXISTS tb_usuarios (
     cep VARCHAR(10)
 );
 
+CREATE TABLE IF NOT EXISTS tb_tipo_usuarios (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    tipo_usuario VARCHAR(100) NOT NULL UNIQUE
+);
+
+
 INSERT INTO tb_usuarios (nome, email, login, senha, data_criacao, data_alteracao, role, rua, bairro, cidade, estado, cep)
 VALUES ('Admin', 'admin@example.com', 'admin', 'senhaAdmin123', CURRENT_TIMESTAMP, null, 'ADMIN', 'Rua Principal', 'Centro', 'Cidade Exemplo', 'SP', '12345-678');

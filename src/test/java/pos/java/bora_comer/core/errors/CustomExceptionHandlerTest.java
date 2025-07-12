@@ -3,6 +3,7 @@ package pos.java.bora_comer.core.errors;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -89,6 +90,36 @@ class CustomExceptionHandlerTest {
         String mensagemErro = erro.getMessage();
         assertTrue(mensagemErro.contains("campo1: não pode ser nulo"));
         assertTrue(mensagemErro.contains("campo2: inválido"));
+        assertEquals(400, erro.getStatus());
+        assertEquals("BAD_REQUEST", erro.getError());
+        assertEquals("/api/test", erro.getPath());
+        assertNotNull(erro.getTimestamp());
+    }
+
+    @Test
+    void deveTratarErroDeParseEnumComMensagemEspecifica() {
+        String mensagemEx = "Cannot deserialize value of type `pos.java.bora_comer.infra.delivery.userType.dto.UserTypeNameRequestEnum` from String \"INVALIDO\"";
+        HttpMessageNotReadableException ex = new HttpMessageNotReadableException(mensagemEx);
+
+        ErroView erro = exceptionHandler.handleEnumParseError(ex, request);
+
+        assertTrue(erro.getMessage().contains("Valor inválido para o tipo de usuário"));
+        assertTrue(erro.getMessage().contains("CLIENTE"));
+        assertTrue(erro.getMessage().contains("DONO_RESTAURANTE"));
+        assertEquals(400, erro.getStatus());
+        assertEquals("BAD_REQUEST", erro.getError());
+        assertEquals("/api/test", erro.getPath());
+        assertNotNull(erro.getTimestamp());
+    }
+
+    @Test
+    void deveTratarErroDeParseGenericoComMensagemPadrao() {
+        String mensagemEx = "Erro de parse genérico";
+        HttpMessageNotReadableException ex = new HttpMessageNotReadableException(mensagemEx);
+
+        ErroView erro = exceptionHandler.handleEnumParseError(ex, request);
+
+        assertEquals("Erro ao processar a requisição. Verifique os dados enviados.", erro.getMessage());
         assertEquals(400, erro.getStatus());
         assertEquals("BAD_REQUEST", erro.getError());
         assertEquals("/api/test", erro.getPath());

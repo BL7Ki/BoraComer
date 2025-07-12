@@ -47,7 +47,7 @@ class CreateUserControllerTest {
                 "Rua A", "123", "São Paulo", "SP", "01234-567"
         );
 
-        UserRoleRequestEnumDTO userType = UserRoleRequestEnumDTO.CLIENTE;
+        UserRoleRequestEnumDTO userType = UserRoleRequestEnumDTO.DEFAULT;
 
         UserRequestDTO requestDTO = new UserRequestDTO(
                 "Leo Messi",

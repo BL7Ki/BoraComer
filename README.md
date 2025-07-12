@@ -281,8 +281,8 @@ Content-Type: application/json
 		"estado": "PE",
 		"cep": "12345-400"
 	},
-	"tipo_usuario": "ADMIN",
-	"data_criacao": "2025-07-11T18:40:50.459824200",
+	"papel": "ADMIN",
+	"data_criacao": "2025-07-12T16:19:53.591691900",
 	"data_alteracao": null
 }
 ```

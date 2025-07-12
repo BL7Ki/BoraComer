@@ -9,7 +9,11 @@ import pos.java.bora_comer.core.domain.UserRoleEnum;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.mapper.user.impl.UserMapperImpl;
-import pos.java.bora_comer.infra.delivery.user.dto.*;
+import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.UserRequestDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.UserRoleRequestEnumDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.AddressRequestDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.UserUpdateRequestDTO;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;
@@ -17,7 +21,9 @@ import pos.java.bora_comer.factory.UserFactory;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UserMapperImplTest {
 
@@ -31,14 +37,14 @@ class UserMapperImplTest {
     @Test
     void deveConverterUserRequestDTOParaDomain() {
         AddressRequestDTO addressDTO = new AddressRequestDTO("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        UserRequestDTO requestDTO = new UserRequestDTO("Messi", "messi@ex.com", "messi", "Messi@123", addressDTO, UserRoleRequestEnumDTO.CLIENTE);
+        UserRequestDTO requestDTO = new UserRequestDTO("Messi", "messi@ex.com", "messi", "Messi@123", addressDTO, UserRoleRequestEnumDTO.DEFAULT);
 
         User user = userMapper.toDomain(requestDTO);
 
         assertEquals("Messi", user.getName());
         assertEquals("messi", user.getUsername());
         assertEquals("Messi@123", user.getPassword());
-        assertEquals(UserRoleEnum.CLIENTE, user.getUserRoleEnum());
+        assertEquals(UserRoleEnum.DEFAULT, user.getUserRoleEnum());
         assertNotNull(user.getAddress());
     }
 
@@ -50,7 +56,7 @@ class UserMapperImplTest {
 
         assertEquals("Messi", entity.getName());
         assertEquals("messi@ex.com", entity.getEmail());
-        assertEquals(UserRoleEntityEnum.CLIENTE, entity.getRole());
+        assertEquals(UserRoleEntityEnum.DEFAULT, entity.getRole());
         assertNotNull(entity.getAddress());
     }
 
@@ -80,7 +86,7 @@ class UserMapperImplTest {
 
         assertEquals("Messi", dto.name());
         assertEquals("messi@ex.com", dto.email());
-        assertEquals("CLIENTE", dto.userRoleEnum());
+        assertEquals("DEFAULT", dto.userRoleEnum());
     }
 
     @Test
