@@ -6,19 +6,19 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class AddressEntity {
 
-    @Column(name = "rua")
+    @Column(name = "rua", length = 100)
     private String street;
 
-    @Column(name = "bairro")
+    @Column(name = "bairro", length = 100)
     private String neighborhood;
 
-    @Column(name = "cidade")
+    @Column(name = "cidade", length = 50)
     private String city;
 
-    @Column(name = "estado")
+    @Column(name = "estado", length = 100)
     private String state;
 
-    @Column(name = "cep")
+    @Column(name = "cep", length = 10)
     private String zipCode;
 
     // Construtor padrão necessário para a JPA

@@ -30,10 +30,13 @@ public class UserEntity {
     @Column(name = "login", nullable = false, unique = true, length = 50)
     private String username;
 
-    @Column(name = "senha", nullable = false)
+    @Column(name = "senha", nullable = false, length = 10)
     private String password;
 
-    @Column(name = "data_alteracao", nullable = false)
+    @Column(name = "data_criacao", nullable = false)
+    private LocalDateTime createdDate;
+
+    @Column(name = "data_alteracao")
     private LocalDateTime lastModifiedDate;
 
     @Embedded
@@ -60,7 +63,7 @@ public class UserEntity {
         this.password = password;
         this.address = address;
         this.role = role;
-        this.lastModifiedDate = LocalDateTime.now();
+        this.createdDate = LocalDateTime.now();
     }
 
     // Getters
@@ -84,7 +87,9 @@ public class UserEntity {
         return password;
     }
 
-
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
 
     public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;

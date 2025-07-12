@@ -8,16 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import pos.java.bora_comer.core.domain.Address;
 import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.domain.UserRoleEnum;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.CreateUserUseCase;
 import pos.java.bora_comer.infra.delivery.user.dto.AddressRequestDTO;
@@ -25,6 +22,7 @@ import pos.java.bora_comer.infra.delivery.user.dto.AddressResponseDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserRequestDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserRoleRequestEnumDTO;
+import pos.java.bora_comer.factory.UserFactory;
 
 @ExtendWith(MockitoExtension.class)
 class CreateUserControllerTest {
@@ -60,19 +58,7 @@ class CreateUserControllerTest {
                 userType
         );
 
-        // Mock de Address (ou poderia criar real se Address.create() existir)
-        Address address = mock(Address.class);
-
-        User domainUser = User.create(
-                1L,
-                "Leo Messi",
-                "leomessi@email.com",
-                "messi10",
-                "senha123",
-                address,
-                UserRoleEnum.CLIENTE,
-                "2024-06-21T12:00:00"
-        );
+        User domainUser = UserFactory.umUserPadrao();
 
         UserResponseDTO responseDTO = new UserResponseDTO(
                 1L,
@@ -81,7 +67,8 @@ class CreateUserControllerTest {
                 "messi10",
                 addressResponse,
                 "CLIENTE",
-                "2024-06-21T12:00:00"
+                "2025-07-11T17:51:23.554623",
+                null
         );
 
         // Configura os mocks

@@ -2,13 +2,12 @@ package pos.java.bora_comer.infra.gateway.user.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.data.domain.*;
 import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
-import pos.java.bora_comer.util.UserTestFactory;
+import pos.java.bora_comer.factory.UserFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,8 +32,8 @@ class UserSearchGatewayImplTest {
     void deveBuscarUsuarioPorIdQuandoExistir() {
         Long id = 1L;
 
-        UserEntity userEntity = UserTestFactory.umUserEntityPadrao();
-        User user = UserTestFactory.umUserPadrao();
+        UserEntity userEntity = UserFactory.umUserEntityPadrao();
+        User user = UserFactory.umUserPadrao();
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
         when(userMapper.toDomain(userEntity)).thenReturn(user);
@@ -64,8 +63,8 @@ class UserSearchGatewayImplTest {
     void deveBuscarTodosUsuariosComPaginacao() {
         Pageable pageable = PageRequest.of(0, 10);
 
-        UserEntity userEntity = UserTestFactory.umUserEntityPadrao();
-        User user = UserTestFactory.umUserPadrao();
+        UserEntity userEntity = UserFactory.umUserEntityPadrao();
+        User user = UserFactory.umUserPadrao();
 
         Page<UserEntity> userEntityPage = new PageImpl<>(List.of(userEntity), pageable, 1);
 

@@ -4,11 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pos.java.bora_comer.core.domain.Address;
 import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.domain.UserRoleEnum;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
 import pos.java.bora_comer.core.gateway.user.UserUpdateGateway;
-import pos.java.bora_comer.util.UserTestFactory;
+import pos.java.bora_comer.factory.UserFactory;
 
 import java.util.Optional;
 
@@ -39,7 +38,7 @@ class UppdateUserUseCaseImplTest {
     void deveAtualizarUsuarioComSucesso() throws UserDomainException {
         Address someAddress = mock(Address.class);
 
-        User user = UserTestFactory.umUserAtualizado(id);
+        User user = UserFactory.umUserAtualizado(id);
 
         when(userUpdateGateway.update(user)).thenReturn(user);
 
@@ -54,7 +53,7 @@ class UppdateUserUseCaseImplTest {
     void deveLancarUserDomainException_quandoUpdateGatewayLancarIllegalArgumentException() {
         Address someAddress = mock(Address.class);
 
-        User user = UserTestFactory.umUserAtualizado(id);
+        User user = UserFactory.umUserAtualizado(id);
 
         when(userUpdateGateway.update(user))
                 .thenThrow(new IllegalArgumentException("Dados inválidos"));
@@ -70,7 +69,7 @@ class UppdateUserUseCaseImplTest {
     @Test
     void deveTrocarSenhaComSucesso() throws UserDomainException {
         Address address = mock(Address.class);
-        User user = UserTestFactory.umUserAtualizado(id);
+        User user = UserFactory.umUserAtualizado(id);
 
         when(userSearchGateway.findById(2L)).thenReturn(Optional.of(user));
         when(userUpdateGateway.update(user)).thenReturn(user);
@@ -95,7 +94,7 @@ class UppdateUserUseCaseImplTest {
     @Test
     void deveLancarExcecaoQuandoSenhaAtualIncorreta() {
         Address address = mock(Address.class);
-        User user = UserTestFactory.umUserAtualizado(id);
+        User user = UserFactory.umUserAtualizado(id);
 
         when(userSearchGateway.findById(2L)).thenReturn(Optional.of(user));
 
