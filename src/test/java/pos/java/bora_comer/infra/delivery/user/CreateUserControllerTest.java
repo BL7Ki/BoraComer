@@ -17,12 +17,9 @@ import org.springframework.http.ResponseEntity;
 import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.CreateUserUseCase;
-import pos.java.bora_comer.infra.delivery.user.dto.AddressRequestDTO;
-import pos.java.bora_comer.infra.delivery.user.dto.AddressResponseDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserRequestDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
-import pos.java.bora_comer.infra.delivery.user.dto.UserRoleRequestEnumDTO;
-import pos.java.bora_comer.factory.UserFactory;
+import pos.java.bora_comer.factory.user.UserFactory;
 
 @ExtendWith(MockitoExtension.class)
 class CreateUserControllerTest {
@@ -39,37 +36,12 @@ class CreateUserControllerTest {
     @Test
     void deveriaCriarNovoUsuarioERetornar201() {
         // Arrange: cria os DTOs e objetos simulados
-        AddressRequestDTO addressRequest = new AddressRequestDTO(
-                "Rua A", "123", "São Paulo", "SP", "01234-567"
-        );
 
-        AddressResponseDTO addressResponse = new AddressResponseDTO(
-                "Rua A", "123", "São Paulo", "SP", "01234-567"
-        );
-
-        UserRoleRequestEnumDTO userType = UserRoleRequestEnumDTO.DEFAULT;
-
-        UserRequestDTO requestDTO = new UserRequestDTO(
-                "Leo Messi",
-                "leomessi@email.com",
-                "messi10",
-                "senha123",
-                addressRequest,
-                userType
-        );
+        UserRequestDTO requestDTO = UserFactory.createUserRequestDTO();
 
         User domainUser = UserFactory.umUserPadrao();
 
-        UserResponseDTO responseDTO = new UserResponseDTO(
-                1L,
-                "Leo Messi",
-                "leomessi@email.com",
-                "messi10",
-                addressResponse,
-                "CLIENTE",
-                "2025-07-11T17:51:23.554623",
-                null
-        );
+        UserResponseDTO responseDTO = UserFactory.createUserResponseDTO();
 
         // Configura os mocks
         when(userMapper.toDomain(requestDTO)).thenReturn(domainUser);

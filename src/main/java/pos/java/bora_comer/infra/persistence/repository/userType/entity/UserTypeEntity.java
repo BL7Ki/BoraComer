@@ -1,16 +1,13 @@
 package pos.java.bora_comer.infra.persistence.repository.userType.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_tipo_usuarios")
@@ -24,11 +21,18 @@ public class UserTypeEntity {
     @Column(name = "tipo_usuario", nullable = false, unique = true)
     private UserTypeNameEntityEnum name;
 
+    @OneToMany(mappedBy = "userTypeEntity")
+    private Set<UserEntity> users = new HashSet<>();
 
     public UserTypeEntity() {
     }
 
     private UserTypeEntity(UserTypeNameEntityEnum name) {
+        this.name = name;
+    }
+
+    private UserTypeEntity(Long id, UserTypeNameEntityEnum name) {
+        this.id = id;
         this.name = name;
     }
 
@@ -38,12 +42,26 @@ public class UserTypeEntity {
         );
     }
 
+    public static UserTypeEntity create(Long id, UserTypeNameEntityEnum name) {
+        return new UserTypeEntity(
+                id, name
+        );
+    }
+
     public Long getId() {
         return id;
     }
 
     public UserTypeNameEntityEnum getName() {
         return name;
+    }
+
+    public Set<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

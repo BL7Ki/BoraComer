@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
-import pos.java.bora_comer.factory.UserFactory;
+import pos.java.bora_comer.factory.user.UserFactory;
+import pos.java.bora_comer.infra.persistence.repository.userType.UserTypeRepository;
+import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
+import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeNameEntityEnum;
 
 import java.util.Optional;
 
@@ -17,12 +20,14 @@ class UserUpdateGatewayImplTest {
     private UserRepository userRepository;
     private UserMapper userMapper;
     private UserUpdateGatewayImpl userUpdateGateway;
+    private UserTypeRepository userTypeRepository;
 
     @BeforeEach
     void setUp() {
         userRepository = mock(UserRepository.class);
         userMapper = mock(UserMapper.class);
-        userUpdateGateway = new UserUpdateGatewayImpl(userRepository, userMapper);
+        userTypeRepository = mock(UserTypeRepository.class);
+        userUpdateGateway = new UserUpdateGatewayImpl(userRepository, userMapper, userTypeRepository);
     }
 
     @Test
@@ -34,7 +39,10 @@ class UserUpdateGatewayImplTest {
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
         when(userRepository.save(userEntity)).thenReturn(userEntity);
-        when(userMapper.toDomain(userEntity)).thenReturn(user);
+        when(userMapper.toDomain(userEntity, userEntity.getUserTypeEntity())).thenReturn(user);
+
+        when(userTypeRepository.findByName(any()))
+                .thenReturn(Optional.of(UserTypeEntity.create(1l, UserTypeNameEntityEnum.DONO_RESTAURANTE)));
 
         // Act
         var result = userUpdateGateway.update(user);
@@ -45,7 +53,7 @@ class UserUpdateGatewayImplTest {
         assertEquals(user.getEmail(), result.getEmail());
         verify(userRepository).findById(id);
         verify(userRepository).save(userEntity);
-        verify(userMapper).toDomain(userEntity);
+        verify(userMapper).toDomain(userEntity, userEntity.getUserTypeEntity());
     }
 
     @Test
@@ -74,7 +82,10 @@ class UserUpdateGatewayImplTest {
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
         when(userRepository.save(userEntity)).thenReturn(userEntity);
-        when(userMapper.toDomain(userEntity)).thenReturn(user);
+        when(userMapper.toDomain(userEntity, userEntity.getUserTypeEntity())).thenReturn(user);
+
+        when(userTypeRepository.findByName(any()))
+                .thenReturn(Optional.of(UserTypeEntity.create(1l, UserTypeNameEntityEnum.DONO_RESTAURANTE)));
 
         // Act
         var result = userUpdateGateway.update(user);
@@ -84,6 +95,6 @@ class UserUpdateGatewayImplTest {
         assertEquals(user.getName(), result.getName());
         verify(userRepository).findById(id);
         verify(userRepository).save(userEntity);
-        verify(userMapper).toDomain(userEntity);
+        verify(userMapper).toDomain(userEntity, userEntity.getUserTypeEntity());
     }
 }

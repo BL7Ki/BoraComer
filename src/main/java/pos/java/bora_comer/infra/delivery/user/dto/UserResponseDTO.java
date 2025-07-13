@@ -10,6 +10,7 @@ public record UserResponseDTO(
         @JsonProperty("endereco") AddressResponseDTO address,
         @JsonProperty("papel") String userRoleEnum,
         @JsonProperty("data_criacao") String createdDate,
-        @JsonProperty("data_alteracao") String lastModifiedDate
+        @JsonProperty("data_alteracao") String lastModifiedDate,
+        @JsonProperty("tipo_usuario") String userType
 ) {
 }

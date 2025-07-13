@@ -7,7 +7,7 @@ import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
 import pos.java.bora_comer.core.gateway.user.UserUpdateGateway;
-import pos.java.bora_comer.factory.UserFactory;
+import pos.java.bora_comer.factory.user.UserFactory;
 
 import java.util.Optional;
 

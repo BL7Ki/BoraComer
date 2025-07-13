@@ -119,7 +119,7 @@ class CustomExceptionHandlerTest {
 
         ErroView erro = exceptionHandler.handleEnumParseError(ex, request);
 
-        assertEquals("Erro ao processar a requisição. Verifique os dados enviados.", erro.getMessage());
+        assertEquals("Erro ao processar a requisição. Verifique os dados enviados.org.springframework.http.converter.HttpMessageNotReadableException: Erro de parse genérico", erro.getMessage());
         assertEquals(400, erro.getStatus());
         assertEquals("BAD_REQUEST", erro.getError());
         assertEquals("/api/test", erro.getPath());

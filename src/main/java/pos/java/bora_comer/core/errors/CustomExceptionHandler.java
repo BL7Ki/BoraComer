@@ -95,7 +95,7 @@ public class CustomExceptionHandler {
                     .collect(Collectors.joining(", "));
             message = "Valor inválido para o tipo de usuário. Valores aceitos: " + valores + ".";
         } else {
-            message = "Erro ao processar a requisição. Verifique os dados enviados.";
+            message = "Erro ao processar a requisição. Verifique os dados enviados." + ex;
         }
         return new ErroView(
                 LocalDateTime.now(),

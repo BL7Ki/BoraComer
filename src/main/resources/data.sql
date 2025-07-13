@@ -19,6 +19,14 @@ CREATE TABLE IF NOT EXISTS tb_tipo_usuarios (
     tipo_usuario VARCHAR(100) NOT NULL UNIQUE
 );
 
+ALTER TABLE tb_usuarios ADD COLUMN IF NOT EXISTS tipo_usuario_id BIGINT;
 
-INSERT INTO tb_usuarios (nome, email, login, senha, data_criacao, data_alteracao, role, rua, bairro, cidade, estado, cep)
-VALUES ('Admin', 'admin@example.com', 'admin', 'senhaAdmin123', CURRENT_TIMESTAMP, null, 'ADMIN', 'Rua Principal', 'Centro', 'Cidade Exemplo', 'SP', '12345-678');
+ALTER TABLE tb_usuarios
+    ADD CONSTRAINT IF NOT EXISTS fk_tipo_usuario
+    FOREIGN KEY (tipo_usuario_id) REFERENCES tb_tipo_usuarios(id);
+
+
+INSERT INTO tb_tipo_usuarios (tipo_usuario) VALUES ('DONO_RESTAURANTE');
+
+INSERT INTO tb_usuarios (nome, email, login, senha, data_criacao, data_alteracao, role, rua, bairro, cidade, estado, cep, tipo_usuario_id)
+VALUES ('Admin', 'admin@example.com', 'admin', 'senhaAdmin123', CURRENT_TIMESTAMP, null, 'ADMIN', 'Rua Principal', 'Centro', 'Cidade Exemplo', 'SP', '12345-678', 1);

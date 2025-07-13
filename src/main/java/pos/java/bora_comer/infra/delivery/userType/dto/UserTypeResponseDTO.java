@@ -5,6 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public record UserTypeResponseDTO(
 
         @JsonProperty("id") Long id,
-    @JsonProperty("tipo_usuario") String userType
+        @JsonProperty("tipo_usuario") String userType
 ) {
 }
