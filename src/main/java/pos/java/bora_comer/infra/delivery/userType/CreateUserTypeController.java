@@ -1,5 +1,6 @@
 package pos.java.bora_comer.infra.delivery.userType;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,9 +29,8 @@ public class CreateUserTypeController {
 
     @PostMapping
     public ResponseEntity<UserTypeResponseDTO> create(
-            @RequestBody CreateUserTypeRequestDTO createUserTypeRequestDTO
+            @Valid @RequestBody CreateUserTypeRequestDTO createUserTypeRequestDTO
     ) {
-        // Aqui você pode implementar a lógica para criar um novo tipo de usuário
 
         UserType userTypeDomain = userTypeMapper.toDomain(createUserTypeRequestDTO.name());
 
