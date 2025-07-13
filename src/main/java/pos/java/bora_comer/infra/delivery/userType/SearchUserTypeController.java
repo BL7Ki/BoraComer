@@ -30,8 +30,6 @@ public class SearchUserTypeController {
             @RequestParam (value = "page", defaultValue = "0") int page,
             @RequestParam (value = "size", defaultValue = "10") int size
     ) {
-        // This method will be implemented to search for user types
-
         Page<UserType> userType = searchUserTypeUseCase.findAll(page,size);
 
         List<UserTypeResponseDTO> userTypes = userType.stream()

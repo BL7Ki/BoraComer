@@ -1,0 +1,67 @@
+package pos.java.bora_comer.infra.gateway.userType.impl;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import pos.java.bora_comer.core.domain.UserType;
+import pos.java.bora_comer.core.mapper.userType.UserTypeMapper;
+import pos.java.bora_comer.factory.user.UserTypeFactory;
+import pos.java.bora_comer.infra.persistence.repository.userType.UserTypeRepository;
+import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
+
+class SearchUserTypeGatewayImplTest {
+
+    private UserTypeRepository userTypeRepository;
+    private UserTypeMapper userTypeMapper;
+    private SearchUserTypeGatewayImpl searchUserTypeGateway;
+
+    @BeforeEach
+    void setUp() {
+        userTypeRepository = mock(UserTypeRepository.class);
+        userTypeMapper = mock(UserTypeMapper.class);
+        searchUserTypeGateway = new SearchUserTypeGatewayImpl(userTypeRepository, userTypeMapper);
+    }
+
+    @Test
+    void deveRetornarPaginaDeUserType() {
+        var pageable = PageRequest.of(0, 2);
+
+        UserType userType = UserTypeFactory.createUserType();
+
+        UserTypeEntity userTypeEntiy = UserTypeFactory.createUserTypeEntity();
+
+        when(userTypeRepository.findAll(pageable)).thenReturn(new PageImpl<>(List.of(userTypeEntiy), pageable, 1));
+        when(userTypeMapper.toDomain(userTypeEntiy)).thenReturn(userType);
+
+        Page<UserType> result = searchUserTypeGateway.findAll(pageable);
+
+        assertEquals(1, result.getTotalElements());
+        assertEquals(userType, result.getContent().getFirst());
+        verify(userTypeRepository).findAll(pageable);
+        verify(userTypeMapper).toDomain(userTypeEntiy);
+    }
+
+    @Test
+    void deveRetornarPaginaVaziaQuandoNaoHouverRegistros() {
+        var pageable = PageRequest.of(0, 2);
+        when(userTypeRepository.findAll(pageable)).thenReturn(Page.empty(pageable));
+
+        Page<UserType> result = searchUserTypeGateway.findAll(pageable);
+
+        assertTrue(result.isEmpty());
+        verify(userTypeRepository).findAll(pageable);
+        verifyNoInteractions(userTypeMapper);
+    }
+
+}
