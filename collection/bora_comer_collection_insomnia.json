@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2025-07-14T18:10:53.288Z",
+  "__export_date": "2025-07-14T18:26:18.112Z",
   "__export_source": "insomnia.desktop.app:v2023.5.7",
   "resources": [
     {
       "_id": "req_b31ddc98b75b43d4abd1e8387b55961e",
       "parentId": "fld_14e80f2d5f4a4dd4a25c3c08bf19945b",
-      "modified": 1752376568065,
+      "modified": 1752517497688,
       "created": 1747049999996,
       "url": "http://localhost:8080/login",
       "name": "login",
@@ -64,10 +64,10 @@
     {
       "_id": "req_e9391176ac6d4726a4a6ab9e83a19a28",
       "parentId": "fld_7d4a4c5364024ea6910a90fdd5142310",
-      "modified": 1752425254660,
+      "modified": 1752517169951,
       "created": 1752425193517,
       "url": "http://localhost:8080/user-types/search",
-      "name": "findAll",
+      "name": "buscar todos os tipos de usuarios",
       "description": "",
       "method": "GET",
       "body": {},
@@ -104,10 +104,10 @@
     {
       "_id": "req_4c876e371873406dae05a54254427622",
       "parentId": "fld_7d4a4c5364024ea6910a90fdd5142310",
-      "modified": 1752430611954,
+      "modified": 1752517538513,
       "created": 1752276724721,
       "url": "http://localhost:8080/user-types",
-      "name": "create",
+      "name": "criar um tipo de usuário [DONO_RESTAURANTE]  [CLIENTE] cadastrar enum na aplicação para criar um novo",
       "description": "",
       "method": "POST",
       "body": {
@@ -139,10 +139,10 @@
     {
       "_id": "req_63f59b9dbd9a46a0a92106b53ec916ab",
       "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
-      "modified": 1752459299083,
+      "modified": 1752516853309,
       "created": 1752455975974,
       "url": "http://localhost:8080/users/2/tipo-usuario/1",
-      "name": "associação",
+      "name": " associar o usuário com  o tipo de usuário. ",
       "description": "",
       "method": "PUT",
       "body": {},
@@ -214,10 +214,10 @@
     {
       "_id": "req_9bf1f0e681b54fdea835f0f9d9c10001",
       "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
-      "modified": 1752276643425,
+      "modified": 1752516885329,
       "created": 1747016774244,
       "url": "http://localhost:8080/users",
-      "name": "FindAll user",
+      "name": "consultar todos os usuários",
       "description": "",
       "method": "GET",
       "body": {},
@@ -242,10 +242,10 @@
     {
       "_id": "req_73bf7e9433b140a29c622062a429a6ed",
       "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
-      "modified": 1752276640469,
+      "modified": 1752516912727,
       "created": 1747017874945,
       "url": "http://localhost:8080/users/2",
-      "name": "DeleteById User",
+      "name": "deletar um usuario",
       "description": "",
       "method": "DELETE",
       "body": {},
@@ -270,10 +270,10 @@
     {
       "_id": "req_c16b1b56b5c6461a8e098dc5c51b0623",
       "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
-      "modified": 1752456539817,
+      "modified": 1752516939387,
       "created": 1747015873679,
       "url": "http://localhost:8080/users/2",
-      "name": "FindById User",
+      "name": "consultar usuário por id",
       "description": "",
       "method": "GET",
       "body": {},
@@ -298,10 +298,10 @@
     {
       "_id": "req_f9a3b81f08fb40d0bbd3055d7e18106b",
       "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
-      "modified": 1752460479638,
+      "modified": 1752516954633,
       "created": 1747020164964,
       "url": "http://localhost:8080/users/1",
-      "name": "Uppdate User",
+      "name": "atualizar um usuario",
       "description": "",
       "method": "PUT",
       "body": {
@@ -333,10 +333,10 @@
     {
       "_id": "req_44a261a43bf9498d9ecd4f928570076d",
       "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
-      "modified": 1752459276577,
+      "modified": 1752517027394,
       "created": 1752365379356,
       "url": "http://localhost:8080/users",
-      "name": "Create User Tipo",
+      "name": "criar um usuário com a associação com o tipo de usuario",
       "description": "",
       "method": "POST",
       "body": {
@@ -368,10 +368,10 @@
     {
       "_id": "req_befcddb3a06d43b2921cad2df13195bd",
       "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
-      "modified": 1752457555835,
+      "modified": 1752517059292,
       "created": 1752457547125,
       "url": "http://localhost:8080/users",
-      "name": "Create User ",
+      "name": "criar um usuário sem a associação com o tipo de usuário",
       "description": "",
       "method": "POST",
       "body": {
