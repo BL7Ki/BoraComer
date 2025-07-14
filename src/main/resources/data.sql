@@ -1,16 +1,16 @@
 -- Criação da tabela de categorias de produtos V1
 CREATE TABLE IF NOT EXISTS tb_usuarios (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    login VARCHAR(255) NOT NULL,
-    senha VARCHAR(255) NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    login VARCHAR(50) NOT NULL,
+    senha VARCHAR(10) NOT NULL,
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     data_alteracao TIMESTAMP,
     role VARCHAR(50) NOT NULL,
-    rua VARCHAR(255),
-    bairro VARCHAR(255),
-    cidade VARCHAR(255),
+    rua VARCHAR(100),
+    bairro VARCHAR(100),
+    cidade VARCHAR(100),
     estado VARCHAR(2),
     cep VARCHAR(10)
 );
@@ -35,3 +35,4 @@ ALTER TABLE tb_usuarios
 INSERT INTO tb_tipo_usuarios (tipo_usuario) VALUES ('DONO_RESTAURANTE');
 INSERT INTO tb_tipo_usuarios (tipo_usuario) VALUES ('CLIENTE');
 
+-- Criação da tabela de produtos V3
