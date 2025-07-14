@@ -45,6 +45,19 @@ public class UserFactory {
         );
     }
 
+    public static User umUserTypeNull() {
+        return User.create(
+                null,
+                "Messi",
+                "messi@ex.com",
+                "messi",
+                "Messi@123",
+                Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
+                UserRoleEnum.DEFAULT,
+                null, null, null
+        );
+    }
+
     public static User umUserAtualizado(Long id) {
         return User.create(
                 id,

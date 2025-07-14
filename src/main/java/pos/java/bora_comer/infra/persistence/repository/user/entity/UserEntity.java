@@ -2,7 +2,17 @@ package pos.java.bora_comer.infra.persistence.repository.user.entity;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import pos.java.bora_comer.core.domain.Address;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
 
@@ -40,7 +50,7 @@ public class UserEntity {
     private UserRoleEntityEnum role;
 
     @ManyToOne
-    @JoinColumn(name = "tipo_usuario_id", nullable = false)
+    @JoinColumn(name = "tipo_usuario_id")
     private UserTypeEntity userTypeEntity;
 
     // Construtor padrão (necessário para o JPA)
@@ -65,8 +75,12 @@ public class UserEntity {
         this.address = address;
         this.role = role;
         this.createdDate = LocalDateTime.now();
-        this.userTypeEntity = new UserTypeEntity();
-        this.userTypeEntity.setId(userTypeId);
+        if (userTypeId != null) {
+            this.userTypeEntity = new UserTypeEntity();
+            this.userTypeEntity.setId(userTypeId);
+        } else {
+            this.userTypeEntity = null;
+        }
     }
 
     private UserEntity(Long id, String name, String email, String username, String password, AddressEntity address, UserRoleEntityEnum role, Long userTypeId) {
@@ -78,8 +92,12 @@ public class UserEntity {
         this.address = address;
         this.role = role;
         this.createdDate = LocalDateTime.now();
-        this.userTypeEntity = new UserTypeEntity();
-        this.userTypeEntity.setId(userTypeId);
+        if (userTypeId != null) {
+            this.userTypeEntity = new UserTypeEntity();
+            this.userTypeEntity.setId(userTypeId);
+        } else {
+            this.userTypeEntity = null;
+        }
     }
 
     // Getters
@@ -121,6 +139,10 @@ public class UserEntity {
 
     public UserTypeEntity getUserTypeEntity() {
         return userTypeEntity;
+    }
+
+    public void setUserTypeEntity(UserTypeEntity userTypeEntity) {
+        this.userTypeEntity = userTypeEntity;
     }
 
     public void updateName(String name) {

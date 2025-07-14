@@ -3,6 +3,7 @@ package pos.java.bora_comer.infra.gateway.user.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pos.java.bora_comer.core.domain.User;
+import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
@@ -44,26 +45,52 @@ class UserCreateGatewayImplTest {
     }
 
     @Test
-    void deveSalvarUsuarioComSucesso() {
+    void deveSalvarUsuarioComTipoComSucesso() {
         User user = UserFactory.umUserPadrao();
         UserEntity userEntity = UserFactory.umUserEntityPadrao();
+        UserTypeEntity userTypeEntity = UserTypeEntity.create(1L, UserTypeNameEntityEnum.DONO_RESTAURANTE);
 
-        UserTypeEntity userTypeEntity = UserTypeEntity.create(1l, UserTypeNameEntityEnum.DONO_RESTAURANTE);
-
-
-        when(userTypeRepository.findByName(any()))
-                .thenReturn(Optional.of(userTypeEntity));
-
-        when(userMapper.toEntity(any(), anyLong())).thenReturn(userEntity);
+        when(userTypeRepository.findByName(any())).thenReturn(Optional.of(userTypeEntity));
+        when(userMapper.toEntity(user, userTypeEntity.getId())).thenReturn(userEntity);
         when(userRepository.save(userEntity)).thenReturn(userEntity);
-        when(userMapper.toDomain(userEntity, userEntity.getUserTypeEntity())).thenReturn(user);
+        when(userMapper.toDomain(userEntity, userTypeEntity)).thenReturn(user);
 
         User result = userCreateGateway.save(user);
 
         assertNotNull(result);
-        assertEquals("Messi", result.getName());
-        verify(userMapper, times(1)).toEntity(user, 1l);
-        verify(userRepository, times(1)).save(userEntity);
-        verify(userMapper, times(1)).toDomain(userEntity, userEntity.getUserTypeEntity());
+        verify(userTypeRepository).findByName(any());
+        verify(userMapper).toEntity(user, userTypeEntity.getId());
+        verify(userRepository).save(userEntity);
+        verify(userMapper).toDomain(userEntity, userTypeEntity);
+    }
+
+    @Test
+    void deveSalvarUsuarioSemTipoComSucesso() {
+        User user = UserFactory.umUserTypeNull();
+
+        UserEntity userEntity = UserFactory.umUserEntityPadrao();
+
+        when(userMapper.toEntity(user)).thenReturn(userEntity);
+        when(userRepository.save(userEntity)).thenReturn(userEntity);
+        when(userMapper.toDomain(userEntity, null)).thenReturn(user);
+
+        User result = userCreateGateway.save(user);
+
+        assertNotNull(result);
+        verify(userMapper).toEntity(user);
+        verify(userRepository).save(userEntity);
+        verify(userMapper).toDomain(userEntity, null);
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoTipoUsuarioInvalido() {
+        User user = UserFactory.umUserPadrao();
+
+        when(userTypeRepository.findByName(any())).thenReturn(Optional.empty());
+
+        UserDomainException ex = assertThrows(UserDomainException.class, () -> userCreateGateway.save(user));
+        assertEquals("Tipo de usuário inválido", ex.getMessage());
+        verify(userTypeRepository).findByName(any());
+        verify(userRepository, never()).save(any());
     }
 }

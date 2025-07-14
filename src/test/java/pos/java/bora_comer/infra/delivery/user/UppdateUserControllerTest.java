@@ -143,4 +143,31 @@ class UppdateUserControllerTest {
                         .content(requestJson))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void deveAssociarTipoUsuarioComSucesso() throws Exception {
+        // Nenhuma exceção esperada do use case
+        mockMvc.perform(put("/users/1/tipo-usuario/2"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deveRetornarErroQuandoUsuarioNaoEncontradoNaAssociacao() throws Exception {
+        doThrow(new UserDomainException("Usuário não encontrado."))
+                .when(updateUserUseCase).userAssociate(1L, 2L);
+
+        mockMvc.perform(put("/users/1/tipo-usuario/2"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Usuário não encontrado."));
+    }
+
+    @Test
+    void deveRetornarErroQuandoTipoUsuarioNaoEncontradoNaAssociacao() throws Exception {
+        doThrow(new UserDomainException("Tipo de usuário não encontrado"))
+                .when(updateUserUseCase).userAssociate(1L, 99L);
+
+        mockMvc.perform(put("/users/1/tipo-usuario/99"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Tipo de usuário não encontrado"));
+    }
 }

@@ -20,17 +20,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-class SearchUserTypeGatewayImplTest {
+class UserTypeSearchGatewayImplTest {
 
     private UserTypeRepository userTypeRepository;
     private UserTypeMapper userTypeMapper;
-    private SearchUserTypeGatewayImpl searchUserTypeGateway;
+    private UserTypeSearchGatewayImpl searchUserTypeGateway;
 
     @BeforeEach
     void setUp() {
         userTypeRepository = mock(UserTypeRepository.class);
         userTypeMapper = mock(UserTypeMapper.class);
-        searchUserTypeGateway = new SearchUserTypeGatewayImpl(userTypeRepository, userTypeMapper);
+        searchUserTypeGateway = new UserTypeSearchGatewayImpl(userTypeRepository, userTypeMapper);
     }
 
     @Test

@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import pos.java.bora_comer.core.domain.UserType;
 import pos.java.bora_comer.core.errors.UserDomainException;
-import pos.java.bora_comer.core.gateway.userType.SearchUserTypeGateway;
+import pos.java.bora_comer.core.gateway.userType.UserTypeSearchGateway;
 import pos.java.bora_comer.factory.user.UserTypeFactory;
 
 import java.util.List;
@@ -20,13 +20,13 @@ import static org.mockito.Mockito.when;
 
 class SearchUserTypeUseCaseImplTest {
 
-    private SearchUserTypeGateway searchUserTypeGateway;
+    private UserTypeSearchGateway userTypeSearchGateway;
     private SearchUserTypeUseCaseImpl useCase;
 
     @BeforeEach
     void setUp() {
-        searchUserTypeGateway = mock(SearchUserTypeGateway.class);
-        useCase = new SearchUserTypeUseCaseImpl(searchUserTypeGateway);
+        userTypeSearchGateway = mock(UserTypeSearchGateway.class);
+        useCase = new SearchUserTypeUseCaseImpl(userTypeSearchGateway);
     }
 
     @Test
@@ -39,23 +39,23 @@ class SearchUserTypeUseCaseImplTest {
         );
         Page<UserType> pageResult = new PageImpl<>(userTypes, PageRequest.of(page, size), userTypes.size());
 
-        when(searchUserTypeGateway.findAll(PageRequest.of(page, size))).thenReturn(pageResult);
+        when(userTypeSearchGateway.findAll(PageRequest.of(page, size))).thenReturn(pageResult);
 
         Page<UserType> result = useCase.findAll(page, size);
 
         assertEquals(pageResult, result);
-        verify(searchUserTypeGateway).findAll(PageRequest.of(page, size));
+        verify(userTypeSearchGateway).findAll(PageRequest.of(page, size));
     }
 
     @Test
     void devePropagarExcecaoDoGateway() throws UserDomainException {
         int page = 0;
         int size = 1;
-        when(searchUserTypeGateway.findAll(PageRequest.of(page, size)))
+        when(userTypeSearchGateway.findAll(PageRequest.of(page, size)))
                 .thenThrow(new UserDomainException("erro"));
 
         assertThrows(UserDomainException.class, () -> useCase.findAll(page, size));
-        verify(searchUserTypeGateway).findAll(PageRequest.of(page, size));
+        verify(userTypeSearchGateway).findAll(PageRequest.of(page, size));
     }
 
 }

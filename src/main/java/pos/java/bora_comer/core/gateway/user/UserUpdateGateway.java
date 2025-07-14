@@ -6,4 +6,6 @@ import pos.java.bora_comer.core.errors.UserDomainException;
 public interface UserUpdateGateway {
 
     User update(User user) throws UserDomainException;
+
+    User associateUserType(Long userId, Long userTypeId) throws UserDomainException;
 }

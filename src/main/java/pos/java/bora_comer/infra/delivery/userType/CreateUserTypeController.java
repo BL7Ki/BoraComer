@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pos.java.bora_comer.core.domain.UserType;
 import pos.java.bora_comer.core.mapper.userType.UserTypeMapper;
 import pos.java.bora_comer.core.usercase.userType.CreateUserTypeUseCase;
+import pos.java.bora_comer.infra.delivery.userType.doc.CreateUserTypeControllerDoc;
 import pos.java.bora_comer.infra.delivery.userType.dto.CreateUserTypeRequestDTO;
 import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeResponseDTO;
 
@@ -16,7 +17,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/user-types")
-public class CreateUserTypeController {
+public class CreateUserTypeController implements CreateUserTypeControllerDoc {
 
     private final UserTypeMapper userTypeMapper;
 
@@ -27,6 +28,7 @@ public class CreateUserTypeController {
         this.createUserTypeUseCase = createUserTypeUseCase;
     }
 
+    @Override
     @PostMapping
     public ResponseEntity<UserTypeResponseDTO> create(
             @Valid @RequestBody CreateUserTypeRequestDTO createUserTypeRequestDTO

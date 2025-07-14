@@ -1,3 +1,4 @@
+-- Criação da tabela de categorias de produtos V1
 CREATE TABLE IF NOT EXISTS tb_usuarios (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
@@ -14,9 +15,14 @@ CREATE TABLE IF NOT EXISTS tb_usuarios (
     cep VARCHAR(10)
 );
 
+INSERT INTO tb_usuarios (nome, email, login, senha, data_criacao, data_alteracao, role, rua, bairro, cidade, estado, cep)
+VALUES ('Admin', 'admin@example.com', 'admin', 'senhaAdmin123', CURRENT_TIMESTAMP, null, 'ADMIN', 'Rua Principal', 'Centro', 'Cidade Exemplo', 'SP', '12345-678');
+
+
+-- Criação da tabela de tipos de usuários e relacionamento com a tabela de usuários V2
 CREATE TABLE IF NOT EXISTS tb_tipo_usuarios (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    tipo_usuario VARCHAR(100) NOT NULL UNIQUE
+    tipo_usuario VARCHAR(100) UNIQUE
 );
 
 ALTER TABLE tb_usuarios ADD COLUMN IF NOT EXISTS tipo_usuario_id BIGINT;
@@ -27,6 +33,5 @@ ALTER TABLE tb_usuarios
 
 
 INSERT INTO tb_tipo_usuarios (tipo_usuario) VALUES ('DONO_RESTAURANTE');
+INSERT INTO tb_tipo_usuarios (tipo_usuario) VALUES ('CLIENTE');
 
-INSERT INTO tb_usuarios (nome, email, login, senha, data_criacao, data_alteracao, role, rua, bairro, cidade, estado, cep, tipo_usuario_id)
-VALUES ('Admin', 'admin@example.com', 'admin', 'senhaAdmin123', CURRENT_TIMESTAMP, null, 'ADMIN', 'Rua Principal', 'Centro', 'Cidade Exemplo', 'SP', '12345-678', 1);

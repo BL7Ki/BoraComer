@@ -97,4 +97,51 @@ class UserUpdateGatewayImplTest {
         verify(userRepository).save(userEntity);
         verify(userMapper).toDomain(userEntity, userEntity.getUserTypeEntity());
     }
+
+    @Test
+    void deveAssociarTipoUsuarioComSucesso() throws UserDomainException {
+        // Arrange
+        Long userId = 10L;
+        Long userTypeId = 20L;
+        var userEntity = spy(UserFactory.umUserEntityPadrao());
+        var userTypeEntity = UserTypeEntity.create(userTypeId, UserTypeNameEntityEnum.DONO_RESTAURANTE);
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(userEntity));
+        when(userTypeRepository.findById(userTypeId)).thenReturn(Optional.of(userTypeEntity));
+
+        // Act
+        userUpdateGateway.associateUserType(userId, userTypeId);
+
+        // Assert
+        verify(userEntity).setUserTypeEntity(userTypeEntity);
+        verify(userRepository).save(userEntity);
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoUsuarioNaoEncontradoNaAssociacao() {
+        // Arrange
+        Long userId = 11L;
+        Long userTypeId = 21L;
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        var ex = assertThrows(UserDomainException.class, () -> userUpdateGateway.associateUserType(userId, userTypeId));
+        assertEquals("Usuário não encontrado.", ex.getMessage());
+        verify(userRepository, never()).save(any());
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoTipoUsuarioNaoEncontradoNaAssociacao() {
+        // Arrange
+        Long userId = 12L;
+        Long userTypeId = 22L;
+        var userEntity = UserFactory.umUserEntityPadrao();
+        when(userRepository.findById(userId)).thenReturn(Optional.of(userEntity));
+        when(userTypeRepository.findById(userTypeId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        var ex = assertThrows(UserDomainException.class, () -> userUpdateGateway.associateUserType(userId, userTypeId));
+        assertEquals("Tipo de usuário não encontrado", ex.getMessage());
+        verify(userRepository, never()).save(any());
+    }
 }

@@ -36,16 +36,24 @@ public class UserCreateGatewayImpl implements UserCreateGateway {
     public User save(User user) {
         // Implementação do método para salvar o usuário
 
-        UserTypeNameEntityEnum userTypeNameEntityEnum = UserTypeNameEntityEnum.valueOf(user.getUserTypeNameEnum().name());
+        if (user.getUserTypeNameEnum() != null) {
 
-        UserTypeEntity userTypeEntity = userTypeRepository
-                .findByName(userTypeNameEntityEnum)
-                .orElseThrow(() -> new UserDomainException("Tipo de usuário inválido"));
+            UserTypeNameEntityEnum userTypeNameEntityEnum = UserTypeNameEntityEnum.valueOf(user.getUserTypeNameEnum().name());
 
-        UserEntity userEntity = userMapper.toEntity(user, userTypeEntity.getId());
+            UserTypeEntity userTypeEntity = userTypeRepository
+                    .findByName(userTypeNameEntityEnum)
+                    .orElseThrow(() -> new UserDomainException("Tipo de usuário inválido"));
+
+            UserEntity userEntity = userMapper.toEntity(user, userTypeEntity.getId());
+
+            UserEntity savedUserEntity = userRepository.save(userEntity);
+            return userMapper.toDomain(savedUserEntity, userTypeEntity);
+        }
+
+        UserEntity userEntity = userMapper.toEntity(user);
 
         UserEntity savedUserEntity = userRepository.save(userEntity);
 
-        return userMapper.toDomain(savedUserEntity, userTypeEntity);
+        return userMapper.toDomain(savedUserEntity, null);
     }
 }

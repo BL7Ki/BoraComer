@@ -5,16 +5,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pos.java.bora_comer.core.domain.UserType;
 import pos.java.bora_comer.core.errors.UserDomainException;
-import pos.java.bora_comer.core.gateway.userType.SearchUserTypeGateway;
+import pos.java.bora_comer.core.gateway.userType.UserTypeSearchGateway;
 import pos.java.bora_comer.core.usercase.userType.SearchUserTypeUseCase;
 
 @Service
 public class SearchUserTypeUseCaseImpl implements SearchUserTypeUseCase {
 
-    private final SearchUserTypeGateway searchUserTypeGateway;
+    private final UserTypeSearchGateway searchUserTypeGateway;
 
-    public SearchUserTypeUseCaseImpl(SearchUserTypeGateway searchUserTypeGateway) {
-        this.searchUserTypeGateway = searchUserTypeGateway;
+    public SearchUserTypeUseCaseImpl(UserTypeSearchGateway userTypeSearchGateway) {
+        this.searchUserTypeGateway = userTypeSearchGateway;
     }
 
 
@@ -24,5 +24,12 @@ public class SearchUserTypeUseCaseImpl implements SearchUserTypeUseCase {
         PageRequest pageable = PageRequest.of(page, size);
 
         return searchUserTypeGateway.findAll(pageable);
+    }
+
+    @Override
+    public UserType findById(Long id) throws UserDomainException {
+
+        return searchUserTypeGateway.findById(id)
+                .orElseThrow(() -> new UserDomainException("Tipo de usuário não encontrado com o ID: " + id));
     }
 }

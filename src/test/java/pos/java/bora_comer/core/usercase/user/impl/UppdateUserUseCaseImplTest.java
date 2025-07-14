@@ -2,7 +2,6 @@ package pos.java.bora_comer.core.usercase.user.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pos.java.bora_comer.core.domain.Address;
 import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
@@ -36,7 +35,6 @@ class UppdateUserUseCaseImplTest {
 
     @Test
     void deveAtualizarUsuarioComSucesso() throws UserDomainException {
-        Address someAddress = mock(Address.class);
 
         User user = UserFactory.umUserAtualizado(id);
 
@@ -51,7 +49,6 @@ class UppdateUserUseCaseImplTest {
 
     @Test
     void deveLancarUserDomainException_quandoUpdateGatewayLancarIllegalArgumentException() {
-        Address someAddress = mock(Address.class);
 
         User user = UserFactory.umUserAtualizado(id);
 
@@ -68,7 +65,6 @@ class UppdateUserUseCaseImplTest {
 
     @Test
     void deveTrocarSenhaComSucesso() throws UserDomainException {
-        Address address = mock(Address.class);
         User user = UserFactory.umUserAtualizado(id);
 
         when(userSearchGateway.findById(2L)).thenReturn(Optional.of(user));
@@ -93,7 +89,6 @@ class UppdateUserUseCaseImplTest {
 
     @Test
     void deveLancarExcecaoQuandoSenhaAtualIncorreta() {
-        Address address = mock(Address.class);
         User user = UserFactory.umUserAtualizado(id);
 
         when(userSearchGateway.findById(2L)).thenReturn(Optional.of(user));

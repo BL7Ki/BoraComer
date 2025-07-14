@@ -7,6 +7,7 @@ import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserUpdateGateway;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
+import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.userType.UserTypeRepository;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeNameEntityEnum;
@@ -31,11 +32,6 @@ public class UserUpdateGatewayImpl implements UserUpdateGateway {
         var userEntity = userRepository.findById(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("User with ID " + user.getId() + " not found"));
 
-        UserTypeNameEntityEnum userTypeNameEntityEnum = UserTypeNameEntityEnum.valueOf(user.getUserTypeNameEnum().name());
-
-        UserTypeEntity userTypeEntity = userTypeRepository
-                .findByName(userTypeNameEntityEnum)
-                .orElseThrow(() -> new UserDomainException("Tipo de usuário inválido"));
 
         // Atualiza os campos necessários na entidade
         userEntity.updateName(user.getName());
@@ -48,6 +44,22 @@ public class UserUpdateGatewayImpl implements UserUpdateGateway {
         var updatedUserEntity = userRepository.save(userEntity);
 
         // Retorna o domínio atualizado
-        return userMapper.toDomain(updatedUserEntity, userTypeEntity);
+        return userMapper.toDomain(updatedUserEntity, updatedUserEntity.getUserTypeEntity());
+    }
+
+    @Transactional
+    @Override
+    public User associateUserType(Long userId, Long userTypeId) throws UserDomainException {
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new UserDomainException("Usuário não encontrado."));
+
+        UserTypeEntity userTypeEntity = userTypeRepository.findById(userTypeId)
+                .orElseThrow(() -> new UserDomainException("Tipo de usuário não encontrado"));
+
+        userEntity.setUserTypeEntity(userTypeEntity);
+
+        UserEntity userEntitySave = userRepository.save(userEntity);
+
+        return userMapper.toDomain(userEntitySave, userTypeEntity);
     }
 }

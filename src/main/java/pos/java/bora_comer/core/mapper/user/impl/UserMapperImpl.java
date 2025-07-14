@@ -4,7 +4,11 @@ import org.springframework.stereotype.Component;
 import pos.java.bora_comer.core.domain.*;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
-import pos.java.bora_comer.infra.delivery.user.dto.*;
+import pos.java.bora_comer.infra.delivery.user.dto.UserRequestDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.UserUpdateRequestDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.UserRoleRequestEnumDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.AddressResponseDTO;
 import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeNameRequestEnum;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
@@ -31,7 +35,7 @@ public class UserMapperImpl implements UserMapper {
                 ),
                 toUserTypeEnumRequestConverter(userRequestDTO.userRole()),
                 null, null,
-                toUserTypeEnumRequestConverter(userRequestDTO.userType().name())
+                userRequestDTO.userType() != null ? toUserTypeEnumRequestConverter(userRequestDTO.userType().name()) : null
         );
     }
 
@@ -51,8 +55,27 @@ public class UserMapperImpl implements UserMapper {
                         user.getAddress().getState(),
                         user.getAddress().getZipCode()
                 ),
-                toUserTypeEnumEntityConverter(user.getUserRoleEnum()),
+                user.getUserRoleEnum() != null ? toUserTypeEnumEntityConverter(user.getUserRoleEnum()) : null,
                 id
+        );
+    }
+
+    @Override
+    public UserEntity toEntity(User user) {
+        return UserEntity.create(
+                user.getName(),
+                user.getEmail(),
+                user.getUsername(),
+                user.getPassword(),
+                AddressEntity.create(
+                        user.getAddress().getStreet(),
+                        user.getAddress().getNeighborhood(),
+                        user.getAddress().getCity(),
+                        user.getAddress().getState(),
+                        user.getAddress().getZipCode()
+                ),
+                user.getUserRoleEnum() != null ? toUserTypeEnumEntityConverter(user.getUserRoleEnum()) : null,
+                null
         );
     }
 
@@ -75,7 +98,7 @@ public class UserMapperImpl implements UserMapper {
                 toUserTypeEnumEntityConverter(userEntity.getRole()),
                 userEntity.getCreatedDate().toString(),
                 userEntity.getLastModifiedDate() != null ? userEntity.getLastModifiedDate().toString() : null,
-                UserTypeNameEnum.valueOf(userTypeEntity.getName().name())
+                userTypeEntity != null ? UserTypeNameEnum.valueOf(userTypeEntity.getName().name()) : null
         );
     }
 
@@ -95,10 +118,10 @@ public class UserMapperImpl implements UserMapper {
                         user.getAddress().getState(),
                         user.getAddress().getZipCode()
                 ),
-                user.getUserRoleEnum().name(),
+                user.getUserRoleEnum() != null ? user.getUserRoleEnum().name() : null,
                 user.getCreatedDate(),
                 user.getLastModifiedDate(),
-                user.getUserTypeNameEnum().name()
+                user.getUserTypeNameEnum() != null ? user.getUserTypeNameEnum().name() : null
         );
     }
 
@@ -122,7 +145,7 @@ public class UserMapperImpl implements UserMapper {
                 null,
                 null,
                 null,
-                toUserTypeEnumRequestConverter(userUpdateRequestDTO.userType())
+                userUpdateRequestDTO.userType() != null ? toUserTypeEnumRequestConverter(userUpdateRequestDTO.userType()) : null
         );
     }
 

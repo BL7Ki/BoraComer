@@ -14,6 +14,8 @@ public interface UserMapper {
 
     UserEntity toEntity(User user, Long id);
 
+    UserEntity toEntity(User user);
+
     User toDomain(UserEntity userEntity, UserTypeEntity userTypeEntity);
 
     UserResponseDTO toResponseDTO(User user);
