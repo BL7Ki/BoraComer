@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2025-07-13T21:33:16.520Z",
+  "__export_date": "2025-07-14T18:10:53.288Z",
   "__export_source": "insomnia.desktop.app:v2023.5.7",
   "resources": [
     {
@@ -137,6 +137,46 @@
       "_type": "request"
     },
     {
+      "_id": "req_63f59b9dbd9a46a0a92106b53ec916ab",
+      "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
+      "modified": 1752459299083,
+      "created": 1752455975974,
+      "url": "http://localhost:8080/users/2/tipo-usuario/1",
+      "name": "associação",
+      "description": "",
+      "method": "PUT",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.7"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1752455975975,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_4e45d27552b64069a625ce561d6b00bc",
+      "parentId": "wrk_bd8a67f6cbe3461f9365cb2a32e463dc",
+      "modified": 1752276696467,
+      "created": 1752276595708,
+      "name": "user",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1752276595708,
+      "_type": "request_group"
+    },
+    {
       "_id": "req_0daa2fc8eea64c0a99085eab8ee33df2",
       "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
       "modified": 1752276653183,
@@ -170,18 +210,6 @@
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
       "_type": "request"
-    },
-    {
-      "_id": "fld_4e45d27552b64069a625ce561d6b00bc",
-      "parentId": "wrk_bd8a67f6cbe3461f9365cb2a32e463dc",
-      "modified": 1752276696467,
-      "created": 1752276595708,
-      "name": "user",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1752276595708,
-      "_type": "request_group"
     },
     {
       "_id": "req_9bf1f0e681b54fdea835f0f9d9c10001",
@@ -242,9 +270,9 @@
     {
       "_id": "req_c16b1b56b5c6461a8e098dc5c51b0623",
       "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
-      "modified": 1752276637748,
+      "modified": 1752456539817,
       "created": 1747015873679,
-      "url": "http://localhost:8080/users/1",
+      "url": "http://localhost:8080/users/2",
       "name": "FindById User",
       "description": "",
       "method": "GET",
@@ -270,15 +298,15 @@
     {
       "_id": "req_f9a3b81f08fb40d0bbd3055d7e18106b",
       "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
-      "modified": 1752375449051,
+      "modified": 1752460479638,
       "created": 1747020164964,
-      "url": "http://localhost:8080/users/2",
+      "url": "http://localhost:8080/users/1",
       "name": "Uppdate User",
       "description": "",
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"nome\": \"teste update Silva \",\n  \"email\": \"teste.silva@example.com\",\n  \"senha\": \"senha123456789\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores pretas\",\n    \"bairro\": \"Bairro das cascatas azuis\",\n    \"cidade\": \"SMinas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  },\n\t\"tipo_usuario\": \"DONO_RESTAURANTE\"\n}"
+        "text": "{\n  \"nome\": \"teste update Silva \",\n  \"email\": \"teste.silva@example.com\",\n  \"senha\": \"senha123456789\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores pretas\",\n    \"bairro\": \"Bairro das cascatas azuis\",\n    \"cidade\": \"SMinas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  }\n}"
       },
       "parameters": [],
       "headers": [
@@ -305,7 +333,7 @@
     {
       "_id": "req_44a261a43bf9498d9ecd4f928570076d",
       "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
-      "modified": 1752430639047,
+      "modified": 1752459276577,
       "created": 1752365379356,
       "url": "http://localhost:8080/users",
       "name": "Create User Tipo",
@@ -313,7 +341,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"nome\": \"Joao Silva \",\n  \"email\": \"joao.silva@example.com\",\n  \"login\": \"tiagosilva\",\n  \"senha\": \"senha123\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores doces\",\n    \"bairro\": \"Bairro das cascatas pretas\",\n    \"cidade\": \"Minas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  },\n  \"papel\": \"ADMIN\",\n\t\"tipo_usuario\": {\n  \t\"name\": \"CLIENTE\"\n\t\t}\n}"
+        "text": "{\n  \"nome\": \"Lucas Silva \",\n  \"email\": \"lucas.silva@example.com\",\n  \"login\": \"lucastorres\",\n  \"senha\": \"senha123\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores doces\",\n    \"bairro\": \"Bairro das cascatas pretas\",\n    \"cidade\": \"Minas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  },\n  \"papel\": \"ADMIN\",\n\t\"tipo_usuario\": {\n  \t\"name\": \"CLIENTE\"\n\t\t}\n}"
       },
       "parameters": [],
       "headers": [
@@ -328,6 +356,41 @@
       ],
       "authentication": {},
       "metaSortKey": -1750068289166.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_befcddb3a06d43b2921cad2df13195bd",
+      "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
+      "modified": 1752457555835,
+      "created": 1752457547125,
+      "url": "http://localhost:8080/users",
+      "name": "Create User ",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Joao Silva \",\n  \"email\": \"joao.silva@example.com\",\n  \"login\": \"tiagosilva\",\n  \"senha\": \"senha123\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores doces\",\n    \"bairro\": \"Bairro das cascatas pretas\",\n    \"cidade\": \"Minas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  },\n  \"papel\": \"ADMIN\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.7"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1748964119852.25,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
