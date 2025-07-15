@@ -1,8 +1,8 @@
 package pos.java.bora_comer.core.usercase.login.impl;
 
 import org.springframework.stereotype.Service;
-import pos.java.bora_comer.core.domain.LoginResponseEnum;
-import pos.java.bora_comer.core.domain.User;
+import pos.java.bora_comer.core.domain.user.LoginResponseEnum;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.gateway.login.UserLoginGateway;
 import pos.java.bora_comer.core.usercase.login.UserLoginUseCase;
 

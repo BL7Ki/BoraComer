@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pos.java.bora_comer.core.domain.LoginResponseEnum;
+import pos.java.bora_comer.core.domain.user.LoginResponseEnum;
 import pos.java.bora_comer.core.usercase.login.UserLoginUseCase;
 import pos.java.bora_comer.infra.delivery.login.dto.LoginRequestDTO;
 

@@ -1,8 +1,8 @@
 package pos.java.bora_comer.util;
 
 import pos.java.bora_comer.core.domain.Address;
-import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.domain.UserRoleEnum;
+import pos.java.bora_comer.core.domain.user.User;
+import pos.java.bora_comer.core.domain.user.UserRoleEnum;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;

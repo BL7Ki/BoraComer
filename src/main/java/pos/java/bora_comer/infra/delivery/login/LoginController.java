@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pos.java.bora_comer.core.usercase.login.UserLoginUseCase;
-import pos.java.bora_comer.core.domain.LoginResponseEnum;
+import pos.java.bora_comer.core.domain.user.LoginResponseEnum;
 import pos.java.bora_comer.infra.delivery.login.dto.LoginRequestDTO;
 import pos.java.bora_comer.infra.delivery.user.doc.LoginControllerDocs;
 
