@@ -1,7 +1,7 @@
 package pos.java.bora_comer.core.gateway.user;
 
 
-import pos.java.bora_comer.core.domain.User;
+import pos.java.bora_comer.core.domain.user.User;
 
 public interface UserCreateGateway {
 

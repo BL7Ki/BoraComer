@@ -13,7 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import pos.java.bora_comer.core.domain.Address;
+import pos.java.bora_comer.core.domain.user.Address;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
 
 @Entity

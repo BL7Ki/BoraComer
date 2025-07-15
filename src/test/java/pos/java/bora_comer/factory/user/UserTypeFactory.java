@@ -1,7 +1,7 @@
 package pos.java.bora_comer.factory.user;
 
-import pos.java.bora_comer.core.domain.UserType;
-import pos.java.bora_comer.core.domain.UserTypeNameEnum;
+import pos.java.bora_comer.core.domain.userType.UserType;
+import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
 import pos.java.bora_comer.infra.delivery.userType.dto.CreateUserTypeRequestDTO;
 import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeNameRequestEnum;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;

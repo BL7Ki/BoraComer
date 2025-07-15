@@ -1,4 +1,4 @@
-package pos.java.bora_comer.core.domain;
+package pos.java.bora_comer.core.domain.user;
 
 public class Address {
     private String street;

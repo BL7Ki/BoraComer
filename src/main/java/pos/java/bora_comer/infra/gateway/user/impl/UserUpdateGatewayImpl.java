@@ -2,7 +2,7 @@ package pos.java.bora_comer.infra.gateway.user.impl;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pos.java.bora_comer.core.domain.User;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserUpdateGateway;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
@@ -10,7 +10,6 @@ import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.userType.UserTypeRepository;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
-import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeNameEntityEnum;
 
 @Component
 public class UserUpdateGatewayImpl implements UserUpdateGateway {

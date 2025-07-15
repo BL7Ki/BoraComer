@@ -3,7 +3,7 @@ package pos.java.bora_comer.core.usercase.userType.impl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import pos.java.bora_comer.core.domain.UserType;
+import pos.java.bora_comer.core.domain.userType.UserType;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.userType.UserTypeSearchGateway;
 import pos.java.bora_comer.core.usercase.userType.SearchUserTypeUseCase;

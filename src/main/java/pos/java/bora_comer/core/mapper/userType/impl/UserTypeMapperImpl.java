@@ -1,8 +1,8 @@
 package pos.java.bora_comer.core.mapper.userType.impl;
 
 import org.springframework.stereotype.Component;
-import pos.java.bora_comer.core.domain.UserType;
-import pos.java.bora_comer.core.domain.UserTypeNameEnum;
+import pos.java.bora_comer.core.domain.userType.UserType;
+import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
 import pos.java.bora_comer.core.mapper.userType.UserTypeMapper;
 import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeNameRequestEnum;
 import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeResponseDTO;
