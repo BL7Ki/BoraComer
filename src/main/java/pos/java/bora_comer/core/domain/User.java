@@ -68,7 +68,4 @@ public class User {
         this.password = newPassword;
     }
 
-//    public void setId(Long id) {
-//        this.id = id;
-//    } tentativa de otimizar testes que usam id diretamente
 }
