@@ -43,4 +43,10 @@ public class UppdateUserUseCaseImpl implements UppdateUserUseCase {
         userUpdateGateway.update(user);
     }
 
+    @Override
+    public User userAssociate(Long userId, Long tipoUsuarioId) throws UserDomainException {
+
+        return userUpdateGateway.associateUserType(userId, tipoUsuarioId);
+    }
+
 }

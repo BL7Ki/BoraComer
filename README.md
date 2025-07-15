@@ -263,7 +263,10 @@ Content-Type: application/json
     "estado": "PE",
     "cep": "12345-400"
   },
-  "tipo_usuario": "ADMIN"
+  "papel": "ADMIN",
+	"tipo_usuario": {
+  	"name": "CLIENTE"
+		}
 }
 ```
 
@@ -281,9 +284,10 @@ Content-Type: application/json
 		"estado": "PE",
 		"cep": "12345-400"
 	},
-	"tipo_usuario": "ADMIN",
-	"data_criacao": "2025-07-11T18:40:50.459824200",
-	"data_alteracao": null
+	"papel": "ADMIN",
+	"data_criacao": "2025-07-13T15:17:20.601449100",
+	"data_alteracao": null,
+	"tipo_usuario": "CLIENTE"
 }
 ```
 

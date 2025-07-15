@@ -41,9 +41,11 @@ public class SearchUserController implements SearchUserControllerDocs {
     ) {
 
         Page<User> users = searchUserUseCase.findAll(page, size);
+
         List<UserResponseDTO> usuarios = users.stream()
                 .map(userMapper::toResponseDTO)
                 .toList();
+
         return ResponseEntity.ok(usuarios);
     }
 }

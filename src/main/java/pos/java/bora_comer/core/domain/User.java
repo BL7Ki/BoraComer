@@ -11,19 +11,20 @@ public class User {
     private final UserRoleEnum userRoleEnum;
     private final String createdDate;
     private final String lastModifiedDate;
+    private final UserTypeNameEnum userTypeNameEnum;
 
 
-    public static User create(String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String createdDate, String lastModifiedDate) {
-        return new User(name, email, username, password, address, userRoleEnum, createdDate, lastModifiedDate);
+    public static User create(String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String createdDate, String lastModifiedDate, UserTypeNameEnum userTypeNameEnum) {
+        return new User(name, email, username, password, address, userRoleEnum, createdDate, lastModifiedDate, userTypeNameEnum);
     }
 
-    public static User create(Long id, String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String createdDate, String lastModifiedDate) {
-        User user = new User(name, email, username, password, address, userRoleEnum, createdDate, lastModifiedDate);
+    public static User create(Long id, String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String createdDate, String lastModifiedDate, UserTypeNameEnum userTypeNameEnum) {
+        User user = new User(name, email, username, password, address, userRoleEnum, createdDate, lastModifiedDate, userTypeNameEnum);
         user.id = id;
         return user;
     }
 
-    private User(String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String createdDate, String lastModifiedDate) {
+    private User(String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String createdDate, String lastModifiedDate, UserTypeNameEnum userTypeNameEnum) {
         this.name = name;
         this.email = email;
         this.username = username;
@@ -32,6 +33,7 @@ public class User {
         this.userRoleEnum = userRoleEnum;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
+        this.userTypeNameEnum = userTypeNameEnum;
     }
 
     public String getName() {
@@ -68,6 +70,11 @@ public class User {
 
     public String getLastModifiedDate() {
         return lastModifiedDate;
+    }
+
+
+    public UserTypeNameEnum getUserTypeNameEnum() {
+        return userTypeNameEnum;
     }
 
     public void updatePassward(String newPassword) {

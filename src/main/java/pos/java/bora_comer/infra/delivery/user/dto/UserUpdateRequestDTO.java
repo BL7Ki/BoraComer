@@ -1,12 +1,14 @@
 package pos.java.bora_comer.infra.delivery.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeNameRequestEnum;
 
 public record UserUpdateRequestDTO(
 
         @JsonProperty("nome") String name,
         @JsonProperty("email") String email,
         @JsonProperty("senha") String password,
-        @JsonProperty("endereco") AddressRequestDTO address
+        @JsonProperty("endereco") AddressRequestDTO address,
+        @JsonProperty("tipo_usuario") UserTypeNameRequestEnum userType
 ) {
 }

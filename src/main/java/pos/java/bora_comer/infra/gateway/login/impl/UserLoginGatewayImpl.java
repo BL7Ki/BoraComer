@@ -6,6 +6,7 @@ import pos.java.bora_comer.core.domain.User;
 import pos.java.bora_comer.core.gateway.login.UserLoginGateway;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
+import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 
 import java.util.Optional;
 
@@ -23,6 +24,15 @@ public class UserLoginGatewayImpl implements UserLoginGateway {
     @Transactional(readOnly = true)
     @Override
     public Optional<User> findByLogin(String login) {
-        return userRepository.findByLogin(login).map(userMapper::toDomain);
+
+        Optional<UserEntity> userEntity = userRepository.findByLogin(login);
+
+        if (userEntity.isEmpty()) {
+            return Optional.empty();
+        }
+
+        User user = userMapper.toDomain(userEntity.get(), userEntity.get().getUserTypeEntity());
+
+        return Optional.of(user);
     }
 }
