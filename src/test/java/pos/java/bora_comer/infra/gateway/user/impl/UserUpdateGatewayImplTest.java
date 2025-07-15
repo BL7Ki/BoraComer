@@ -141,7 +141,7 @@ class UserUpdateGatewayImplTest {
 
         // Act & Assert
         var ex = assertThrows(UserDomainException.class, () -> userUpdateGateway.associateUserType(userId, userTypeId));
-        assertEquals("Tipo de usuário não encontrado", ex.getMessage());
+        assertEquals("Tipo de usuário não encontrado.", ex.getMessage());
         verify(userRepository, never()).save(any());
     }
 }
