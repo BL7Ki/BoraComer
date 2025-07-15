@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
-import pos.java.bora_comer.util.UserTestFactory;
+import pos.java.bora_comer.factory.user.UserFactory;
+import pos.java.bora_comer.infra.persistence.repository.userType.UserTypeRepository;
+import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
+import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeNameEntityEnum;
 
 import java.util.Optional;
 
@@ -17,24 +20,29 @@ class UserUpdateGatewayImplTest {
     private UserRepository userRepository;
     private UserMapper userMapper;
     private UserUpdateGatewayImpl userUpdateGateway;
+    private UserTypeRepository userTypeRepository;
 
     @BeforeEach
     void setUp() {
         userRepository = mock(UserRepository.class);
         userMapper = mock(UserMapper.class);
-        userUpdateGateway = new UserUpdateGatewayImpl(userRepository, userMapper);
+        userTypeRepository = mock(UserTypeRepository.class);
+        userUpdateGateway = new UserUpdateGatewayImpl(userRepository, userMapper, userTypeRepository);
     }
 
     @Test
     void deveAtualizarUsuarioQuandoExistir() throws UserDomainException {
         // Arrange
         Long id = 1L;
-        var user = UserTestFactory.umUserAtualizado(id);
-        var userEntity = UserTestFactory.umUserEntityPadrao();
+        var user = UserFactory.umUserAtualizado(id);
+        var userEntity = UserFactory.umUserEntityPadrao();
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
         when(userRepository.save(userEntity)).thenReturn(userEntity);
-        when(userMapper.toDomain(userEntity)).thenReturn(user);
+        when(userMapper.toDomain(userEntity, userEntity.getUserTypeEntity())).thenReturn(user);
+
+        when(userTypeRepository.findByName(any()))
+                .thenReturn(Optional.of(UserTypeEntity.create(1l, UserTypeNameEntityEnum.DONO_RESTAURANTE)));
 
         // Act
         var result = userUpdateGateway.update(user);
@@ -45,14 +53,14 @@ class UserUpdateGatewayImplTest {
         assertEquals(user.getEmail(), result.getEmail());
         verify(userRepository).findById(id);
         verify(userRepository).save(userEntity);
-        verify(userMapper).toDomain(userEntity);
+        verify(userMapper).toDomain(userEntity, userEntity.getUserTypeEntity());
     }
 
     @Test
     void deveLancarIllegalArgumentExceptionQuandoUsuarioNaoExistir() {
         // Arrange
         Long id = 2L;
-        var user = UserTestFactory.umUserAtualizado(id);
+        var user = UserFactory.umUserAtualizado(id);
 
         when(userRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -68,13 +76,16 @@ class UserUpdateGatewayImplTest {
     @Test
     void deveAtualizarUsuarioComIdRandomicoUsandoFactory() throws UserDomainException {
         // Arrange
-        var user = UserTestFactory.umUserComIdRandomico();
+        var user = UserFactory.umUserComIdRandomico();
         var id = user.getId();
-        var userEntity = UserTestFactory.umUserEntityComDadosDe(user);
+        var userEntity = UserFactory.umUserEntityComDadosDe(user);
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
         when(userRepository.save(userEntity)).thenReturn(userEntity);
-        when(userMapper.toDomain(userEntity)).thenReturn(user);
+        when(userMapper.toDomain(userEntity, userEntity.getUserTypeEntity())).thenReturn(user);
+
+        when(userTypeRepository.findByName(any()))
+                .thenReturn(Optional.of(UserTypeEntity.create(1l, UserTypeNameEntityEnum.DONO_RESTAURANTE)));
 
         // Act
         var result = userUpdateGateway.update(user);
@@ -84,6 +95,53 @@ class UserUpdateGatewayImplTest {
         assertEquals(user.getName(), result.getName());
         verify(userRepository).findById(id);
         verify(userRepository).save(userEntity);
-        verify(userMapper).toDomain(userEntity);
+        verify(userMapper).toDomain(userEntity, userEntity.getUserTypeEntity());
+    }
+
+    @Test
+    void deveAssociarTipoUsuarioComSucesso() throws UserDomainException {
+        // Arrange
+        Long userId = 10L;
+        Long userTypeId = 20L;
+        var userEntity = spy(UserFactory.umUserEntityPadrao());
+        var userTypeEntity = UserTypeEntity.create(userTypeId, UserTypeNameEntityEnum.DONO_RESTAURANTE);
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(userEntity));
+        when(userTypeRepository.findById(userTypeId)).thenReturn(Optional.of(userTypeEntity));
+
+        // Act
+        userUpdateGateway.associateUserType(userId, userTypeId);
+
+        // Assert
+        verify(userEntity).setUserTypeEntity(userTypeEntity);
+        verify(userRepository).save(userEntity);
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoUsuarioNaoEncontradoNaAssociacao() {
+        // Arrange
+        Long userId = 11L;
+        Long userTypeId = 21L;
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        var ex = assertThrows(UserDomainException.class, () -> userUpdateGateway.associateUserType(userId, userTypeId));
+        assertEquals("Usuário não encontrado.", ex.getMessage());
+        verify(userRepository, never()).save(any());
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoTipoUsuarioNaoEncontradoNaAssociacao() {
+        // Arrange
+        Long userId = 12L;
+        Long userTypeId = 22L;
+        var userEntity = UserFactory.umUserEntityPadrao();
+        when(userRepository.findById(userId)).thenReturn(Optional.of(userEntity));
+        when(userTypeRepository.findById(userTypeId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        var ex = assertThrows(UserDomainException.class, () -> userUpdateGateway.associateUserType(userId, userTypeId));
+        assertEquals("Tipo de usuário não encontrado.", ex.getMessage());
+        verify(userRepository, never()).save(any());
     }
 }

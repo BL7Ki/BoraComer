@@ -7,12 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import pos.java.bora_comer.core.domain.Address;
+import pos.java.bora_comer.core.domain.user.Address;
 import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.SummerNotFoundException;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
-import pos.java.bora_comer.util.UserTestFactory;
+import pos.java.bora_comer.factory.user.UserFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +40,7 @@ class SearchUserUseCaseImplTest {
     @Test
     void findById_deveRetornarUsuario_quandoExistir() throws SummerNotFoundException {
         Address someAddress = mock(Address.class);
-        User user = UserTestFactory.umUserComId(id);
+        User user = UserFactory.umUserComId(id);
 
         when(userSearchGateway.findById(1L)).thenReturn(Optional.of(user));
 
@@ -66,8 +66,8 @@ class SearchUserUseCaseImplTest {
     @Test
     void findAll_deveRetornarPaginaDeUsuarios() throws UserDomainException {
         Address someAddress = mock(Address.class);
-        User user1 = UserTestFactory.umUserComId(id);
-        User user2 = UserTestFactory.umUserComId(id);
+        User user1 = UserFactory.umUserComId(id);
+        User user2 = UserFactory.umUserComId(id);
 
         List<User> users = List.of(user1, user2);
         Pageable pageable = PageRequest.of(0, 2);

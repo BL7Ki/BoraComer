@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pos.java.bora_comer.core.domain.user.LoginResponseEnum;
+import pos.java.bora_comer.core.domain.login.LoginEnum;
 import pos.java.bora_comer.core.usercase.login.UserLoginUseCase;
 import pos.java.bora_comer.infra.delivery.login.dto.LoginRequestDTO;
 
@@ -30,14 +30,14 @@ class LoginControllerTest {
         LoginRequestDTO loginRequest = new LoginRequestDTO("messi10", "senha123");
 
         when(userLoginUseCase.execute("messi10", "senha123"))
-                .thenReturn(LoginResponseEnum.SUCCESS);
+                .thenReturn(LoginEnum.SUCCESS);
 
         // Act
         ResponseEntity<String> response = controller.validateLogin(loginRequest);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(LoginResponseEnum.SUCCESS.getMessage(), response.getBody());
+        assertEquals(LoginEnum.SUCCESS.getMessage(), response.getBody());
 
         verify(userLoginUseCase).execute("messi10", "senha123");
     }
@@ -48,14 +48,14 @@ class LoginControllerTest {
         LoginRequestDTO loginRequest = new LoginRequestDTO("messi10", "senhaErrada");
 
         when(userLoginUseCase.execute("messi10", "senhaErrada"))
-                .thenReturn(LoginResponseEnum.INVALID_PASSWORD);
+                .thenReturn(LoginEnum.INVALID_PASSWORD);
 
         // Act
         ResponseEntity<String> response = controller.validateLogin(loginRequest);
 
         // Assert
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertEquals(LoginResponseEnum.INVALID_PASSWORD.getMessage(), response.getBody());
+        assertEquals(LoginEnum.INVALID_PASSWORD.getMessage(), response.getBody());
 
         verify(userLoginUseCase).execute("messi10", "senhaErrada");
     }

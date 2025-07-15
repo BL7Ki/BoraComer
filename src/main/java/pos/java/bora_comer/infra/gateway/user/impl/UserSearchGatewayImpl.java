@@ -8,6 +8,7 @@ import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
+import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 
 import java.util.Optional;
 
@@ -25,13 +26,26 @@ public class UserSearchGatewayImpl implements UserSearchGateway {
     @Transactional(readOnly = true)
     @Override
     public Optional<User> findById(Long id) {
-        return userRepository.findById(id).map(userMapper::toDomain);
+
+        Optional<UserEntity> userEntity = userRepository.findById(id);
+
+        if (userEntity.isEmpty()) {
+            return Optional.empty();
+        }
+
+        User user = userMapper.toDomain(userEntity.get(), userEntity.get().getUserTypeEntity());
+
+        return Optional.of(user);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<User> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable).map(userMapper::toDomain);
+
+        Page<User> userPage = userRepository.findAll(pageable)
+                .map(userEntity -> userMapper.toDomain(userEntity, userEntity.getUserTypeEntity()));
+
+        return userPage;
     }
 
 }

@@ -16,4 +16,6 @@ public interface UppdateUserUseCase {
 
     void changeUserPassword(Long userId, String currentPassword, String newPassword) throws UserDomainException;
 
+
+    User userAssociate(Long userId, Long tipoUsuarioId) throws UserDomainException;
 }

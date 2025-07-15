@@ -1,7 +1,7 @@
 package pos.java.bora_comer.core.usercase.login.impl;
 
 import org.springframework.stereotype.Service;
-import pos.java.bora_comer.core.domain.user.LoginResponseEnum;
+import pos.java.bora_comer.core.domain.login.LoginEnum;
 import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.gateway.login.UserLoginGateway;
 import pos.java.bora_comer.core.usercase.login.UserLoginUseCase;
@@ -18,17 +18,17 @@ public class UserLoginUseCaseImpl implements UserLoginUseCase {
     }
 
     @Override
-    public LoginResponseEnum execute(String login, String password) {
+    public LoginEnum execute(String login, String password) {
         Optional<User> user = userLoginGateway.findByLogin(login);
 
         if (user.isEmpty()) {
-            return LoginResponseEnum.INVALID_LOGIN;
+            return LoginEnum.INVALID_LOGIN;
         }
 
         if (!user.get().getPassword().equals(password)) {
-            return LoginResponseEnum.INVALID_PASSWORD;
+            return LoginEnum.INVALID_PASSWORD;
         }
 
-        return LoginResponseEnum.SUCCESS;
+        return LoginEnum.SUCCESS;
     }
 }

@@ -10,12 +10,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import pos.java.bora_comer.core.domain.user.LoginResponseEnum;
+import pos.java.bora_comer.core.domain.login.LoginEnum;
 import pos.java.bora_comer.core.domain.user.User;
+import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
 import pos.java.bora_comer.core.errors.CustomExceptionHandler;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.UppdateUserUseCase;
+import pos.java.bora_comer.factory.user.UserFactory;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserUpdateRequestDTO;
 
@@ -57,9 +59,13 @@ class UppdateUserControllerTest {
         String requestJson = IntegrationTestUtil.fromJsonPath("/json/delivery/user/request_update_user_sucess.json");
         UserUpdateRequestDTO requestDTO = objectMapper.readValue(requestJson, UserUpdateRequestDTO.class);
 
-        User user = User.create("Novo Nome", "novo@email.com", "novouser", "senha", null, null, "2024-06-24");
-        User updatedUser = User.create(1L, "Novo Nome", "novo@email.com", "novouser", "senha", null, null, "2024-06-24");
-        UserResponseDTO responseDTO = new UserResponseDTO(1L, "Novo Nome", "novo@email.com", "novouser", null, null, "2024-06-24");
+        User user = UserFactory.umUserComId(1L);
+        User updatedUser = User.create(1L, "Novo Nome", "novo@email.com", "novouser", "senha", null, null, "2025-07-11T17:51:23.554623",
+                "2025-07-11T17:52:05.342190700", UserTypeNameEnum.DONO_RESTAURANTE);
+
+
+        UserResponseDTO responseDTO = new UserResponseDTO(1L, "Novo Nome", "novo@email.com", "novouser", null, null, "2025-07-11T17:51:23.554623",
+                "2025-07-11T17:52:05.342190700", UserTypeNameEnum.DONO_RESTAURANTE.name());
 
         when(userMapper.toDomain(requestDTO, 1L)).thenReturn(user);
         when(updateUserUseCase.execute(user)).thenReturn(updatedUser);
@@ -78,7 +84,7 @@ class UppdateUserControllerTest {
         String requestJson = IntegrationTestUtil.fromJsonPath("/json/delivery/user/request_update_user_sucess.json");
         UserUpdateRequestDTO requestDTO = objectMapper.readValue(requestJson, UserUpdateRequestDTO.class);
 
-        User user = User.create("Nome", "email@email.com", "usuario", "senha", null, null, "2024-06-24");
+        User user = UserFactory.umUserComId(20l);
 
         when(userMapper.toDomain(requestDTO, 30L)).thenReturn(user);
         when(updateUserUseCase.execute(user))
@@ -102,7 +108,7 @@ class UppdateUserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value(LoginResponseEnum.PASSWORD_CHANGED_SUCCESSFULLY.getMessage()));
+                .andExpect(jsonPath("$.message").value(LoginEnum.PASSWORD_CHANGED_SUCCESSFULLY.getMessage()));
     }
 
     @Test
@@ -136,5 +142,32 @@ class UppdateUserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void deveAssociarTipoUsuarioComSucesso() throws Exception {
+        // Nenhuma exceção esperada do use case
+        mockMvc.perform(put("/users/1/tipo-usuario/2"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deveRetornarErroQuandoUsuarioNaoEncontradoNaAssociacao() throws Exception {
+        doThrow(new UserDomainException("Usuário não encontrado."))
+                .when(updateUserUseCase).userAssociate(1L, 2L);
+
+        mockMvc.perform(put("/users/1/tipo-usuario/2"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Usuário não encontrado."));
+    }
+
+    @Test
+    void deveRetornarErroQuandoTipoUsuarioNaoEncontradoNaAssociacao() throws Exception {
+        doThrow(new UserDomainException("Tipo de usuário não encontrado"))
+                .when(updateUserUseCase).userAssociate(1L, 99L);
+
+        mockMvc.perform(put("/users/1/tipo-usuario/99"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Tipo de usuário não encontrado"));
     }
 }

@@ -3,21 +3,26 @@ package pos.java.bora_comer.core.mapper.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
-import pos.java.bora_comer.core.domain.Address;
+import pos.java.bora_comer.core.domain.user.Address;
 import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.domain.user.UserRoleEnum;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.mapper.user.impl.UserMapperImpl;
-import pos.java.bora_comer.infra.delivery.user.dto.*;
-import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntity;
+import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.UserRequestDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.UserUpdateRequestDTO;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;
-import pos.java.bora_comer.util.UserTestFactory;
+import pos.java.bora_comer.factory.user.UserFactory;
+import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
+import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeNameEntityEnum;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UserMapperImplTest {
 
@@ -30,64 +35,65 @@ class UserMapperImplTest {
 
     @Test
     void deveConverterUserRequestDTOParaDomain() {
-        AddressRequestDTO addressDTO = new AddressRequestDTO("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        UserRequestDTO requestDTO = new UserRequestDTO("Messi", "messi@ex.com", "messi", "Messi@123", addressDTO, UserRoleRequestEnumDTO.CLIENTE);
+
+        UserRequestDTO requestDTO = UserFactory.createUserRequestDTO();
 
         User user = userMapper.toDomain(requestDTO);
 
-        assertEquals("Messi", user.getName());
-        assertEquals("messi", user.getUsername());
-        assertEquals("Messi@123", user.getPassword());
-        assertEquals(UserRoleEnum.CLIENTE, user.getUserRoleEnum());
+        assertEquals("Leo Messi", user.getName());
+        assertEquals("messi10", user.getUsername());
+        assertEquals("senha123", user.getPassword());
+        assertEquals(UserRoleEnum.DEFAULT, user.getUserRoleEnum());
         assertNotNull(user.getAddress());
     }
 
     @Test
     void deveConverterDomainParaEntity() {
-        Address address = Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        User user = User.create(1L, "Messi", "messi@ex.com", "messi", "Messi@123", address, UserRoleEnum.CLIENTE, "2024-06-25");
+        User user =  UserFactory.umUserPadrao();
 
-        UserEntity entity = userMapper.toEntity(user);
+        UserEntity entity = userMapper.toEntity(user, 1L);
 
         assertEquals("Messi", entity.getName());
         assertEquals("messi@ex.com", entity.getEmail());
-        assertEquals(UserRoleEntityEnum.CLIENTE, entity.getRole());
+        assertEquals(UserRoleEntityEnum.DEFAULT, entity.getRole());
         assertNotNull(entity.getAddress());
     }
 
     @Test
     void deveConverterEntityParaDomain() {
-        AddressEntity addressEntity = AddressEntity.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        UserEntity userEntity = UserEntity.create("Messi", "messi@ex.com", "messi", "Messi@123", addressEntity, UserRoleEntityEnum.ADMIN);
+
+        UserEntity userEntity = UserFactory.umUserEntityPadrao();
+        UserTypeEntity userTypeEntity = UserTypeEntity.create(UserTypeNameEntityEnum.DONO_RESTAURANTE);
+
 
         // Definir campos privados via reflection
         ReflectionTestUtils.setField(userEntity, "id", 1L);
         ReflectionTestUtils.setField(userEntity, "lastModifiedDate", LocalDateTime.of(2024, 6, 25, 0, 0));
 
-        User user = userMapper.toDomain(userEntity);
+        User user = userMapper.toDomain(userEntity, userTypeEntity);
 
         assertEquals("Messi", user.getName());
         assertEquals("messi@ex.com", user.getEmail());
-        assertEquals(UserRoleEnum.ADMIN, user.getUserRoleEnum());
+        assertEquals(UserRoleEnum.DEFAULT, user.getUserRoleEnum());
         assertNotNull(user.getAddress());
     }
 
     @Test
     void deveConverterDomainParaResponseDTO() {
         Address address = Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        User user = UserTestFactory.umUserPadraoCliente();
+        User user = UserFactory.umUserPadraoCliente();
 
         UserResponseDTO dto = userMapper.toResponseDTO(user);
 
         assertEquals("Messi", dto.name());
         assertEquals("messi@ex.com", dto.email());
-        assertEquals("CLIENTE", dto.userRoleEnum());
+        assertEquals("DEFAULT", dto.userRoleEnum());
     }
 
     @Test
     void deveConverterUserUpdateRequestDTOParaDomain() {
-        AddressRequestDTO addressDTO = new AddressRequestDTO("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        UserUpdateRequestDTO updateDTO = new UserUpdateRequestDTO("Messi", "messi@ex.com", "NovaSenha@123", addressDTO);
+
+        UserUpdateRequestDTO updateDTO = UserFactory.createUserUpdateRequestDTO();
 
         User user = userMapper.toDomain(updateDTO, 1L);
 
@@ -99,8 +105,8 @@ class UserMapperImplTest {
 
     @Test
     void deveLancarExcecaoQuandoUserRoleRequestEnumForNulo() {
-        AddressRequestDTO addressDTO = new AddressRequestDTO("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        UserRequestDTO requestDTO = new UserRequestDTO("Messi", "messi@ex.com", "messi", "Messi@123", addressDTO, null);
+
+        UserRequestDTO requestDTO = UserFactory.createUserRoleNullRequestDTO();
 
         UserDomainException exception = assertThrows(UserDomainException.class, () -> {
             userMapper.toDomain(requestDTO);

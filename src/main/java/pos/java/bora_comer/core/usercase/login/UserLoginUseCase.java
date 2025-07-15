@@ -1,8 +1,8 @@
 package pos.java.bora_comer.core.usercase.login;
 
-import pos.java.bora_comer.core.domain.user.LoginResponseEnum;
+import pos.java.bora_comer.core.domain.login.LoginEnum;
 
 public interface UserLoginUseCase {
 
-    LoginResponseEnum execute(String login, String password);
+    LoginEnum execute(String login, String password);
 }
