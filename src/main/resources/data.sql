@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS tb_usuarios (
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     login VARCHAR(50) NOT NULL,
-    senha VARCHAR(10) NOT NULL,
+    senha VARCHAR(20) NOT NULL,
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     data_alteracao TIMESTAMP,
     role VARCHAR(50) NOT NULL,
