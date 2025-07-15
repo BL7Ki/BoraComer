@@ -54,7 +54,7 @@ public class UserUpdateGatewayImpl implements UserUpdateGateway {
                 .orElseThrow(() -> new UserDomainException("Usuário não encontrado."));
 
         UserTypeEntity userTypeEntity = userTypeRepository.findById(userTypeId)
-                .orElseThrow(() -> new UserDomainException("Tipo de usuário não encontrado"));
+                .orElseThrow(() -> new UserDomainException("Tipo de usuário não encontrado."));
 
         userEntity.setUserTypeEntity(userTypeEntity);
 
