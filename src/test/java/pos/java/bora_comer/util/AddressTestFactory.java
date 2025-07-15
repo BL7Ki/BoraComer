@@ -1,6 +1,6 @@
 package pos.java.bora_comer.util;
 
-import pos.java.bora_comer.core.domain.Address;
+import pos.java.bora_comer.core.domain.user.Address;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntity;
 
 public class AddressTestFactory {

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pos.java.bora_comer.core.domain.User;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.SearchUserUseCase;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;

@@ -1,4 +1,6 @@
-package pos.java.bora_comer.core.domain;
+package pos.java.bora_comer.core.domain.user;
+
+import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
 
 public class User {
 

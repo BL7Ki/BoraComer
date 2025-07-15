@@ -1,9 +1,9 @@
 package pos.java.bora_comer.factory.user;
 
-import pos.java.bora_comer.core.domain.Address;
-import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.domain.UserRoleEnum;
-import pos.java.bora_comer.core.domain.UserTypeNameEnum;
+import pos.java.bora_comer.core.domain.user.Address;
+import pos.java.bora_comer.core.domain.user.User;
+import pos.java.bora_comer.core.domain.user.UserRoleEnum;
+import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
 import pos.java.bora_comer.infra.delivery.user.dto.*;
 import pos.java.bora_comer.infra.delivery.userType.dto.CreateUserTypeRequestDTO;
 import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeNameRequestEnum;

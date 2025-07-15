@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pos.java.bora_comer.core.domain.UserType;
+import pos.java.bora_comer.core.domain.userType.UserType;
 import pos.java.bora_comer.core.mapper.userType.UserTypeMapper;
 import pos.java.bora_comer.core.usercase.userType.CreateUserTypeUseCase;
 import pos.java.bora_comer.infra.delivery.userType.doc.CreateUserTypeControllerDoc;

@@ -2,7 +2,7 @@ package pos.java.bora_comer.infra.gateway.userType.impl;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pos.java.bora_comer.core.domain.UserType;
+import pos.java.bora_comer.core.domain.userType.UserType;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.userType.UserTypeCreateGateway;
 import pos.java.bora_comer.core.mapper.userType.UserTypeMapper;

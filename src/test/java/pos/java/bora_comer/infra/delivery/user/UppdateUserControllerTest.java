@@ -10,9 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import pos.java.bora_comer.core.domain.LoginResponseEnum;
-import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.domain.UserTypeNameEnum;
+import pos.java.bora_comer.core.domain.login.LoginEnum;
+import pos.java.bora_comer.core.domain.user.User;
+import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
 import pos.java.bora_comer.core.errors.CustomExceptionHandler;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
@@ -108,7 +108,7 @@ class UppdateUserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value(LoginResponseEnum.PASSWORD_CHANGED_SUCCESSFULLY.getMessage()));
+                .andExpect(jsonPath("$.message").value(LoginEnum.PASSWORD_CHANGED_SUCCESSFULLY.getMessage()));
     }
 
     @Test

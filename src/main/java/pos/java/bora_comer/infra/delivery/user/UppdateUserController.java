@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
-import pos.java.bora_comer.core.domain.LoginResponseEnum;
-import pos.java.bora_comer.core.domain.User;
+import pos.java.bora_comer.core.domain.login.LoginEnum;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.UppdateUserUseCase;
 import pos.java.bora_comer.infra.delivery.user.doc.UppdateUserControllerDocs;
@@ -54,7 +54,7 @@ public class UppdateUserController implements UppdateUserControllerDocs {
     ) {
         updateUserUseCase.changeUserPassword(id, request.currentPassword(), request.newPassword());
         return ResponseEntity.ok(
-                Map.of("message", LoginResponseEnum.PASSWORD_CHANGED_SUCCESSFULLY.getMessage())
+                Map.of("message", LoginEnum.PASSWORD_CHANGED_SUCCESSFULLY.getMessage())
         );
 
     }

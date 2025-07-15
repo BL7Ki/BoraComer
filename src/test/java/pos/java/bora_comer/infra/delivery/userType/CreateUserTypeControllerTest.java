@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import pos.java.bora_comer.core.domain.UserType;
+import pos.java.bora_comer.core.domain.userType.UserType;
 import pos.java.bora_comer.core.errors.CustomExceptionHandler;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.userType.UserTypeMapper;
@@ -19,7 +19,6 @@ import pos.java.bora_comer.factory.user.UserTypeFactory;
 import pos.java.bora_comer.infra.delivery.userType.dto.CreateUserTypeRequestDTO;
 import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeResponseDTO;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

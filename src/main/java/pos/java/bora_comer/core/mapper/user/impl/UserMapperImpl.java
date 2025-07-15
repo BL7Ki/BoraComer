@@ -1,7 +1,10 @@
 package pos.java.bora_comer.core.mapper.user.impl;
 
 import org.springframework.stereotype.Component;
-import pos.java.bora_comer.core.domain.*;
+import pos.java.bora_comer.core.domain.user.Address;
+import pos.java.bora_comer.core.domain.user.User;
+import pos.java.bora_comer.core.domain.user.UserRoleEnum;
+import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.delivery.user.dto.UserRequestDTO;

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import pos.java.bora_comer.core.domain.UserType;
+import pos.java.bora_comer.core.domain.userType.UserType;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.userType.UserTypeSearchGateway;
 import pos.java.bora_comer.factory.user.UserTypeFactory;

@@ -2,7 +2,7 @@ package pos.java.bora_comer.core.usercase.userType.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pos.java.bora_comer.core.domain.UserType;
+import pos.java.bora_comer.core.domain.userType.UserType;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.userType.UserTypeCreateGateway;
 import pos.java.bora_comer.factory.user.UserTypeFactory;

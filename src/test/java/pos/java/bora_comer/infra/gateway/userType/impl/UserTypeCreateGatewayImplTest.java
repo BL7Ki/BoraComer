@@ -3,7 +3,7 @@ package pos.java.bora_comer.infra.gateway.userType.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import pos.java.bora_comer.core.domain.UserType;
+import pos.java.bora_comer.core.domain.userType.UserType;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.userType.UserTypeMapper;
 import pos.java.bora_comer.factory.user.UserTypeFactory;
