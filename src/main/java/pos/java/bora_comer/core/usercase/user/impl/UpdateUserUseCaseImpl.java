@@ -5,17 +5,17 @@ import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
 import pos.java.bora_comer.core.gateway.user.UserUpdateGateway;
-import pos.java.bora_comer.core.usercase.user.UppdateUserUseCase;
+import pos.java.bora_comer.core.usercase.user.UpdateUserUseCase;
 
 import java.util.Optional;
 
 @Service
-public class UppdateUserUseCaseImpl implements UppdateUserUseCase {
+public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
 
     private final UserUpdateGateway userUpdateGateway;
     private final UserSearchGateway userSearchGateway;
 
-    public UppdateUserUseCaseImpl(UserUpdateGateway userUpdateGateway, UserSearchGateway userSearchGateway) {
+    public UpdateUserUseCaseImpl(UserUpdateGateway userUpdateGateway, UserSearchGateway userSearchGateway) {
         this.userUpdateGateway = userUpdateGateway;
         this.userSearchGateway = userSearchGateway;
     }

@@ -19,18 +19,18 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.never;
 
-class UppdateUserUseCaseImplTest {
+class UpdateUserUseCaseImplTest {
 
     private UserUpdateGateway userUpdateGateway;
     private UserSearchGateway userSearchGateway;
-    private UppdateUserUseCaseImpl uppdateUserUseCase;
+    private UpdateUserUseCaseImpl uppdateUserUseCase;
     Long id = 2L;
 
     @BeforeEach
     void setUp() {
         userUpdateGateway = mock(UserUpdateGateway.class);
         userSearchGateway = mock(UserSearchGateway.class);
-        uppdateUserUseCase = new UppdateUserUseCaseImpl(userUpdateGateway, userSearchGateway);
+        uppdateUserUseCase = new UpdateUserUseCaseImpl(userUpdateGateway, userSearchGateway);
     }
 
     @Test

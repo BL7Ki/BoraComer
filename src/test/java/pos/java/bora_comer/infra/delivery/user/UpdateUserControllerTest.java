@@ -16,7 +16,7 @@ import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
 import pos.java.bora_comer.core.errors.CustomExceptionHandler;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
-import pos.java.bora_comer.core.usercase.user.UppdateUserUseCase;
+import pos.java.bora_comer.core.usercase.user.UpdateUserUseCase;
 import pos.java.bora_comer.factory.user.UserFactory;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserUpdateRequestDTO;
@@ -31,18 +31,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import pos.java.bora_comer.util.IntegrationTestUtil;
 
 @ExtendWith(MockitoExtension.class)
-class UppdateUserControllerTest {
+class UpdateUserControllerTest {
 
     private MockMvc mockMvc;
 
     @Mock
-    private UppdateUserUseCase updateUserUseCase;
+    private UpdateUserUseCase updateUserUseCase;
 
     @Mock
     private UserMapper userMapper;
 
     @InjectMocks
-    private UppdateUserController controller;
+    private UpdateUserController controller;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
