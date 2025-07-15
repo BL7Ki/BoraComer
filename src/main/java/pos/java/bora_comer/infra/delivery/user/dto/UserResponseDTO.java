@@ -8,7 +8,9 @@ public record UserResponseDTO(
         @JsonProperty("email") String email,
         @JsonProperty("nome_usuario") String username,
         @JsonProperty("endereco") AddressResponseDTO address,
-        @JsonProperty("tipo_usuario") String userRoleEnum,
-        @JsonProperty("data_alteracao") String lastModifiedDate
+        @JsonProperty("papel") String userRoleEnum,
+        @JsonProperty("data_criacao") String createdDate,
+        @JsonProperty("data_alteracao") String lastModifiedDate,
+        @JsonProperty("tipo_usuario") String userType
 ) {
 }

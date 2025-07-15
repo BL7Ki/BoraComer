@@ -1,42 +1,40 @@
 package pos.java.bora_comer.infra.delivery.user;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import pos.java.bora_comer.core.domain.User;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
+import pos.java.bora_comer.core.domain.login.LoginEnum;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.UppdateUserUseCase;
+import pos.java.bora_comer.infra.delivery.user.doc.UppdateUserControllerDocs;
+import pos.java.bora_comer.infra.delivery.user.dto.UserChangePasswordRequestDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserUpdateRequestDTO;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/users")
-public class UppdateUserController {
+public class UppdateUserController implements UppdateUserControllerDocs {
 
     private final UppdateUserUseCase updateUserUseCase;
     private final UserMapper userMapper;
+
 
     public UppdateUserController(UppdateUserUseCase updateUserUseCase, UserMapper userMapper) {
         this.updateUserUseCase = updateUserUseCase;
         this.userMapper = userMapper;
     }
 
-    @Operation(
-            summary = "Atualizar um usuário",
-            description = "Endpoint para atualizar um usuário com base no ID fornecido."
-    )
-    @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso")
-    @ApiResponse(responseCode = "400", description = "Requisição inválida")
-    @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
-    @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    @ApiResponse(content = @io.swagger.v3.oas.annotations.media.Content(
-            mediaType = "application/json",
-            schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = UserResponseDTO.class)
-    ))
+    @Override
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> update(
-            @PathVariable ("id") Long id,
+            @PathVariable("id") Long id,
             @RequestBody UserUpdateRequestDTO userUpdateRequestDTO
             ) {
         User user = userMapper.toDomain(userUpdateRequestDTO, id);
@@ -46,5 +44,34 @@ public class UppdateUserController {
         UserResponseDTO userResponseDTO = userMapper.toResponseDTO(updatedUser);
 
         return ResponseEntity.ok(userResponseDTO);
+    }
+
+    @Override
+    @PutMapping("/{id}/change-password")
+    public ResponseEntity<Map<String, String>> changePassword(
+            @PathVariable("id") Long id,
+            @RequestBody @Valid UserChangePasswordRequestDTO request
+    ) {
+        updateUserUseCase.changeUserPassword(id, request.currentPassword(), request.newPassword());
+        return ResponseEntity.ok(
+                Map.of("message", LoginEnum.PASSWORD_CHANGED_SUCCESSFULLY.getMessage())
+        );
+
+    }
+
+    // mudar o retorno para UserResponseDTO
+    // 200 OK com corpo: Retornar o recurso atualizado (ex: o usuário já associado ao novo tipo), permitindo ao cliente ver o estado final.
+
+    @Override
+    @PutMapping("/{userId}/tipo-usuario/{tipoUsuarioId}")
+    public ResponseEntity<UserResponseDTO> userTypeAssociate(
+            @PathVariable("userId") Long userId,
+            @PathVariable("tipoUsuarioId") Long tipoUsuarioId
+    ) {
+
+        User user = updateUserUseCase.userAssociate(userId, tipoUsuarioId);
+
+        return ResponseEntity.ok()
+                .body(userMapper.toResponseDTO(user));
     }
 }

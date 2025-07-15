@@ -8,23 +8,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import pos.java.bora_comer.core.domain.Address;
-import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.domain.UserRoleEnum;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.CreateUserUseCase;
-import pos.java.bora_comer.infra.delivery.user.dto.AddressRequestDTO;
-import pos.java.bora_comer.infra.delivery.user.dto.AddressResponseDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserRequestDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
-import pos.java.bora_comer.infra.delivery.user.dto.UserRoleRequestEnumDTO;
+import pos.java.bora_comer.factory.user.UserFactory;
 
 @ExtendWith(MockitoExtension.class)
 class CreateUserControllerTest {
@@ -41,48 +36,12 @@ class CreateUserControllerTest {
     @Test
     void deveriaCriarNovoUsuarioERetornar201() {
         // Arrange: cria os DTOs e objetos simulados
-        AddressRequestDTO addressRequest = new AddressRequestDTO(
-                "Rua A", "123", "São Paulo", "SP", "01234-567"
-        );
 
-        AddressResponseDTO addressResponse = new AddressResponseDTO(
-                "Rua A", "123", "São Paulo", "SP", "01234-567"
-        );
+        UserRequestDTO requestDTO = UserFactory.createUserRequestDTO();
 
-        UserRoleRequestEnumDTO userType = UserRoleRequestEnumDTO.CLIENTE;
+        User domainUser = UserFactory.umUserPadrao();
 
-        UserRequestDTO requestDTO = new UserRequestDTO(
-                "Leo Messi",
-                "leomessi@email.com",
-                "messi10",
-                "senha123",
-                addressRequest,
-                userType
-        );
-
-        // Mock de Address (ou poderia criar real se Address.create() existir)
-        Address address = mock(Address.class);
-
-        User domainUser = User.create(
-                1L,
-                "Leo Messi",
-                "leomessi@email.com",
-                "messi10",
-                "senha123",
-                address,
-                UserRoleEnum.CLIENTE,
-                "2024-06-21T12:00:00"
-        );
-
-        UserResponseDTO responseDTO = new UserResponseDTO(
-                1L,
-                "Leo Messi",
-                "leomessi@email.com",
-                "messi10",
-                addressResponse,
-                "CLIENTE",
-                "2024-06-21T12:00:00"
-        );
+        UserResponseDTO responseDTO = UserFactory.createUserResponseDTO();
 
         // Configura os mocks
         when(userMapper.toDomain(requestDTO)).thenReturn(domainUser);

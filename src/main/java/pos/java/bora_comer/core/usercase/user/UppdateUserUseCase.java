@@ -1,6 +1,6 @@
 package pos.java.bora_comer.core.usercase.user;
 
-import pos.java.bora_comer.core.domain.User;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
 
 public interface UppdateUserUseCase {
@@ -13,4 +13,9 @@ public interface UppdateUserUseCase {
      * @throws UserDomainException Se ocorrer algum erro durante a atualização do usuário.
      */
     User execute(User user) throws UserDomainException;
+
+    void changeUserPassword(Long userId, String currentPassword, String newPassword) throws UserDomainException;
+
+
+    User userAssociate(Long userId, Long tipoUsuarioId) throws UserDomainException;
 }

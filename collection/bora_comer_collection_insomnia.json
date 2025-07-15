@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2025-05-21T20:48:19.748Z",
+  "__export_date": "2025-07-14T18:26:18.112Z",
   "__export_source": "insomnia.desktop.app:v2023.5.7",
   "resources": [
     {
       "_id": "req_b31ddc98b75b43d4abd1e8387b55961e",
-      "parentId": "wrk_bd8a67f6cbe3461f9365cb2a32e463dc",
-      "modified": 1747860404980,
+      "parentId": "fld_14e80f2d5f4a4dd4a25c3c08bf19945b",
+      "modified": 1752517497688,
       "created": 1747049999996,
       "url": "http://localhost:8080/login",
       "name": "login",
@@ -29,7 +29,7 @@
         }
       ],
       "authentication": {},
-      "metaSortKey": -1747049999996,
+      "metaSortKey": -1752276667781,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -38,6 +38,18 @@
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
       "_type": "request"
+    },
+    {
+      "_id": "fld_14e80f2d5f4a4dd4a25c3c08bf19945b",
+      "parentId": "wrk_bd8a67f6cbe3461f9365cb2a32e463dc",
+      "modified": 1752276662465,
+      "created": 1752276662465,
+      "name": "login",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1752276662465,
+      "_type": "request_group"
     },
     {
       "_id": "wrk_bd8a67f6cbe3461f9365cb2a32e463dc",
@@ -50,82 +62,12 @@
       "_type": "workspace"
     },
     {
-      "_id": "req_86d7380bbfd44a52bc2b5d1fdddffad3",
-      "parentId": "wrk_bd8a67f6cbe3461f9365cb2a32e463dc",
-      "modified": 1747020424487,
-      "created": 1747010519188,
-      "url": "http://localhost:8080/users",
-      "name": "Create User",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"nome\": \"Joao Silva \",\n  \"email\": \"joao.silva@example.com\",\n  \"login\": \"tiagosilva\",\n  \"senha\": \"senha123\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores doces\",\n    \"bairro\": \"Bairro das cascatas pretas\",\n    \"cidade\": \"Minas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  },\n  \"tipo_usuario\": \"ADMIN\"\n}"
-      },
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        },
-        {
-          "name": "User-Agent",
-          "value": "Insomnia/2023.5.7"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1747010519188,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_f9a3b81f08fb40d0bbd3055d7e18106b",
-      "parentId": "wrk_bd8a67f6cbe3461f9365cb2a32e463dc",
-      "modified": 1747021746251,
-      "created": 1747020164964,
-      "url": "http://localhost:8080/users/1",
-      "name": "Uppdate User",
-      "description": "",
-      "method": "PUT",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"nome\": \"teste Silva \",\n  \"email\": \"teste.silva@example.com\",\n  \"senha\": \"senha123456789\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores pretas\",\n    \"bairro\": \"Bairro das cascatas azuis\",\n    \"cidade\": \"SMinas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  }\n}"
-      },
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        },
-        {
-          "name": "User-Agent",
-          "value": "Insomnia/2023.5.7"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1746917062241.75,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_c16b1b56b5c6461a8e098dc5c51b0623",
-      "parentId": "wrk_bd8a67f6cbe3461f9365cb2a32e463dc",
-      "modified": 1747860414918,
-      "created": 1747015873679,
-      "url": "http://localhost:8080/users/1",
-      "name": "FindById User",
+      "_id": "req_e9391176ac6d4726a4a6ab9e83a19a28",
+      "parentId": "fld_7d4a4c5364024ea6910a90fdd5142310",
+      "modified": 1752517169951,
+      "created": 1752425193517,
+      "url": "http://localhost:8080/user-types/search",
+      "name": "buscar todos os tipos de usuarios",
       "description": "",
       "method": "GET",
       "body": {},
@@ -137,7 +79,7 @@
         }
       ],
       "authentication": {},
-      "metaSortKey": -1746823605295.5,
+      "metaSortKey": -1752425193517,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -148,14 +90,61 @@
       "_type": "request"
     },
     {
-      "_id": "req_73bf7e9433b140a29c622062a429a6ed",
+      "_id": "fld_7d4a4c5364024ea6910a90fdd5142310",
       "parentId": "wrk_bd8a67f6cbe3461f9365cb2a32e463dc",
-      "modified": 1747017878195,
-      "created": 1747017874945,
-      "url": "http://localhost:8080/users/1",
-      "name": "DeleteById User",
+      "modified": 1752276705937,
+      "created": 1752276607457,
+      "name": "userType",
       "description": "",
-      "method": "DELETE",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1752276607457,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_4c876e371873406dae05a54254427622",
+      "parentId": "fld_7d4a4c5364024ea6910a90fdd5142310",
+      "modified": 1752517538513,
+      "created": 1752276724721,
+      "url": "http://localhost:8080/user-types",
+      "name": "criar um tipo de usuário [DONO_RESTAURANTE]  [CLIENTE] cadastrar enum na aplicação para criar um novo",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"CLIENTE\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.7"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1752276724721,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_63f59b9dbd9a46a0a92106b53ec916ab",
+      "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
+      "modified": 1752516853309,
+      "created": 1752455975974,
+      "url": "http://localhost:8080/users/2/tipo-usuario/1",
+      "name": " associar o usuário com  o tipo de usuário. ",
+      "description": "",
+      "method": "PUT",
       "body": {},
       "parameters": [],
       "headers": [
@@ -165,7 +154,54 @@
         }
       ],
       "authentication": {},
-      "metaSortKey": -1746776876822.375,
+      "metaSortKey": -1752455975975,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_4e45d27552b64069a625ce561d6b00bc",
+      "parentId": "wrk_bd8a67f6cbe3461f9365cb2a32e463dc",
+      "modified": 1752276696467,
+      "created": 1752276595708,
+      "name": "user",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1752276595708,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_0daa2fc8eea64c0a99085eab8ee33df2",
+      "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
+      "modified": 1752276653183,
+      "created": 1750960520950,
+      "url": "http://localhost:8080/users/2/change-password",
+      "name": "trocar senha usuario",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"senha_atual\": \"senha123\",\n\t\"nova_senha\": \"senhaNova\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.7"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1752276628295,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -177,11 +213,11 @@
     },
     {
       "_id": "req_9bf1f0e681b54fdea835f0f9d9c10001",
-      "parentId": "wrk_bd8a67f6cbe3461f9365cb2a32e463dc",
-      "modified": 1747016777962,
+      "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
+      "modified": 1752516885329,
       "created": 1747016774244,
       "url": "http://localhost:8080/users",
-      "name": "FindAll user",
+      "name": "consultar todos os usuários",
       "description": "",
       "method": "GET",
       "body": {},
@@ -193,7 +229,168 @@
         }
       ],
       "authentication": {},
-      "metaSortKey": -1746730148349.25,
+      "metaSortKey": -1752276628195,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_73bf7e9433b140a29c622062a429a6ed",
+      "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
+      "modified": 1752516912727,
+      "created": 1747017874945,
+      "url": "http://localhost:8080/users/2",
+      "name": "deletar um usuario",
+      "description": "",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.7"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1752276628095,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_c16b1b56b5c6461a8e098dc5c51b0623",
+      "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
+      "modified": 1752516939387,
+      "created": 1747015873679,
+      "url": "http://localhost:8080/users/2",
+      "name": "consultar usuário por id",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.7"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1752276627995,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_f9a3b81f08fb40d0bbd3055d7e18106b",
+      "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
+      "modified": 1752516954633,
+      "created": 1747020164964,
+      "url": "http://localhost:8080/users/1",
+      "name": "atualizar um usuario",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"teste update Silva \",\n  \"email\": \"teste.silva@example.com\",\n  \"senha\": \"senha123456789\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores pretas\",\n    \"bairro\": \"Bairro das cascatas azuis\",\n    \"cidade\": \"SMinas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  }\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.7"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1752276627895,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_44a261a43bf9498d9ecd4f928570076d",
+      "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
+      "modified": 1752517027394,
+      "created": 1752365379356,
+      "url": "http://localhost:8080/users",
+      "name": "criar um usuário com a associação com o tipo de usuario",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Lucas Silva \",\n  \"email\": \"lucas.silva@example.com\",\n  \"login\": \"lucastorres\",\n  \"senha\": \"senha123\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores doces\",\n    \"bairro\": \"Bairro das cascatas pretas\",\n    \"cidade\": \"Minas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  },\n  \"papel\": \"ADMIN\",\n\t\"tipo_usuario\": {\n  \t\"name\": \"CLIENTE\"\n\t\t}\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.7"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1750068289166.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_befcddb3a06d43b2921cad2df13195bd",
+      "parentId": "fld_4e45d27552b64069a625ce561d6b00bc",
+      "modified": 1752517059292,
+      "created": 1752457547125,
+      "url": "http://localhost:8080/users",
+      "name": "criar um usuário sem a associação com o tipo de usuário",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Joao Silva \",\n  \"email\": \"joao.silva@example.com\",\n  \"login\": \"tiagosilva\",\n  \"senha\": \"senha123\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores doces\",\n    \"bairro\": \"Bairro das cascatas pretas\",\n    \"cidade\": \"Minas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  },\n  \"papel\": \"ADMIN\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.7"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1748964119852.25,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,

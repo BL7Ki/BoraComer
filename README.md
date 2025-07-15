@@ -200,17 +200,50 @@ Essa abordagem promove a separação de responsabilidades e mantém as camadas d
 --- 
 
 ### 9. Endpoints da API
-| **Endpoint**       | **Método** | **Descrição**                          |
-|---------------------|------------|----------------------------------------|
-| `/users`            | `POST`     | Criar um novo usuário.                 |
-| `/users/{id}`       | `GET`      | Buscar um usuário por ID.              |
-| `/users`            | `GET`      | Buscar todos os usuários com paginação.|
-| `/users/{id}`       | `PUT`      | Atualizar um usuário por ID.           |
-| `/users/{id}`       | `DELETE`   | Deletar um usuário por ID.             |
-| `/login`            | `POST`     | Validar o login do usuário com base no nome de usuário e senha fornecidos. |
+| **Endpoint**                  | **Método** | **Descrição**                                 |
+|-------------------------------|------------|-----------------------------------------------|
+| `/users`                      | `POST`     | Criar um novo usuário.                        |
+| `/users/{id}`                 | `GET`      | Buscar um usuário por ID.                     |
+| `/users`                      | `GET`      | Buscar todos os usuários com paginação.       |
+| `/users/{id}`                 | `PUT`      | Atualizar um usuário por ID.                  |
+| `/users/{id}`                 | `DELETE`   | Deletar um usuário por ID.                    |
+| `/users/{id}/change-password` | `PUT`      | Trocar a senha do usuário.                    |
+| `/login`                      | `POST`     | Validar o login do usuário.                   |
 
-
+---
 ## 10. Exemplos de Uso
+
+### Trocar senha do usuário
+
+**Requisição:**
+```bash
+PUT /users/{id}/change-password
+Content-Type: application/json
+
+{
+  "currentPassword": "senhaAntiga",
+  "newPassword": "senhaNova"
+}
+
+```
+
+### Resposta de sucesso:
+```json
+{
+  "message": "Senha alterada com sucesso."
+}
+```
+
+**Resposta:**
+```json
+{
+  "status": 400,
+  "error": "BAD_REQUEST",
+  "message": "Senha atual incorreta.",
+  "path": "/users/1/change-password"
+}
+```
+
 
 ### Criar um usuário
 **Requisição:**
@@ -230,26 +263,31 @@ Content-Type: application/json
     "estado": "PE",
     "cep": "12345-400"
   },
-  "tipo_usuario": "ADMIN"
+  "papel": "ADMIN",
+	"tipo_usuario": {
+  	"name": "CLIENTE"
+		}
 }
 ```
 
 **Resposta:**
 ```json
 {
-  "id": 1,
-  "nome": "Joao Silva ",
-  "email": "joao.silva@example.com",
-  "nome_usuario": "tiagosilva",
-  "endereco": {
-    "rua": "Rua das Flores doces",
-    "bairro": "Bairro das cascatas pretas",
-    "cidade": "Minas",
-    "estado": "PE",
-    "cep": "12345-400"
-  },
-  "tipo_usuario": "ADMIN",
-  "data_alteracao": "2025-05-12T13:21:47.537211300"
+	"id": 2,
+	"nome": "Joao Silva ",
+	"email": "joao.silva@example.com",
+	"nome_usuario": "tiagosilva",
+	"endereco": {
+		"rua": "Rua das Flores doces",
+		"bairro": "Bairro das cascatas pretas",
+		"cidade": "Minas",
+		"estado": "PE",
+		"cep": "12345-400"
+	},
+	"papel": "ADMIN",
+	"data_criacao": "2025-07-13T15:17:20.601449100",
+	"data_alteracao": null,
+	"tipo_usuario": "CLIENTE"
 }
 ```
 
