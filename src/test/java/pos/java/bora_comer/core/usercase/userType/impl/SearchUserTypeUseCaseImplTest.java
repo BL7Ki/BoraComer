@@ -11,8 +11,10 @@ import pos.java.bora_comer.core.gateway.userType.UserTypeSearchGateway;
 import pos.java.bora_comer.factory.user.UserTypeFactory;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -58,4 +60,24 @@ class SearchUserTypeUseCaseImplTest {
         verify(userTypeSearchGateway).findAll(PageRequest.of(page, size));
     }
 
+    @Test
+    void deveRetornarUserTypeQuandoEncontrado() throws UserDomainException {
+        UserType userType = UserTypeFactory.createUserType();
+        when(userTypeSearchGateway.findById(1L)).thenReturn(Optional.of(userType));
+
+        UserType result = useCase.findById(1L);
+
+        assertNotNull(result);
+        assertEquals(userType, result);
+        verify(userTypeSearchGateway).findById(1L);
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoUserTypeNaoEncontrado() {
+        when(userTypeSearchGateway.findById(2L)).thenReturn(Optional.empty());
+
+        UserDomainException ex = assertThrows(UserDomainException.class, () -> useCase.findById(2L));
+        assertEquals("Tipo de usuário não encontrado com o ID: 2", ex.getMessage());
+        verify(userTypeSearchGateway).findById(2L);
+    }
 }

@@ -39,11 +39,4 @@ public class SearchUserTypeController {
         return ResponseEntity.ok(userTypes);
 
     }
-
-    public ResponseEntity<UserTypeResponseDTO> findById(Long id) {
-
-        UserType userType = searchUserTypeUseCase.findById(id);
-        UserTypeResponseDTO userTypeResponseDTO = userTypeMapper.toResponse(userType);
-        return ResponseEntity.ok(userTypeResponseDTO);
-    }
 }

@@ -12,6 +12,7 @@ import pos.java.bora_comer.infra.persistence.repository.userType.UserTypeReposit
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -61,6 +62,33 @@ class UserTypeSearchGatewayImplTest {
 
         assertTrue(result.isEmpty());
         verify(userTypeRepository).findAll(pageable);
+        verifyNoInteractions(userTypeMapper);
+    }
+
+    @Test
+    void deveRetornarUserTypeQuandoEncontrado() {
+        UserTypeEntity entity = UserTypeFactory.createUserTypeEntity();
+        UserType userType = UserTypeFactory.createUserType();
+
+        when(userTypeRepository.findById(1L)).thenReturn(Optional.of(entity));
+        when(userTypeMapper.toDomain(entity)).thenReturn(userType);
+
+        Optional<UserType> result = searchUserTypeGateway.findById(1L);
+
+        assertTrue(result.isPresent());
+        assertEquals(userType, result.get());
+        verify(userTypeRepository).findById(1L);
+        verify(userTypeMapper).toDomain(entity);
+    }
+
+    @Test
+    void deveRetornarOptionalVazioQuandoNaoEncontrado() {
+        when(userTypeRepository.findById(2L)).thenReturn(Optional.empty());
+
+        Optional<UserType> result = searchUserTypeGateway.findById(2L);
+
+        assertTrue(result.isEmpty());
+        verify(userTypeRepository).findById(2L);
         verifyNoInteractions(userTypeMapper);
     }
 

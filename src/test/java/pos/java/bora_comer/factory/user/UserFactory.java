@@ -116,7 +116,7 @@ public class UserFactory {
 
     public static UserRequestDTO createUserRequestDTO() {
 
-        AddressRequestDTO addressRequest = AdressFactory.createAddressRequestDTO();
+        AddressRequestDTO addressRequest = AddressFactory.createAddressRequestDTO();
         CreateUserTypeRequestDTO createUserTypeRequestDTO = new CreateUserTypeRequestDTO(UserTypeNameRequestEnum.DONO_RESTAURANTE);
         UserRoleRequestEnumDTO userType = UserRoleRequestEnumDTO.DEFAULT;
         // Cria e retorna um UserRequestDTO com os dados necessários
@@ -132,7 +132,7 @@ public class UserFactory {
 
     public static UserRequestDTO createUserRoleNullRequestDTO() {
 
-        AddressRequestDTO addressRequest = AdressFactory.createAddressRequestDTO();
+        AddressRequestDTO addressRequest = AddressFactory.createAddressRequestDTO();
         CreateUserTypeRequestDTO createUserTypeRequestDTO = new CreateUserTypeRequestDTO(UserTypeNameRequestEnum.DONO_RESTAURANTE);
 
         return new UserRequestDTO("Messi", "messi@ex.com", "messi", "Messi@123", addressRequest, null, createUserTypeRequestDTO);
@@ -140,7 +140,7 @@ public class UserFactory {
 
     public static UserResponseDTO createUserResponseDTOIdRandomico() {
         long idRandomico = (long) (Math.random() * 10000);
-        AddressResponseDTO addressResponse = AdressFactory.createAddressResponseDTO();
+        AddressResponseDTO addressResponse = AddressFactory.createAddressResponseDTO();
         return new UserResponseDTO(
                 idRandomico,
                 "Leo Messi",
@@ -156,7 +156,7 @@ public class UserFactory {
 
     public static UserResponseDTO createUserResponseDTO() {
 
-        AddressResponseDTO addressResponse = AdressFactory.createAddressResponseDTO();
+        AddressResponseDTO addressResponse = AddressFactory.createAddressResponseDTO();
 
         // Cria e retorna um UserResponseDTO com os dados necessários
         return new UserResponseDTO(
@@ -172,7 +172,7 @@ public class UserFactory {
     }
 
     public static UserUpdateRequestDTO createUserUpdateRequestDTO() {
-        AddressRequestDTO addressRequest = AdressFactory.createAddressRequestDTO();
+        AddressRequestDTO addressRequest = AddressFactory.createAddressRequestDTO();
 
         return new UserUpdateRequestDTO(
                 "Messi",

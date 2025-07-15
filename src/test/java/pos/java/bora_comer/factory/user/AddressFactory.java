@@ -3,7 +3,7 @@ package pos.java.bora_comer.factory.user;
 import pos.java.bora_comer.infra.delivery.user.dto.AddressRequestDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.AddressResponseDTO;
 
-public class AdressFactory {
+public class AddressFactory {
 
     public static AddressRequestDTO createAddressRequestDTO() {
         return new AddressRequestDTO(
