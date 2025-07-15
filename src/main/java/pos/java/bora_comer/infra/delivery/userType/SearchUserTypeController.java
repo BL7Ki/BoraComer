@@ -40,7 +40,8 @@ public class SearchUserTypeController {
 
     }
 
-    public ResponseEntity<UserTypeResponseDTO> findById(Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<UserTypeResponseDTO> findById(@PathVariable Long id) {
 
         UserType userType = searchUserTypeUseCase.findById(id);
         UserTypeResponseDTO userTypeResponseDTO = userTypeMapper.toResponse(userType);
