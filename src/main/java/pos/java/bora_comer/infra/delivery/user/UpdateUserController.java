@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import pos.java.bora_comer.core.domain.login.LoginEnum;
 import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
-import pos.java.bora_comer.core.usercase.user.UppdateUserUseCase;
+import pos.java.bora_comer.core.usercase.user.UpdateUserUseCase;
 import pos.java.bora_comer.infra.delivery.user.doc.UppdateUserControllerDocs;
 import pos.java.bora_comer.infra.delivery.user.dto.UserChangePasswordRequestDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
@@ -20,13 +20,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
-public class UppdateUserController implements UppdateUserControllerDocs {
+public class UpdateUserController implements UppdateUserControllerDocs {
 
-    private final UppdateUserUseCase updateUserUseCase;
+    private final UpdateUserUseCase updateUserUseCase;
     private final UserMapper userMapper;
 
 
-    public UppdateUserController(UppdateUserUseCase updateUserUseCase, UserMapper userMapper) {
+    public UpdateUserController(UpdateUserUseCase updateUserUseCase, UserMapper userMapper) {
         this.updateUserUseCase = updateUserUseCase;
         this.userMapper = userMapper;
     }
