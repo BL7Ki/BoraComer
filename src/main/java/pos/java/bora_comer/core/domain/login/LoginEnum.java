@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/main/java/pos/java/bora_comer/core/domain/user/LoginResponseEnum.java
-package pos.java.bora_comer.core.domain.user;
-========
 package pos.java.bora_comer.core.domain.login;
->>>>>>>> develop:src/main/java/pos/java/bora_comer/core/domain/login/LoginEnum.java
 
 public enum LoginEnum {
 
