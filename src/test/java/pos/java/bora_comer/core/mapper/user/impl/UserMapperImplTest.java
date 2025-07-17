@@ -1,4 +1,4 @@
-package pos.java.bora_comer.core.mapper.impl;
+package pos.java.bora_comer.core.mapper.user.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
