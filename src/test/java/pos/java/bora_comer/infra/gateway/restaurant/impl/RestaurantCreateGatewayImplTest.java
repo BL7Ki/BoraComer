@@ -12,6 +12,7 @@ import pos.java.bora_comer.infra.persistence.repository.restaurant.RestaurantRep
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static pos.java.bora_comer.util.RestaurantTestFactory.createDefault;
 
 class RestaurantCreateGatewayImplTest {
 
@@ -29,7 +30,7 @@ class RestaurantCreateGatewayImplTest {
     @Test
     @DisplayName("Should throw exception if restaurant name already exists")
     void shouldThrowExceptionIfNameExists() {
-        Restaurant restaurant = Restaurant.create("Restaurante A", "Rua X", "Italiana", "10-22", 1L);
+        Restaurant restaurant = createDefault();
 
         when(restaurantRepository.existsByName(restaurant.getName())).thenReturn(true);
 
@@ -44,10 +45,10 @@ class RestaurantCreateGatewayImplTest {
     @Test
     @DisplayName("Should save and return restaurant successfully")
     void shouldSaveAndReturnRestaurant() {
-        Restaurant restaurant = Restaurant.create("Restaurante B", "Rua Y", "Japonesa", "11-23", 2L);
+        Restaurant restaurant = createDefault();
         RestaurantEntity entityToSave = new RestaurantEntity();
         RestaurantEntity savedEntity = new RestaurantEntity();
-        Restaurant domainFromSaved = Restaurant.create(1L, "Restaurante B", "Rua Y", "Japonesa", "11-23", 2L);
+        Restaurant domainFromSaved = createDefault();
 
         when(restaurantRepository.existsByName(restaurant.getName())).thenReturn(false);
         when(restaurantMapper.toEntity(restaurant)).thenReturn(entityToSave);

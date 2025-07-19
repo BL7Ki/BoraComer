@@ -16,5 +16,4 @@ public interface RestaurantRepository extends JpaRepository<RestaurantEntity, Lo
     // Achar pelo OwnerId
     @Query("SELECT r FROM RestaurantEntity r WHERE r.ownerId = :ownerId")
     List<RestaurantEntity> findByOwnerId(@Param("ownerId") Long ownerId);
-
 }
