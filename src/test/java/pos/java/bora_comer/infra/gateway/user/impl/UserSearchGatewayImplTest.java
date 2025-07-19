@@ -74,7 +74,7 @@ class UserSearchGatewayImplTest {
         Page<User> result = userSearchGateway.findAll(pageable);
 
         assertEquals(1, result.getTotalElements());
-        assertEquals("Messi", result.getContent().get(0).getName());
+        assertEquals("Messi", result.getContent().getFirst().getName());
 
         verify(userRepository, times(1)).findAll(pageable);
         verify(userMapper, times(1)).toDomain(userEntity, userEntity.getUserTypeEntity());

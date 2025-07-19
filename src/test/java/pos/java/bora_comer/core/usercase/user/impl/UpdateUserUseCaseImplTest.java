@@ -55,9 +55,7 @@ class UpdateUserUseCaseImplTest {
         when(userUpdateGateway.update(user))
                 .thenThrow(new IllegalArgumentException("Dados inválidos"));
 
-        UserDomainException exception = assertThrows(UserDomainException.class, () -> {
-            uppdateUserUseCase.execute(user);
-        });
+        UserDomainException exception = assertThrows(UserDomainException.class, () -> uppdateUserUseCase.execute(user));
 
         assertEquals("Dados inválidos", exception.getMessage());
         verify(userUpdateGateway).update(user);

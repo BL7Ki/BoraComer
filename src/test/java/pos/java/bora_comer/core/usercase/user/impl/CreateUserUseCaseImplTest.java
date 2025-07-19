@@ -56,9 +56,7 @@ class CreateUserUseCaseImplTest {
 
         when(userCreateGateway.existsByUsername(user.getUsername())).thenReturn(true);
 
-        UserDomainException exception = assertThrows(UserDomainException.class, () -> {
-            createUserUseCase.execute(user);
-        });
+        UserDomainException exception = assertThrows(UserDomainException.class, () -> createUserUseCase.execute(user));
 
         assertEquals("O userName já está em uso.", exception.getMessage());
 

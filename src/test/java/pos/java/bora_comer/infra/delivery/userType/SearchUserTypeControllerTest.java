@@ -43,7 +43,7 @@ class SearchUserTypeControllerTest {
     @InjectMocks
     private SearchUserTypeController controller;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setup() {

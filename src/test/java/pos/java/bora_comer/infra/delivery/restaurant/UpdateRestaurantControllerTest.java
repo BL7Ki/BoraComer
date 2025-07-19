@@ -14,8 +14,6 @@ import pos.java.bora_comer.core.usercase.restaurant.UpdateRestaurantUseCase;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantResponseDTO;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantUpdateRequestDTO;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pos.java.bora_comer.util.factory.RestaurantTestFactory.createUpdateRequestDTOWithId;

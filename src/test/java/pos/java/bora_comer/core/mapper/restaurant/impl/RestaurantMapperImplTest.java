@@ -152,6 +152,6 @@ class RestaurantMapperImplTest {
     @Test
     @DisplayName("toDomain(RestaurantUpdateRequestDTO, Long) throws exception on null")
     void toDomain_FromUpdateRequestDTO_ShouldThrowOnNull() {
-        assertThrows(RestaurantDomainException.class, () -> mapper.toDomain((RestaurantUpdateRequestDTO) null, 1L));
+        assertThrows(RestaurantDomainException.class, () -> mapper.toDomain(null, 1L));
     }
 }

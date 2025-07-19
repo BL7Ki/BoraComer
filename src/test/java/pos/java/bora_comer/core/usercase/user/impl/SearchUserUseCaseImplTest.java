@@ -55,9 +55,7 @@ class SearchUserUseCaseImplTest {
     void findById_deveLancarExcecao_quandoNaoExistir() {
         when(userSearchGateway.findById(99L)).thenReturn(Optional.empty());
 
-        SummerNotFoundException exception = assertThrows(SummerNotFoundException.class, () -> {
-            searchUserUseCase.findById(99L);
-        });
+        SummerNotFoundException exception = assertThrows(SummerNotFoundException.class, () -> searchUserUseCase.findById(99L));
 
         assertEquals("User with ID 99 not found", exception.getMessage());
         verify(userSearchGateway).findById(99L);

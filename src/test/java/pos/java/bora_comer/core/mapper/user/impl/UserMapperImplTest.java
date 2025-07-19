@@ -107,9 +107,7 @@ class UserMapperImplTest {
 
         UserRequestDTO requestDTO = UserTestFactory.createUserRoleNullRequestDTO();
 
-        UserDomainException exception = assertThrows(UserDomainException.class, () -> {
-            userMapper.toDomain(requestDTO);
-        });
+        UserDomainException exception = assertThrows(UserDomainException.class, () -> userMapper.toDomain(requestDTO));
 
         assertEquals("UserRoleRequestEnumDTO não pode ser nulo", exception.getMessage());
     }

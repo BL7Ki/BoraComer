@@ -42,7 +42,7 @@ class UserUpdateGatewayImplTest {
         when(userMapper.toDomain(userEntity, userEntity.getUserTypeEntity())).thenReturn(user);
 
         when(userTypeRepository.findByName(any()))
-                .thenReturn(Optional.of(UserTypeEntity.create(1l, UserTypeNameEntityEnum.DONO_RESTAURANTE)));
+                .thenReturn(Optional.of(UserTypeEntity.create(1L, UserTypeNameEntityEnum.DONO_RESTAURANTE)));
 
         // Act
         var result = userUpdateGateway.update(user);
@@ -85,7 +85,7 @@ class UserUpdateGatewayImplTest {
         when(userMapper.toDomain(userEntity, userEntity.getUserTypeEntity())).thenReturn(user);
 
         when(userTypeRepository.findByName(any()))
-                .thenReturn(Optional.of(UserTypeEntity.create(1l, UserTypeNameEntityEnum.DONO_RESTAURANTE)));
+                .thenReturn(Optional.of(UserTypeEntity.create(1L, UserTypeNameEntityEnum.DONO_RESTAURANTE)));
 
         // Act
         var result = userUpdateGateway.update(user);

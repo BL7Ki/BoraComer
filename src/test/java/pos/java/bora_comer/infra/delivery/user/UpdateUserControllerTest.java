@@ -44,7 +44,7 @@ class UpdateUserControllerTest {
     @InjectMocks
     private UpdateUserController controller;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setup() {
@@ -84,7 +84,7 @@ class UpdateUserControllerTest {
         String requestJson = IntegrationTestUtil.fromJsonPath("/json/delivery/user/request_update_user_sucess.json");
         UserUpdateRequestDTO requestDTO = objectMapper.readValue(requestJson, UserUpdateRequestDTO.class);
 
-        User user = UserTestFactory.umUserComId(20l);
+        User user = UserTestFactory.umUserComId(20L);
 
         when(userMapper.toDomain(requestDTO, 30L)).thenReturn(user);
         when(updateUserUseCase.execute(user))
