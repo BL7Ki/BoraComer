@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import pos.java.bora_comer.core.domain.userType.UserType;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.userType.UserTypeSearchGateway;
-import pos.java.bora_comer.factory.user.UserTypeFactory;
+import pos.java.bora_comer.util.factory.UserTypeFactory;
 
 import java.util.List;
 import java.util.Optional;

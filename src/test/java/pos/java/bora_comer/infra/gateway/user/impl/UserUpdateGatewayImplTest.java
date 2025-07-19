@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
-import pos.java.bora_comer.factory.user.UserFactory;
 import pos.java.bora_comer.infra.persistence.repository.userType.UserTypeRepository;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeNameEntityEnum;
+import pos.java.bora_comer.util.factory.UserTestFactory;
 
 import java.util.Optional;
 
@@ -34,8 +34,8 @@ class UserUpdateGatewayImplTest {
     void deveAtualizarUsuarioQuandoExistir() throws UserDomainException {
         // Arrange
         Long id = 1L;
-        var user = UserFactory.umUserAtualizado(id);
-        var userEntity = UserFactory.umUserEntityPadrao();
+        var user = UserTestFactory.umUserAtualizado(id);
+        var userEntity = UserTestFactory.umUserEntityPadrao();
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
         when(userRepository.save(userEntity)).thenReturn(userEntity);
@@ -60,7 +60,7 @@ class UserUpdateGatewayImplTest {
     void deveLancarIllegalArgumentExceptionQuandoUsuarioNaoExistir() {
         // Arrange
         Long id = 2L;
-        var user = UserFactory.umUserAtualizado(id);
+        var user = UserTestFactory.umUserAtualizado(id);
 
         when(userRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -76,9 +76,9 @@ class UserUpdateGatewayImplTest {
     @Test
     void deveAtualizarUsuarioComIdRandomicoUsandoFactory() throws UserDomainException {
         // Arrange
-        var user = UserFactory.umUserComIdRandomico();
+        var user = UserTestFactory.umUserComIdRandomico();
         var id = user.getId();
-        var userEntity = UserFactory.umUserEntityComDadosDe(user);
+        var userEntity = UserTestFactory.umUserEntityComDadosDe(user);
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
         when(userRepository.save(userEntity)).thenReturn(userEntity);
@@ -103,7 +103,7 @@ class UserUpdateGatewayImplTest {
         // Arrange
         Long userId = 10L;
         Long userTypeId = 20L;
-        var userEntity = spy(UserFactory.umUserEntityPadrao());
+        var userEntity = spy(UserTestFactory.umUserEntityPadrao());
         var userTypeEntity = UserTypeEntity.create(userTypeId, UserTypeNameEntityEnum.DONO_RESTAURANTE);
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(userEntity));
@@ -135,7 +135,7 @@ class UserUpdateGatewayImplTest {
         // Arrange
         Long userId = 12L;
         Long userTypeId = 22L;
-        var userEntity = UserFactory.umUserEntityPadrao();
+        var userEntity = UserTestFactory.umUserEntityPadrao();
         when(userRepository.findById(userId)).thenReturn(Optional.of(userEntity));
         when(userTypeRepository.findById(userTypeId)).thenReturn(Optional.empty());
 

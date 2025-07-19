@@ -13,7 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import pos.java.bora_comer.factory.user.UserFactory;
+import pos.java.bora_comer.util.factory.UserTestFactory;
 
 import java.util.List;
 
@@ -39,9 +39,9 @@ class SearchUserControllerTest {
     void deveriaBuscarUsuarioPorIdERetornar200() {
         // Arrange
 
-        User domainUser = UserFactory.umUserPadrao();
+        User domainUser = UserTestFactory.umUserPadrao();
 
-        UserResponseDTO responseDTO = UserFactory.createUserResponseDTO();
+        UserResponseDTO responseDTO = UserTestFactory.createUserResponseDTO();
 
         when(searchUserUseCase.findById(domainUser.getId())).thenReturn(domainUser);
         when(userMapper.toResponseDTO(domainUser)).thenReturn(responseDTO);
@@ -62,16 +62,16 @@ class SearchUserControllerTest {
         int page = 0;
         int size = 2;
 
-        User user1 = UserFactory.umUserComIdRandomico();
+        User user1 = UserTestFactory.umUserComIdRandomico();
 
-        User user2 = UserFactory.umUserComIdRandomico();
+        User user2 = UserTestFactory.umUserComIdRandomico();
 
         List<User> userList = List.of(user1, user2);
         Page<User> userPage = new PageImpl<>(userList);
 
-        UserResponseDTO responseDTO1 = UserFactory.createUserResponseDTOIdRandomico();
+        UserResponseDTO responseDTO1 = UserTestFactory.createUserResponseDTOIdRandomico();
 
-        UserResponseDTO responseDTO2 = UserFactory.createUserResponseDTOIdRandomico();
+        UserResponseDTO responseDTO2 = UserTestFactory.createUserResponseDTOIdRandomico();
 
         when(searchUserUseCase.findAll(page, size)).thenReturn(userPage);
         when(userMapper.toResponseDTO(user1)).thenReturn(responseDTO1);

@@ -1,4 +1,4 @@
-package pos.java.bora_comer.factory.user;
+package pos.java.bora_comer.util.factory;
 
 import pos.java.bora_comer.core.domain.userType.UserType;
 import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;

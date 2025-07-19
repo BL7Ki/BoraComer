@@ -17,7 +17,6 @@ import pos.java.bora_comer.core.errors.CustomExceptionHandler;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.UpdateUserUseCase;
-import pos.java.bora_comer.factory.user.UserFactory;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserUpdateRequestDTO;
 
@@ -29,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import pos.java.bora_comer.util.IntegrationTestUtil;
+import pos.java.bora_comer.util.factory.UserTestFactory;
 
 @ExtendWith(MockitoExtension.class)
 class UpdateUserControllerTest {
@@ -59,7 +59,7 @@ class UpdateUserControllerTest {
         String requestJson = IntegrationTestUtil.fromJsonPath("/json/delivery/user/request_update_user_sucess.json");
         UserUpdateRequestDTO requestDTO = objectMapper.readValue(requestJson, UserUpdateRequestDTO.class);
 
-        User user = UserFactory.umUserComId(1L);
+        User user = UserTestFactory.umUserComId(1L);
         User updatedUser = User.create(1L, "Novo Nome", "novo@email.com", "novouser", "senha", null, null, "2025-07-11T17:51:23.554623",
                 "2025-07-11T17:52:05.342190700", UserTypeNameEnum.DONO_RESTAURANTE);
 
@@ -84,7 +84,7 @@ class UpdateUserControllerTest {
         String requestJson = IntegrationTestUtil.fromJsonPath("/json/delivery/user/request_update_user_sucess.json");
         UserUpdateRequestDTO requestDTO = objectMapper.readValue(requestJson, UserUpdateRequestDTO.class);
 
-        User user = UserFactory.umUserComId(20l);
+        User user = UserTestFactory.umUserComId(20l);
 
         when(userMapper.toDomain(requestDTO, 30L)).thenReturn(user);
         when(updateUserUseCase.execute(user))

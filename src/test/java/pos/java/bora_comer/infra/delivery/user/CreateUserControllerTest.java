@@ -19,7 +19,7 @@ import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.CreateUserUseCase;
 import pos.java.bora_comer.infra.delivery.user.dto.UserRequestDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
-import pos.java.bora_comer.factory.user.UserFactory;
+import pos.java.bora_comer.util.factory.UserTestFactory;
 
 @ExtendWith(MockitoExtension.class)
 class CreateUserControllerTest {
@@ -37,11 +37,11 @@ class CreateUserControllerTest {
     void deveriaCriarNovoUsuarioERetornar201() {
         // Arrange: cria os DTOs e objetos simulados
 
-        UserRequestDTO requestDTO = UserFactory.createUserRequestDTO();
+        UserRequestDTO requestDTO = UserTestFactory.createUserRequestDTO();
 
-        User domainUser = UserFactory.umUserPadrao();
+        User domainUser = UserTestFactory.umUserPadrao();
 
-        UserResponseDTO responseDTO = UserFactory.createUserResponseDTO();
+        UserResponseDTO responseDTO = UserTestFactory.createUserResponseDTO();
 
         // Configura os mocks
         when(userMapper.toDomain(requestDTO)).thenReturn(domainUser);

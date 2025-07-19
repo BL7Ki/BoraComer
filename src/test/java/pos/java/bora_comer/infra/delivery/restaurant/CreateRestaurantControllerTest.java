@@ -13,12 +13,11 @@ import pos.java.bora_comer.core.mapper.restaurant.RestaurantMapper;
 import pos.java.bora_comer.core.usercase.restaurant.CreateRestaurantUseCase;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantRequestDTO;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantResponseDTO;
-import pos.java.bora_comer.util.RestaurantTestFactory;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static pos.java.bora_comer.util.RestaurantTestFactory.*;
+import static pos.java.bora_comer.util.factory.RestaurantTestFactory.*;
 
 @WebMvcTest(CreateRestaurantController.class)
 class CreateRestaurantControllerTest {

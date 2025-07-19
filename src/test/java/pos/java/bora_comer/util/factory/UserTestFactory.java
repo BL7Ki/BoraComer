@@ -1,4 +1,4 @@
-package pos.java.bora_comer.factory.user;
+package pos.java.bora_comer.util.factory;
 
 import pos.java.bora_comer.core.domain.user.Address;
 import pos.java.bora_comer.core.domain.user.User;
@@ -11,7 +11,11 @@ import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntit
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;
 
-public class UserFactory {
+public class UserTestFactory {
+
+    private static final Long USER_TYPE_ID_DEFAULT = 1L;
+    private static final String DATA_CRIACAO = "2025-07-11T17:51:23.554623";
+    private static final String DATA_ATUALIZACAO = "2025-07-11T17:52:05.342190700";
 
     public static User umUserComId(Long id) {
         return User.create(
@@ -22,8 +26,9 @@ public class UserFactory {
                 "Messi@123",
                 Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
                 UserRoleEnum.DEFAULT,
-                "2025-07-11T17:51:23.554623",
-                "2025-07-11T17:52:05.342190700", UserTypeNameEnum.DONO_RESTAURANTE
+                DATA_CRIACAO,
+                DATA_ATUALIZACAO,
+                UserTypeNameEnum.DONO_RESTAURANTE
         );
     }
 
@@ -41,7 +46,9 @@ public class UserFactory {
                 "Messi@123",
                 Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
                 UserRoleEnum.DEFAULT,
-                null, null, UserTypeNameEnum.DONO_RESTAURANTE
+                null,
+                null,
+                UserTypeNameEnum.DONO_RESTAURANTE
         );
     }
 
@@ -54,7 +61,9 @@ public class UserFactory {
                 "Messi@123",
                 Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
                 UserRoleEnum.DEFAULT,
-                null, null, null
+                null,
+                null,
+                null
         );
     }
 
@@ -67,8 +76,9 @@ public class UserFactory {
                 "NovaSenha@123",
                 Address.create("Rua Nova", "Bairro Novo", "Cidade X", "SP", "98765-432"),
                 UserRoleEnum.ADMIN,
-                "2025-07-11T17:51:23.554623",
-                "2025-07-11T17:52:05.342190700", UserTypeNameEnum.DONO_RESTAURANTE
+                DATA_CRIACAO,
+                DATA_ATUALIZACAO,
+                UserTypeNameEnum.DONO_RESTAURANTE
         );
     }
 
@@ -81,8 +91,9 @@ public class UserFactory {
                 "Messi@123",
                 Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
                 UserRoleEnum.DEFAULT,
-                "2025-07-11T17:51:23.554623",
-                "2025-07-11T17:52:05.342190700", UserTypeNameEnum.DONO_RESTAURANTE
+                DATA_CRIACAO,
+                DATA_ATUALIZACAO,
+                UserTypeNameEnum.DONO_RESTAURANTE
         );
     }
 
@@ -93,7 +104,8 @@ public class UserFactory {
                 "messi",
                 "Messi@123",
                 AddressEntity.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
-                UserRoleEntityEnum.DEFAULT, 1l
+                UserRoleEntityEnum.DEFAULT,
+                USER_TYPE_ID_DEFAULT
         );
     }
 
@@ -110,75 +122,71 @@ public class UserFactory {
                         user.getAddress().getZipCode(),
                         user.getAddress().getZipCode()
                 ),
-                UserRoleEntityEnum.valueOf(user.getUserRoleEnum().name()), 1l
+                UserRoleEntityEnum.valueOf(user.getUserRoleEnum().name()),
+                USER_TYPE_ID_DEFAULT
         );
     }
 
     public static UserRequestDTO createUserRequestDTO() {
-
-        AddressRequestDTO addressRequest = AddressFactory.createAddressRequestDTO();
-        CreateUserTypeRequestDTO createUserTypeRequestDTO = new CreateUserTypeRequestDTO(UserTypeNameRequestEnum.DONO_RESTAURANTE);
-        UserRoleRequestEnumDTO userType = UserRoleRequestEnumDTO.DEFAULT;
-        // Cria e retorna um UserRequestDTO com os dados necessários
         return new UserRequestDTO(
                 "Leo Messi",
                 "leomessi@email.com",
                 "messi10",
                 "senha123",
-                addressRequest,
-                userType, createUserTypeRequestDTO
+                AddressTestFactory.createAddressRequestDTO(),
+                UserRoleRequestEnumDTO.DEFAULT,
+                new CreateUserTypeRequestDTO(UserTypeNameRequestEnum.DONO_RESTAURANTE)
         );
     }
 
     public static UserRequestDTO createUserRoleNullRequestDTO() {
-
-        AddressRequestDTO addressRequest = AddressFactory.createAddressRequestDTO();
-        CreateUserTypeRequestDTO createUserTypeRequestDTO = new CreateUserTypeRequestDTO(UserTypeNameRequestEnum.DONO_RESTAURANTE);
-
-        return new UserRequestDTO("Messi", "messi@ex.com", "messi", "Messi@123", addressRequest, null, createUserTypeRequestDTO);
+        return new UserRequestDTO(
+                "Messi",
+                "messi@ex.com",
+                "messi",
+                "Messi@123",
+                AddressTestFactory.createAddressRequestDTO(),
+                null,
+                new CreateUserTypeRequestDTO(UserTypeNameRequestEnum.DONO_RESTAURANTE)
+        );
     }
 
     public static UserResponseDTO createUserResponseDTOIdRandomico() {
         long idRandomico = (long) (Math.random() * 10000);
-        AddressResponseDTO addressResponse = AddressFactory.createAddressResponseDTO();
         return new UserResponseDTO(
                 idRandomico,
                 "Leo Messi",
                 "leomessi@email.com",
                 "messi10",
-                addressResponse,
+                AddressTestFactory.createAddressResponseDTO(),
                 "CLIENTE",
-                "2025-07-11T17:51:23.554623",
+                DATA_CRIACAO,
                 null,
                 UserTypeNameEnum.DONO_RESTAURANTE.name()
         );
     }
 
     public static UserResponseDTO createUserResponseDTO() {
-
-        AddressResponseDTO addressResponse = AddressFactory.createAddressResponseDTO();
-
-        // Cria e retorna um UserResponseDTO com os dados necessários
         return new UserResponseDTO(
                 1L,
                 "Leo Messi",
                 "leomessi@email.com",
                 "messi10",
-                addressResponse,
+                AddressTestFactory.createAddressResponseDTO(),
                 "CLIENTE",
-                "2025-07-11T17:51:23.554623",
-                null, UserTypeNameEnum.DONO_RESTAURANTE.name()
+                DATA_CRIACAO,
+                null,
+                UserTypeNameEnum.DONO_RESTAURANTE.name()
         );
     }
 
     public static UserUpdateRequestDTO createUserUpdateRequestDTO() {
-        AddressRequestDTO addressRequest = AddressFactory.createAddressRequestDTO();
-
         return new UserUpdateRequestDTO(
                 "Messi",
                 "messi@ex.com",
                 "NovaSenha@123",
-                addressRequest, UserTypeNameRequestEnum.DONO_RESTAURANTE);
-
+                AddressTestFactory.createAddressRequestDTO(),
+                UserTypeNameRequestEnum.DONO_RESTAURANTE
+        );
     }
 }

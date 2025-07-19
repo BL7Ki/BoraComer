@@ -18,7 +18,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static pos.java.bora_comer.util.RestaurantTestFactory.createUpdateRequestDTOWithId;
+import static pos.java.bora_comer.util.factory.RestaurantTestFactory.createUpdateRequestDTOWithId;
 
 @WebMvcTest(UpdateRestaurantController.class)
 public class UpdateRestaurantControllerTest {

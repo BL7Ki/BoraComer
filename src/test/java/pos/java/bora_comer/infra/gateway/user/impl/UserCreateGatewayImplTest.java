@@ -7,7 +7,7 @@ import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
-import pos.java.bora_comer.factory.user.UserFactory;
+import pos.java.bora_comer.util.factory.UserTestFactory;
 import pos.java.bora_comer.infra.persistence.repository.userType.UserTypeRepository;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeNameEntityEnum;
@@ -46,8 +46,8 @@ class UserCreateGatewayImplTest {
 
     @Test
     void deveSalvarUsuarioComTipoComSucesso() {
-        User user = UserFactory.umUserPadrao();
-        UserEntity userEntity = UserFactory.umUserEntityPadrao();
+        User user = UserTestFactory.umUserPadrao();
+        UserEntity userEntity = UserTestFactory.umUserEntityPadrao();
         UserTypeEntity userTypeEntity = UserTypeEntity.create(1L, UserTypeNameEntityEnum.DONO_RESTAURANTE);
 
         when(userTypeRepository.findByName(any())).thenReturn(Optional.of(userTypeEntity));
@@ -66,9 +66,9 @@ class UserCreateGatewayImplTest {
 
     @Test
     void deveSalvarUsuarioSemTipoComSucesso() {
-        User user = UserFactory.umUserTypeNull();
+        User user = UserTestFactory.umUserTypeNull();
 
-        UserEntity userEntity = UserFactory.umUserEntityPadrao();
+        UserEntity userEntity = UserTestFactory.umUserEntityPadrao();
 
         when(userMapper.toEntity(user)).thenReturn(userEntity);
         when(userRepository.save(userEntity)).thenReturn(userEntity);
@@ -84,7 +84,7 @@ class UserCreateGatewayImplTest {
 
     @Test
     void deveLancarExcecaoQuandoTipoUsuarioInvalido() {
-        User user = UserFactory.umUserPadrao();
+        User user = UserTestFactory.umUserPadrao();
 
         when(userTypeRepository.findByName(any())).thenReturn(Optional.empty());
 

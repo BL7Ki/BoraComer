@@ -21,8 +21,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static pos.java.bora_comer.util.RestaurantTestFactory.createDefaultWithId;
-import static pos.java.bora_comer.util.RestaurantTestFactory.createResponseDTOWithId;
+import static pos.java.bora_comer.util.factory.RestaurantTestFactory.createDefaultWithId;
+import static pos.java.bora_comer.util.factory.RestaurantTestFactory.createResponseDTOWithId;
 
 @WebMvcTest(SearchRestaurantController.class)
 public class SearchRestaurantControllerTest {
