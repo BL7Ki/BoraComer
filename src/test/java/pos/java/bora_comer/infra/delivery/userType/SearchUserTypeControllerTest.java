@@ -18,7 +18,7 @@ import pos.java.bora_comer.core.errors.CustomExceptionHandler;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.userType.UserTypeMapper;
 import pos.java.bora_comer.core.usercase.userType.SearchUserTypeUseCase;
-import pos.java.bora_comer.factory.user.UserTypeFactory;
+import pos.java.bora_comer.util.factory.UserTypeFactory;
 import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeResponseDTO;
 
 import java.util.List;
@@ -43,7 +43,7 @@ class SearchUserTypeControllerTest {
     @InjectMocks
     private SearchUserTypeController controller;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setup() {

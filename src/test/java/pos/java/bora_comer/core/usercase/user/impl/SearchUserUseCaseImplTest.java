@@ -12,7 +12,7 @@ import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.SummerNotFoundException;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
-import pos.java.bora_comer.factory.user.UserFactory;
+import pos.java.bora_comer.util.factory.UserTestFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +40,7 @@ class SearchUserUseCaseImplTest {
     @Test
     void findById_deveRetornarUsuario_quandoExistir() throws SummerNotFoundException {
         Address someAddress = mock(Address.class);
-        User user = UserFactory.umUserComId(id);
+        User user = UserTestFactory.umUserComId(id);
 
         when(userSearchGateway.findById(1L)).thenReturn(Optional.of(user));
 
@@ -55,9 +55,7 @@ class SearchUserUseCaseImplTest {
     void findById_deveLancarExcecao_quandoNaoExistir() {
         when(userSearchGateway.findById(99L)).thenReturn(Optional.empty());
 
-        SummerNotFoundException exception = assertThrows(SummerNotFoundException.class, () -> {
-            searchUserUseCase.findById(99L);
-        });
+        SummerNotFoundException exception = assertThrows(SummerNotFoundException.class, () -> searchUserUseCase.findById(99L));
 
         assertEquals("User with ID 99 not found", exception.getMessage());
         verify(userSearchGateway).findById(99L);
@@ -66,8 +64,8 @@ class SearchUserUseCaseImplTest {
     @Test
     void findAll_deveRetornarPaginaDeUsuarios() throws UserDomainException {
         Address someAddress = mock(Address.class);
-        User user1 = UserFactory.umUserComId(id);
-        User user2 = UserFactory.umUserComId(id);
+        User user1 = UserTestFactory.umUserComId(id);
+        User user2 = UserTestFactory.umUserComId(id);
 
         List<User> users = List.of(user1, user2);
         Pageable pageable = PageRequest.of(0, 2);

@@ -3,7 +3,6 @@ package pos.java.bora_comer.infra.gateway.restaurant.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import pos.java.bora_comer.core.domain.restaurant.Restaurant;
 import pos.java.bora_comer.core.errors.RestaurantDomainException;
 import pos.java.bora_comer.core.mapper.restaurant.RestaurantMapper;
@@ -12,7 +11,7 @@ import pos.java.bora_comer.infra.persistence.repository.restaurant.RestaurantRep
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static pos.java.bora_comer.util.RestaurantTestFactory.createDefault;
+import static pos.java.bora_comer.util.factory.RestaurantTestFactory.createDefault;
 
 class RestaurantCreateGatewayImplTest {
 

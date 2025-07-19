@@ -6,13 +6,11 @@ import org.junit.jupiter.api.Test;
 import pos.java.bora_comer.core.domain.restaurant.Restaurant;
 import pos.java.bora_comer.core.errors.RestaurantDomainException;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantRequestDTO;
-import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantResponseDTO;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantUpdateRequestDTO;
 import pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity;
-import pos.java.bora_comer.util.RestaurantTestFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static pos.java.bora_comer.util.RestaurantTestFactory.createDefault;
+import static pos.java.bora_comer.util.factory.RestaurantTestFactory.createDefault;
 
 class RestaurantMapperImplTest {
 
@@ -154,6 +152,6 @@ class RestaurantMapperImplTest {
     @Test
     @DisplayName("toDomain(RestaurantUpdateRequestDTO, Long) throws exception on null")
     void toDomain_FromUpdateRequestDTO_ShouldThrowOnNull() {
-        assertThrows(RestaurantDomainException.class, () -> mapper.toDomain((RestaurantUpdateRequestDTO) null, 1L));
+        assertThrows(RestaurantDomainException.class, () -> mapper.toDomain(null, 1L));
     }
 }

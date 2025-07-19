@@ -1,4 +1,4 @@
-package pos.java.bora_comer.factory.user;
+package pos.java.bora_comer.util.factory;
 
 import pos.java.bora_comer.core.domain.userType.UserType;
 import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
@@ -12,7 +12,7 @@ import java.util.Random;
 public class UserTypeFactory {
 
     public static UserType createUserType() {
-        return UserType.create(1l, UserTypeNameEnum.DONO_RESTAURANTE);
+        return UserType.create(1L, UserTypeNameEnum.DONO_RESTAURANTE);
     }
 
     public static UserType createUserTypeIdRandomic() {

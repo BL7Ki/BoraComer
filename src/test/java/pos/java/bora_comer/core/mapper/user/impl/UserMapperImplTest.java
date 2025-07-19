@@ -8,15 +8,14 @@ import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.domain.user.UserRoleEnum;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
-import pos.java.bora_comer.core.mapper.user.impl.UserMapperImpl;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserRequestDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserUpdateRequestDTO;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;
-import pos.java.bora_comer.factory.user.UserFactory;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeNameEntityEnum;
+import pos.java.bora_comer.util.factory.UserTestFactory;
 
 import java.time.LocalDateTime;
 
@@ -36,7 +35,7 @@ class UserMapperImplTest {
     @Test
     void deveConverterUserRequestDTOParaDomain() {
 
-        UserRequestDTO requestDTO = UserFactory.createUserRequestDTO();
+        UserRequestDTO requestDTO = UserTestFactory.createUserRequestDTO();
 
         User user = userMapper.toDomain(requestDTO);
 
@@ -49,7 +48,7 @@ class UserMapperImplTest {
 
     @Test
     void deveConverterDomainParaEntity() {
-        User user =  UserFactory.umUserPadrao();
+        User user =  UserTestFactory.umUserPadrao();
 
         UserEntity entity = userMapper.toEntity(user, 1L);
 
@@ -62,7 +61,7 @@ class UserMapperImplTest {
     @Test
     void deveConverterEntityParaDomain() {
 
-        UserEntity userEntity = UserFactory.umUserEntityPadrao();
+        UserEntity userEntity = UserTestFactory.umUserEntityPadrao();
         UserTypeEntity userTypeEntity = UserTypeEntity.create(UserTypeNameEntityEnum.DONO_RESTAURANTE);
 
 
@@ -81,7 +80,7 @@ class UserMapperImplTest {
     @Test
     void deveConverterDomainParaResponseDTO() {
         Address address = Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
-        User user = UserFactory.umUserPadraoCliente();
+        User user = UserTestFactory.umUserPadraoCliente();
 
         UserResponseDTO dto = userMapper.toResponseDTO(user);
 
@@ -93,7 +92,7 @@ class UserMapperImplTest {
     @Test
     void deveConverterUserUpdateRequestDTOParaDomain() {
 
-        UserUpdateRequestDTO updateDTO = UserFactory.createUserUpdateRequestDTO();
+        UserUpdateRequestDTO updateDTO = UserTestFactory.createUserUpdateRequestDTO();
 
         User user = userMapper.toDomain(updateDTO, 1L);
 
@@ -106,11 +105,9 @@ class UserMapperImplTest {
     @Test
     void deveLancarExcecaoQuandoUserRoleRequestEnumForNulo() {
 
-        UserRequestDTO requestDTO = UserFactory.createUserRoleNullRequestDTO();
+        UserRequestDTO requestDTO = UserTestFactory.createUserRoleNullRequestDTO();
 
-        UserDomainException exception = assertThrows(UserDomainException.class, () -> {
-            userMapper.toDomain(requestDTO);
-        });
+        UserDomainException exception = assertThrows(UserDomainException.class, () -> userMapper.toDomain(requestDTO));
 
         assertEquals("UserRoleRequestEnumDTO não pode ser nulo", exception.getMessage());
     }

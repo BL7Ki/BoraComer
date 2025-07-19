@@ -7,7 +7,7 @@ import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
-import pos.java.bora_comer.factory.user.UserFactory;
+import pos.java.bora_comer.util.factory.UserTestFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +32,8 @@ class UserSearchGatewayImplTest {
     void deveBuscarUsuarioPorIdQuandoExistir() {
         Long id = 1L;
 
-        UserEntity userEntity = UserFactory.umUserEntityPadrao();
-        User user = UserFactory.umUserPadrao();
+        UserEntity userEntity = UserTestFactory.umUserEntityPadrao();
+        User user = UserTestFactory.umUserPadrao();
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
         when(userMapper.toDomain(userEntity, userEntity.getUserTypeEntity())).thenReturn(user);
@@ -63,8 +63,8 @@ class UserSearchGatewayImplTest {
     void deveBuscarTodosUsuariosComPaginacao() {
         Pageable pageable = PageRequest.of(0, 10);
 
-        UserEntity userEntity = UserFactory.umUserEntityPadrao();
-        User user = UserFactory.umUserPadrao();
+        UserEntity userEntity = UserTestFactory.umUserEntityPadrao();
+        User user = UserTestFactory.umUserPadrao();
 
         Page<UserEntity> userEntityPage = new PageImpl<>(List.of(userEntity), pageable, 1);
 
@@ -74,7 +74,7 @@ class UserSearchGatewayImplTest {
         Page<User> result = userSearchGateway.findAll(pageable);
 
         assertEquals(1, result.getTotalElements());
-        assertEquals("Messi", result.getContent().get(0).getName());
+        assertEquals("Messi", result.getContent().getFirst().getName());
 
         verify(userRepository, times(1)).findAll(pageable);
         verify(userMapper, times(1)).toDomain(userEntity, userEntity.getUserTypeEntity());

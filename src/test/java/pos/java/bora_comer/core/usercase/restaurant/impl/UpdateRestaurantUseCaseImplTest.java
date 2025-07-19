@@ -8,7 +8,7 @@ import pos.java.bora_comer.core.gateway.restaurant.RestaurantUpdateGateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
-import static pos.java.bora_comer.util.RestaurantTestFactory.createDefaultWithId;
+import static pos.java.bora_comer.util.factory.RestaurantTestFactory.createDefaultWithId;
 
 class UpdateRestaurantUseCaseImplTest {
 

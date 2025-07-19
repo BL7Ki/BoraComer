@@ -9,7 +9,7 @@ import static org.mockito.Mockito.*;
 
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
-import pos.java.bora_comer.factory.user.UserFactory;
+import pos.java.bora_comer.util.factory.UserTestFactory;
 
 class UserLoginGatewayImplTest {
 
@@ -28,8 +28,8 @@ class UserLoginGatewayImplTest {
     void deveRetornarUsuarioQuandoLoginExistir() {
         String login = "messi";
 
-        var userEntity = UserFactory.umUserEntityPadrao();
-        var user = UserFactory.umUserPadrao();
+        var userEntity = UserTestFactory.umUserEntityPadrao();
+        var user = UserTestFactory.umUserPadrao();
 
         when(userRepository.findByLogin(login)).thenReturn(Optional.of(userEntity));
         when(userMapper.toDomain(userEntity, userEntity.getUserTypeEntity())).thenReturn(user);

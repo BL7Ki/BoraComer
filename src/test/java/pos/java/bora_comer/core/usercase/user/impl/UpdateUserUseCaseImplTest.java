@@ -6,7 +6,7 @@ import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
 import pos.java.bora_comer.core.gateway.user.UserUpdateGateway;
-import pos.java.bora_comer.factory.user.UserFactory;
+import pos.java.bora_comer.util.factory.UserTestFactory;
 
 import java.util.Optional;
 
@@ -36,7 +36,7 @@ class UpdateUserUseCaseImplTest {
     @Test
     void deveAtualizarUsuarioComSucesso() throws UserDomainException {
 
-        User user = UserFactory.umUserAtualizado(id);
+        User user = UserTestFactory.umUserAtualizado(id);
 
         when(userUpdateGateway.update(user)).thenReturn(user);
 
@@ -50,14 +50,12 @@ class UpdateUserUseCaseImplTest {
     @Test
     void deveLancarUserDomainException_quandoUpdateGatewayLancarIllegalArgumentException() {
 
-        User user = UserFactory.umUserAtualizado(id);
+        User user = UserTestFactory.umUserAtualizado(id);
 
         when(userUpdateGateway.update(user))
                 .thenThrow(new IllegalArgumentException("Dados inválidos"));
 
-        UserDomainException exception = assertThrows(UserDomainException.class, () -> {
-            uppdateUserUseCase.execute(user);
-        });
+        UserDomainException exception = assertThrows(UserDomainException.class, () -> uppdateUserUseCase.execute(user));
 
         assertEquals("Dados inválidos", exception.getMessage());
         verify(userUpdateGateway).update(user);
@@ -65,7 +63,7 @@ class UpdateUserUseCaseImplTest {
 
     @Test
     void deveTrocarSenhaComSucesso() throws UserDomainException {
-        User user = UserFactory.umUserAtualizado(id);
+        User user = UserTestFactory.umUserAtualizado(id);
 
         when(userSearchGateway.findById(2L)).thenReturn(Optional.of(user));
         when(userUpdateGateway.update(user)).thenReturn(user);
@@ -89,7 +87,7 @@ class UpdateUserUseCaseImplTest {
 
     @Test
     void deveLancarExcecaoQuandoSenhaAtualIncorreta() {
-        User user = UserFactory.umUserAtualizado(id);
+        User user = UserTestFactory.umUserAtualizado(id);
 
         when(userSearchGateway.findById(2L)).thenReturn(Optional.of(user));
 

@@ -1,4 +1,4 @@
-package pos.java.bora_comer.util;
+package pos.java.bora_comer.util.factory;
 
 import pos.java.bora_comer.core.domain.restaurant.Restaurant;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantRequestDTO;
