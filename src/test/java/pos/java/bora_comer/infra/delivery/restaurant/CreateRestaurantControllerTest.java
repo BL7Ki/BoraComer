@@ -13,10 +13,12 @@ import pos.java.bora_comer.core.mapper.restaurant.RestaurantMapper;
 import pos.java.bora_comer.core.usercase.restaurant.CreateRestaurantUseCase;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantRequestDTO;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantResponseDTO;
+import pos.java.bora_comer.util.RestaurantTestFactory;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static pos.java.bora_comer.util.RestaurantTestFactory.*;
 
 @WebMvcTest(CreateRestaurantController.class)
 class CreateRestaurantControllerTest {
@@ -36,31 +38,11 @@ class CreateRestaurantControllerTest {
     @Test
     void shouldCreateRestaurantSuccessfully() throws Exception {
         // given (entrada do cliente)
-        RestaurantRequestDTO requestDTO = new RestaurantRequestDTO(
-                "Sushi Place",
-                "Rua das Flores, 123",
-                "Japonesa",
-                "10:00 - 22:00",
-                1L
-        );
+        RestaurantRequestDTO requestDTO = createRequestDTOWithId();
 
-        Restaurant domain = Restaurant.create(
-                10L,
-                "Sushi Place",
-                "Rua das Flores, 123",
-                "Japonesa",
-                "10:00 - 22:00",
-                1L
-        );
+        Restaurant domain = createDefaultWithId();
 
-        RestaurantResponseDTO responseDTO = new RestaurantResponseDTO(
-                10L,
-                "Sushi Place",
-                "Rua das Flores, 123",
-                "Japonesa",
-                "10:00 - 22:00",
-                1L
-        );
+        RestaurantResponseDTO responseDTO = createResponseDTOWithId();
 
         // mocks
         Mockito.when(restaurantMapper.toDomain(any(RestaurantRequestDTO.class))).thenReturn(domain);
@@ -74,11 +56,11 @@ class CreateRestaurantControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "/restaurants/10"))
                 .andExpect(jsonPath("$.id").value(10L))
-                .andExpect(jsonPath("$.nome").value("Sushi Place"))
-                .andExpect(jsonPath("$.endereco").value("Rua das Flores, 123"))
+                .andExpect(jsonPath("$.nome").value("Restaurante Japa"))
+                .andExpect(jsonPath("$.endereco").value("Rua B, 456"))
                 .andExpect(jsonPath("$.tipo_cozinha").value("Japonesa"))
-                .andExpect(jsonPath("$.horario_funcionamento").value("10:00 - 22:00"))
-                .andExpect(jsonPath("$.dono_id").value(1L));
+                .andExpect(jsonPath("$.horario_funcionamento").value("11:00 - 23:00"))
+                .andExpect(jsonPath("$.dono_id").value(55L));
 
 
         // verificação de chamadas

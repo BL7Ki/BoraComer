@@ -18,6 +18,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static pos.java.bora_comer.util.RestaurantTestFactory.createUpdateRequestDTOWithId;
 
 @WebMvcTest(UpdateRestaurantController.class)
 public class UpdateRestaurantControllerTest {
@@ -38,13 +39,7 @@ public class UpdateRestaurantControllerTest {
     void shouldUpdateRestaurantSuccessfully() throws Exception {
         Long id = 10L;
 
-        RestaurantUpdateRequestDTO updateRequestDTO = new RestaurantUpdateRequestDTO(
-                "Updated Name",
-                "Updated Address",
-                "Updated Cuisine",
-                "09:00 - 21:00",
-                2L
-        );
+        RestaurantUpdateRequestDTO updateRequestDTO = createUpdateRequestDTOWithId();
 
         // Mock domain object after mapping
         Restaurant domainRestaurant = Restaurant.create(
