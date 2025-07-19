@@ -1,0 +1,68 @@
+package pos.java.bora_comer.infra.gateway.restaurant.impl;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import pos.java.bora_comer.core.domain.restaurant.Restaurant;
+import pos.java.bora_comer.core.errors.RestaurantDomainException;
+import pos.java.bora_comer.core.mapper.restaurant.RestaurantMapper;
+import pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity;
+import pos.java.bora_comer.infra.persistence.repository.restaurant.RestaurantRepository;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class RestaurantCreateGatewayImplTest {
+
+    private RestaurantRepository restaurantRepository;
+    private RestaurantMapper restaurantMapper;
+    private RestaurantCreateGatewayImpl gateway;
+
+    @BeforeEach
+    void setup() {
+        restaurantRepository = mock(RestaurantRepository.class);
+        restaurantMapper = mock(RestaurantMapper.class);
+        gateway = new RestaurantCreateGatewayImpl(restaurantRepository, restaurantMapper);
+    }
+
+    @Test
+    @DisplayName("Should throw exception if restaurant name already exists")
+    void shouldThrowExceptionIfNameExists() {
+        Restaurant restaurant = Restaurant.create("Restaurante A", "Rua X", "Italiana", "10-22", 1L);
+
+        when(restaurantRepository.existsByName(restaurant.getName())).thenReturn(true);
+
+        RestaurantDomainException ex = assertThrows(RestaurantDomainException.class, () -> gateway.save(restaurant));
+        assertEquals("Já existe um restaurante com esse nome.", ex.getMessage());
+
+        verify(restaurantRepository, times(1)).existsByName(restaurant.getName());
+        verifyNoMoreInteractions(restaurantRepository);
+        verifyNoInteractions(restaurantMapper);
+    }
+
+    @Test
+    @DisplayName("Should save and return restaurant successfully")
+    void shouldSaveAndReturnRestaurant() {
+        Restaurant restaurant = Restaurant.create("Restaurante B", "Rua Y", "Japonesa", "11-23", 2L);
+        RestaurantEntity entityToSave = new RestaurantEntity();
+        RestaurantEntity savedEntity = new RestaurantEntity();
+        Restaurant domainFromSaved = Restaurant.create(1L, "Restaurante B", "Rua Y", "Japonesa", "11-23", 2L);
+
+        when(restaurantRepository.existsByName(restaurant.getName())).thenReturn(false);
+        when(restaurantMapper.toEntity(restaurant)).thenReturn(entityToSave);
+        when(restaurantRepository.save(entityToSave)).thenReturn(savedEntity);
+        when(restaurantMapper.toDomain(savedEntity)).thenReturn(domainFromSaved);
+
+        Restaurant result = gateway.save(restaurant);
+
+        assertNotNull(result);
+        assertEquals(domainFromSaved.getId(), result.getId());
+        assertEquals(domainFromSaved.getName(), result.getName());
+
+        verify(restaurantRepository, times(1)).existsByName(restaurant.getName());
+        verify(restaurantMapper, times(1)).toEntity(restaurant);
+        verify(restaurantRepository, times(1)).save(entityToSave);
+        verify(restaurantMapper, times(1)).toDomain(savedEntity);
+    }
+}
