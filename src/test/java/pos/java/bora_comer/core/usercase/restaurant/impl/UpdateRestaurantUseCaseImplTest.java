@@ -8,6 +8,7 @@ import pos.java.bora_comer.core.gateway.restaurant.RestaurantUpdateGateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
+import static pos.java.bora_comer.util.RestaurantTestFactory.createDefaultWithId;
 
 class UpdateRestaurantUseCaseImplTest {
 
@@ -23,14 +24,7 @@ class UpdateRestaurantUseCaseImplTest {
     @Test
     void execute_shouldUpdateAndReturnRestaurant() {
         // Arrange
-        Restaurant restaurantToUpdate = Restaurant.create(
-                1L,
-                "Updated Name",
-                "Updated Address",
-                "Updated Cuisine",
-                "10:00 - 23:00",
-                5L
-        );
+        Restaurant restaurantToUpdate = createDefaultWithId();
 
         when(restaurantUpdateGateway.update(restaurantToUpdate)).thenReturn(restaurantToUpdate);
 
@@ -39,7 +33,7 @@ class UpdateRestaurantUseCaseImplTest {
 
         // Assert
         assertThat(updatedRestaurant).isNotNull();
-        assertThat(updatedRestaurant.getName()).isEqualTo("Updated Name");
+        assertThat(updatedRestaurant.getName()).isEqualTo("Restaurante Japa");
         verify(restaurantUpdateGateway, times(1)).update(restaurantToUpdate);
     }
 }

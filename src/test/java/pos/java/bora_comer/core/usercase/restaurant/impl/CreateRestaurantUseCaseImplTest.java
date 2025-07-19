@@ -5,10 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import pos.java.bora_comer.core.domain.restaurant.Restaurant;
 import pos.java.bora_comer.core.gateway.restaurant.RestaurantCreateGateway;
+import pos.java.bora_comer.util.RestaurantTestFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static pos.java.bora_comer.util.RestaurantTestFactory.createDefault;
+import static pos.java.bora_comer.util.RestaurantTestFactory.createDefaultWithId;
 
 class CreateRestaurantUseCaseImplTest {
 
@@ -24,22 +27,9 @@ class CreateRestaurantUseCaseImplTest {
     @Test
     void execute_shouldReturnCreatedRestaurant() {
         // Arrange
-        Restaurant restaurantToSave = Restaurant.create(
-                "Sushi Place",
-                "Rua das Flores, 123",
-                "Japonesa",
-                "10:00 - 22:00",
-                1L
-        );
+        Restaurant restaurantToSave = createDefault();
 
-        Restaurant savedRestaurant = Restaurant.create(
-                10L,
-                "Sushi Place",
-                "Rua das Flores, 123",
-                "Japonesa",
-                "10:00 - 22:00",
-                1L
-        );
+        Restaurant savedRestaurant = createDefaultWithId();
 
         when(restaurantCreateGateway.save(any(Restaurant.class))).thenReturn(savedRestaurant);
 
@@ -49,7 +39,7 @@ class CreateRestaurantUseCaseImplTest {
         // Assert
         assertNotNull(result);
         assertEquals(10L, result.getId());
-        assertEquals("Sushi Place", result.getName());
+        assertEquals("Restaurante Japa", result.getName());
         verify(restaurantCreateGateway, times(1)).save(restaurantToSave);
     }
 }

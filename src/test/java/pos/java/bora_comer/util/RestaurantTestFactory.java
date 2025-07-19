@@ -10,12 +10,22 @@ public class RestaurantTestFactory {
 
     public static Restaurant createDefault() {
         return Restaurant.create(
-                1L,
-                "Default Name",
-                "Default Address",
-                "Default Cuisine",
-                "09:00 - 18:00",
-                1L
+                "Restaurante Japa",
+                "Rua B, 456",
+                "Japonesa",
+                "11:00 - 23:00",
+                55L
+        );
+    }
+
+    public static Restaurant createDefaultWithId() {
+        return Restaurant.create(
+                10L,
+                "Restaurante Japa",
+                "Rua B, 456",
+                "Japonesa",
+                "11:00 - 23:00",
+                55L
         );
     }
 

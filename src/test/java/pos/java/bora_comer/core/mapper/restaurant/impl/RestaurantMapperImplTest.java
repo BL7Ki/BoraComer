@@ -9,8 +9,10 @@ import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantRequestDTO;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantResponseDTO;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantUpdateRequestDTO;
 import pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity;
+import pos.java.bora_comer.util.RestaurantTestFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static pos.java.bora_comer.util.RestaurantTestFactory.createDefault;
 
 class RestaurantMapperImplTest {
 
@@ -52,18 +54,12 @@ class RestaurantMapperImplTest {
     @Test
     @DisplayName("toEntity(Restaurant) returns valid entity")
     void toEntity_FromDomain_ShouldMapCorrectly() {
-        var domain = Restaurant.create(
-                "Restaurante Y",
-                "Rua B, 456",
-                "Japonesa",
-                "11:00 - 23:00",
-                55L
-        );
+        Restaurant domain = createDefault();
 
         var entity = mapper.toEntity(domain);
 
         assertNotNull(entity);
-        assertEquals("Restaurante Y", entity.getName());
+        assertEquals("Restaurante Japa", entity.getName());
         assertEquals("Rua B, 456", entity.getAddress());
         assertEquals("Japonesa", entity.getCuisineType());
         assertEquals("11:00 - 23:00", entity.getOpeningHours());
