@@ -24,9 +24,13 @@ public class UpdateRestaurantController implements UpdateRestaurantControllerDoc
     @PutMapping("/{id}")
     public ResponseEntity<RestaurantResponseDTO> update(@PathVariable Long id,
                                                         @RequestBody RestaurantUpdateRequestDTO updateRequestDTO) {
-        var restaurantDomain = restaurantMapper.toDomain(updateRequestDTO, id);
+        // Busca o restaurante existente para preservar o ownerId
+        Restaurant existingRestaurant = updateRestaurantUseCase.findById(id);
+        var restaurantDomain = restaurantMapper.toDomain(updateRequestDTO, id, existingRestaurant.getOwnerId());
+
         Restaurant updatedRestaurant = updateRestaurantUseCase.execute(restaurantDomain);
         RestaurantResponseDTO responseDTO = restaurantMapper.toResponseDTO(updatedRestaurant);
         return ResponseEntity.ok(responseDTO);
     }
+
 }

@@ -10,6 +10,8 @@ import pos.java.bora_comer.infra.persistence.repository.restaurant.RestaurantRep
 import pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 
+import java.util.Optional;
+
 @Component
 public class RestaurantUpdateGatewayImpl implements RestaurantUpdateGateway {
 
@@ -28,28 +30,28 @@ public class RestaurantUpdateGatewayImpl implements RestaurantUpdateGateway {
     @Transactional
     @Override
     public Restaurant update(Restaurant restaurant) throws RestaurantDomainException {
-        // Busca restaurante existente
         RestaurantEntity entity = restaurantRepository.findById(restaurant.getId())
                 .orElseThrow(() -> new RestaurantDomainException("Restaurante com ID " + restaurant.getId() + " não encontrado."));
 
-        // Valida se o novo ownerId existe (caso tenha mudado)
         if (!restaurant.getOwnerId().equals(entity.getOwnerId())) {
             userRepository.findById(restaurant.getOwnerId())
                     .orElseThrow(() -> new RestaurantDomainException("Usuário dono com ID " + restaurant.getOwnerId() + " não encontrado."));
             entity.updateOwnerId(restaurant.getOwnerId());
         }
 
-        // Atualiza os outros campos
         entity.updateName(restaurant.getName());
         entity.updateAddress(restaurant.getAddress());
         entity.updateCuisineType(restaurant.getCuisineType());
         entity.updateOpeningHours(restaurant.getOpeningHours());
         entity.updateLastModifiedDate();
 
-        // Salva alterações
         RestaurantEntity updatedEntity = restaurantRepository.save(entity);
-
-        // Retorna domínio atualizado
         return restaurantMapper.toDomain(updatedEntity);
+    }
+
+    @Override
+    public Optional<Restaurant> findById(Long id) {
+        return restaurantRepository.findById(id)
+                .map(restaurantMapper::toDomain);
     }
 }

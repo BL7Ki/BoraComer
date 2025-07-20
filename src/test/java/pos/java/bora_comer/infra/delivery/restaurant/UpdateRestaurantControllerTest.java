@@ -36,42 +36,43 @@ public class UpdateRestaurantControllerTest {
     @Test
     void shouldUpdateRestaurantSuccessfully() throws Exception {
         Long id = 10L;
+        Long ownerId = 2L;
 
         RestaurantUpdateRequestDTO updateRequestDTO = createUpdateRequestDTOWithId();
 
-        // Mock domain object after mapping
+        Restaurant existingRestaurant = Restaurant.create(
+                id,
+                "Old Name",
+                "Old Address",
+                "Old Cuisine",
+                "00:00 - 00:00",
+                ownerId
+        );
+
+        Mockito.when(updateRestaurantUseCase.findById(id)).thenReturn(existingRestaurant);
+
         Restaurant domainRestaurant = Restaurant.create(
                 id,
                 updateRequestDTO.name(),
                 updateRequestDTO.address(),
                 updateRequestDTO.cuisineType(),
                 updateRequestDTO.openingHours(),
-                updateRequestDTO.ownerId()
+                ownerId
         );
 
-        // Mock returned updated restaurant
-        Restaurant updatedRestaurant = Restaurant.create(
-                id,
-                updateRequestDTO.name(),
-                updateRequestDTO.address(),
-                updateRequestDTO.cuisineType(),
-                updateRequestDTO.openingHours(),
-                updateRequestDTO.ownerId()
-        );
+        Mockito.when(restaurantMapper.toDomain(updateRequestDTO, id, ownerId)).thenReturn(domainRestaurant);
+        Mockito.when(updateRestaurantUseCase.execute(domainRestaurant)).thenReturn(domainRestaurant);
 
-        // Mock the response DTO
         RestaurantResponseDTO responseDTO = new RestaurantResponseDTO(
                 id,
                 updateRequestDTO.name(),
                 updateRequestDTO.address(),
                 updateRequestDTO.cuisineType(),
                 updateRequestDTO.openingHours(),
-                updateRequestDTO.ownerId()
+                ownerId
         );
 
-        Mockito.when(restaurantMapper.toDomain(updateRequestDTO, id)).thenReturn(domainRestaurant);
-        Mockito.when(updateRestaurantUseCase.execute(domainRestaurant)).thenReturn(updatedRestaurant);
-        Mockito.when(restaurantMapper.toResponseDTO(updatedRestaurant)).thenReturn(responseDTO);
+        Mockito.when(restaurantMapper.toResponseDTO(domainRestaurant)).thenReturn(responseDTO);
 
         mockMvc.perform(put("/restaurants/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -79,10 +80,10 @@ public class UpdateRestaurantControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.nome").value("Updated Name"))
-                .andExpect(jsonPath("$.endereco").value("Updated Address"))
-                .andExpect(jsonPath("$.tipo_cozinha").value("Updated Cuisine"))
-                .andExpect(jsonPath("$.horario_funcionamento").value("09:00 - 21:00"))
-                .andExpect(jsonPath("$.dono_id").value(2));
+                .andExpect(jsonPath("$.nome").value(updateRequestDTO.name()))
+                .andExpect(jsonPath("$.endereco").value(updateRequestDTO.address()))
+                .andExpect(jsonPath("$.tipo_cozinha").value(updateRequestDTO.cuisineType()))
+                .andExpect(jsonPath("$.horario_funcionamento").value(updateRequestDTO.openingHours()))
+                .andExpect(jsonPath("$.dono_id").value(ownerId.intValue()));
     }
 }

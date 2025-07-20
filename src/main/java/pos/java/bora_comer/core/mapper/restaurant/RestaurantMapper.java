@@ -16,5 +16,5 @@ public interface RestaurantMapper {
 
     RestaurantResponseDTO toResponseDTO(Restaurant restaurant);
 
-    Restaurant toDomain(RestaurantUpdateRequestDTO restaurantUpdateRequestDTO, Long id);
+    Restaurant toDomain(RestaurantUpdateRequestDTO restaurantUpdateRequestDTO, Long id, Long OwnerId);
 }
