@@ -69,7 +69,8 @@ public class UpdateRestaurantControllerTest {
                 updateRequestDTO.ownerId()
         );
 
-        Mockito.when(restaurantMapper.toDomain(updateRequestDTO, id)).thenReturn(domainRestaurant);
+        Long ownerId = 2L;
+        Mockito.when(restaurantMapper.toDomain(updateRequestDTO, id, ownerId)).thenReturn(domainRestaurant);
         Mockito.when(updateRestaurantUseCase.execute(domainRestaurant)).thenReturn(updatedRestaurant);
         Mockito.when(restaurantMapper.toResponseDTO(updatedRestaurant)).thenReturn(responseDTO);
 

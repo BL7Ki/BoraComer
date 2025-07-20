@@ -138,7 +138,8 @@ class RestaurantMapperImplTest {
         );
         Long id = 555L;
 
-        var domain = mapper.toDomain(updateDTO, id);
+        Long ownerID = 88L;
+        var domain = mapper.toDomain(updateDTO, id, ownerID);
 
         assertNotNull(domain);
         assertEquals(id, domain.getId());
@@ -150,8 +151,27 @@ class RestaurantMapperImplTest {
     }
 
     @Test
-    @DisplayName("toDomain(RestaurantUpdateRequestDTO, Long) throws exception on null")
-    void toDomain_FromUpdateRequestDTO_ShouldThrowOnNull() {
-        assertThrows(RestaurantDomainException.class, () -> mapper.toDomain(null, 1L));
+    @DisplayName("toDomain(RestaurantUpdateRequestDTO, Long, Long) returns valid domain with ID and ownerId")
+    void toDomain_FromUpdateRequestDTOWithOwnerId_ShouldMapCorrectly() {
+        var updateDTO = new RestaurantUpdateRequestDTO(
+                "Restaurante Updated",
+                "Rua E, 654",
+                "Brasileira",
+                "07:00 - 19:00",
+                88L
+        );
+        Long id = 555L;
+        Long ownerId = 88L;
+
+        var domain = mapper.toDomain(updateDTO, id, ownerId);
+
+        assertNotNull(domain);
+        assertEquals(id, domain.getId());
+        assertEquals("Restaurante Updated", domain.getName());
+        assertEquals("Rua E, 654", domain.getAddress());
+        assertEquals("Brasileira", domain.getCuisineType());
+        assertEquals("07:00 - 19:00", domain.getOpeningHours());
+        assertEquals(ownerId, domain.getOwnerId());
     }
+
 }
