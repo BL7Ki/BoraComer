@@ -5,4 +5,6 @@ import pos.java.bora_comer.core.errors.RestaurantDomainException;
 
 public interface UpdateRestaurantUseCase {
     Restaurant execute(Restaurant restaurant) throws RestaurantDomainException;
+
+    Restaurant findById(Long id) throws RestaurantDomainException;
 }

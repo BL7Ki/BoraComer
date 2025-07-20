@@ -75,7 +75,7 @@ public class RestaurantMapperImpl implements RestaurantMapper {
     }
 
     @Override
-    public Restaurant toDomain(RestaurantUpdateRequestDTO restaurantUpdateRequestDTO, Long id) {
+    public Restaurant toDomain(RestaurantUpdateRequestDTO restaurantUpdateRequestDTO, Long id, Long ownerId) {
         if (restaurantUpdateRequestDTO == null) {
             throw new RestaurantDomainException("RestaurantUpdateRequestDTO não pode ser nulo");
         }
@@ -86,7 +86,7 @@ public class RestaurantMapperImpl implements RestaurantMapper {
                 restaurantUpdateRequestDTO.address(),
                 restaurantUpdateRequestDTO.cuisineType(),
                 restaurantUpdateRequestDTO.openingHours(),
-                restaurantUpdateRequestDTO.ownerId()
+                ownerId // preserva o ownerId que vem do parâmetro
         );
     }
 }
