@@ -1,7 +1,6 @@
-package pos.java.bora_comer.core.domain.itemsMenu;
+package pos.java.bora_comer.core.domain.menu;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 public class MenuItem {
 
