@@ -10,22 +10,26 @@ public class MenuItem {
     private final BigDecimal price;
     private final boolean inPlaceOnly;
     private final String imagePath;
+    private final Long restaurantId;
 
-    private MenuItem(Long id, String name, String description, BigDecimal price, boolean inPlaceOnly, String imagePath) {
+    private MenuItem(Long id, String name, String description, BigDecimal price, boolean inPlaceOnly, String imagePath, Long restaurantId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.inPlaceOnly = inPlaceOnly;
         this.imagePath = imagePath;
+        this.restaurantId = restaurantId;   
     }
 
-    public static MenuItem create(String name, String description, BigDecimal price, boolean inPlaceOnly, String imagePath) {
-        return new MenuItem(null, name, description, price, inPlaceOnly, imagePath);
+    // Factory method without ID (for creation)
+    public static MenuItem create(String name, String description, BigDecimal price, boolean inPlaceOnly, String imagePath, Long restaurantId) {
+        return new MenuItem(null, name, description, price, inPlaceOnly, imagePath, restaurantId);
     }
 
-    public static MenuItem createWithId(Long id, String name, String description, BigDecimal price, boolean inPlaceOnly, String imagePath) {
-        return new MenuItem(id, name, description, price, inPlaceOnly, imagePath);
+    // Factory method with ID (for updates)
+    public static MenuItem create(Long id, String name, String description, BigDecimal price, boolean inPlaceOnly, String imagePath,  Long restaurantId) {
+        return new MenuItem(id, name, description, price, inPlaceOnly, imagePath, restaurantId);
     }
 
     // Getters
@@ -35,4 +39,5 @@ public class MenuItem {
     public BigDecimal getPrice() { return price; }
     public boolean isInPlaceOnly() { return inPlaceOnly; }
     public String getImagePath() { return imagePath; }
+    public Long getRestaurantId() { return restaurantId; }
 }
