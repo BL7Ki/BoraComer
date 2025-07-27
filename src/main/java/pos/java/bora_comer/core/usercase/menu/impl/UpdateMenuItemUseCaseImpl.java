@@ -8,11 +8,11 @@ import pos.java.bora_comer.core.gateway.menu.MenuItemUpdateGateway;
 import pos.java.bora_comer.core.usercase.menu.UpdateMenuItemUseCase;
 
 @Service
-public class UpdateItemMenuUseCaseImpl implements UpdateMenuItemUseCase {
+public class UpdateMenuItemUseCaseImpl implements UpdateMenuItemUseCase {
 
     private final MenuItemUpdateGateway menuItemUpdateGateway;
 
-    public UpdateItemMenuUseCaseImpl(MenuItemUpdateGateway menuItemUpdateGateway) {
+    public UpdateMenuItemUseCaseImpl(MenuItemUpdateGateway menuItemUpdateGateway) {
         this.menuItemUpdateGateway = menuItemUpdateGateway;
     }
 
