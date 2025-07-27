@@ -34,7 +34,7 @@ class MenuItemCreateGatewayImplTest {
         when(menuItemRepository.existsByNameAndRestaurantId(menuItem.getName(),menuItem.getRestaurantId())).thenReturn(true);
 
         MenuItemDomainException ex = assertThrows(MenuItemDomainException.class, () -> gateway.save(menuItem));
-        assertEquals("Já existe um restaurante com esse nome.", ex.getMessage());
+        assertEquals("Já existe um item de menu com esse nome para esse Restaurante.", ex.getMessage());
 
         verify(menuItemRepository, times(1)).existsByNameAndRestaurantId(menuItem.getName(), menuItem.getRestaurantId());
         verifyNoMoreInteractions(menuItemRepository);

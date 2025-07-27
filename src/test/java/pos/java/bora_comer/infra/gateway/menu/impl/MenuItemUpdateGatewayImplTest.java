@@ -59,8 +59,8 @@ class MenuItemUpdateGatewayImplTest {
 
         MenuItem result = gateway.update(domainMenuItem);
 
-        verify(entity).updateName("NewName");
-        verify(entity).updateDescription("NewDescription");
+        verify(entity).updateName("Sushi");
+        verify(entity).updateDescription("Sushi de salmão com arroz");
         verify(entity).updatePrice(BigDecimal.valueOf(29.99));
         verify(entity).updateInPlaceOnly(true);
         verify(entity).updateImagePath("sushi.jpg");
