@@ -14,12 +14,12 @@ import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemResponseDTO;
 
 @RestController
 @RequestMapping("/menuitems")
-public class CreateItemsMenuController implements CreateMenuItemControllerDocs {
+public class CreateMenuItemController implements CreateMenuItemControllerDocs {
 
     private final MenuItemMapper menuItemMapper;
     private final CreateMenuItemUseCase createMenuItemUseCase;
 
-    public CreateItemsMenuController(MenuItemMapper menuItemMapper, CreateMenuItemUseCase createMenuItemUseCase) {
+    public CreateMenuItemController(MenuItemMapper menuItemMapper, CreateMenuItemUseCase createMenuItemUseCase) {
         this.menuItemMapper = menuItemMapper;
         this.createMenuItemUseCase = createMenuItemUseCase;
     }

@@ -53,18 +53,19 @@ VALUES ('Sushi Brasil', 'Av. Paulista, 1000', 'Japonesa', '18:00 - 23:00', 1);
 -- Criação da tabela de itens do cardápio V4
 CREATE TABLE IF NOT EXISTS tb_menu_items (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    description VARCHAR(255),
-    price DECIMAL(10, 2) NOT NULL,
-    in_place_only BOOLEAN NOT NULL,
-    image_path VARCHAR(255),
+    nome VARCHAR(100) NOT NULL,
+    descricao VARCHAR(255),
+    preco DECIMAL(10, 2) NOT NULL,
+    so_no_local BOOLEAN NOT NULL,
+    imagem_caminho VARCHAR(255),
     restaurante_id BIGINT NOT NULL,
-
+    data_alteracao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
     CONSTRAINT fk_restaurante_menu_item FOREIGN KEY (restaurante_id) REFERENCES tb_restaurantes(id)
 );
 
 -- Exemplo de item do cardápio se quiser
-INSERT INTO tb_menu_items (name, description, price, in_place_only, image_path, restaurante_id)
+INSERT INTO tb_menu_items (nome, descricao, preco, so_no_local, imagem_caminho, restaurante_id)
 VALUES
 ('Temaki de Salmão', 'Temaki recheado com salmão fresco e cebolinha', 24.90, false, '/imagens/temaki.jpg', 1),
 ('Sashimi Especial', 'Fatias selecionadas de salmão e atum', 39.90, true, '/imagens/sashimi.jpg', 1);

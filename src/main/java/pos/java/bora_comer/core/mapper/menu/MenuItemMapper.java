@@ -9,7 +9,7 @@ import pos.java.bora_comer.infra.persistence.repository.menu.entity.MenuItemEnti
 public interface MenuItemMapper {
 
     MenuItem toDomain(MenuItemRequestDTO menuItemRequestDTO);
-
+    
     MenuItemEntity toEntity(MenuItem menuItem);
 
     MenuItem toDomain(MenuItemEntity menuItemEntity);
