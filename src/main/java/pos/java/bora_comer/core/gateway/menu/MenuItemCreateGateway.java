@@ -4,7 +4,7 @@ import pos.java.bora_comer.core.domain.menu.MenuItem;
 
 public interface MenuItemCreateGateway {
 
-    boolean existsByName(String name);
+    boolean existsByNameAndRestaurantId(String name, Long restaurantId);
 
     MenuItem save(MenuItem menuItem);
 }
