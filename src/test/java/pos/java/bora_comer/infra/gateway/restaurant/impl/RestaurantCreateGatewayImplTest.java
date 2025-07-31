@@ -8,6 +8,7 @@ import pos.java.bora_comer.core.errors.RestaurantDomainException;
 import pos.java.bora_comer.core.mapper.restaurant.RestaurantMapper;
 import pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity;
 import pos.java.bora_comer.infra.persistence.repository.restaurant.RestaurantRepository;
+import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -18,12 +19,14 @@ class RestaurantCreateGatewayImplTest {
     private RestaurantRepository restaurantRepository;
     private RestaurantMapper restaurantMapper;
     private RestaurantCreateGatewayImpl gateway;
+    private UserRepository userRepository;
 
     @BeforeEach
     void setup() {
         restaurantRepository = mock(RestaurantRepository.class);
         restaurantMapper = mock(RestaurantMapper.class);
-        gateway = new RestaurantCreateGatewayImpl(restaurantRepository, restaurantMapper);
+        userRepository = mock(UserRepository.class);
+        gateway = new RestaurantCreateGatewayImpl(restaurantRepository, restaurantMapper, userRepository);
     }
 
     @Test
@@ -42,6 +45,22 @@ class RestaurantCreateGatewayImplTest {
     }
 
     @Test
+    @DisplayName("Should throw exception if owner does not exist")
+    void shouldThrowExceptionIfOwnerDoesNotExist() {
+        Restaurant restaurant = createDefault();
+
+        when(restaurantRepository.existsByName(restaurant.getName())).thenReturn(false);
+        when(userRepository.existsById(restaurant.getOwnerId())).thenReturn(false);
+
+        RestaurantDomainException ex = assertThrows(RestaurantDomainException.class, () -> gateway.save(restaurant));
+        assertEquals("Este dono não existe. Tente criá-lo!", ex.getMessage());
+
+        verify(restaurantRepository, times(1)).existsByName(restaurant.getName());
+        verify(userRepository, times(1)).existsById(restaurant.getOwnerId());
+        verifyNoInteractions(restaurantMapper);
+    }
+
+    @Test
     @DisplayName("Should save and return restaurant successfully")
     void shouldSaveAndReturnRestaurant() {
         Restaurant restaurant = createDefault();
@@ -50,6 +69,7 @@ class RestaurantCreateGatewayImplTest {
         Restaurant domainFromSaved = createDefault();
 
         when(restaurantRepository.existsByName(restaurant.getName())).thenReturn(false);
+        when(userRepository.existsById(restaurant.getOwnerId())).thenReturn(true);
         when(restaurantMapper.toEntity(restaurant)).thenReturn(entityToSave);
         when(restaurantRepository.save(entityToSave)).thenReturn(savedEntity);
         when(restaurantMapper.toDomain(savedEntity)).thenReturn(domainFromSaved);
@@ -61,6 +81,7 @@ class RestaurantCreateGatewayImplTest {
         assertEquals(domainFromSaved.getName(), result.getName());
 
         verify(restaurantRepository, times(1)).existsByName(restaurant.getName());
+        verify(userRepository, times(1)).existsById(restaurant.getOwnerId());
         verify(restaurantMapper, times(1)).toEntity(restaurant);
         verify(restaurantRepository, times(1)).save(entityToSave);
         verify(restaurantMapper, times(1)).toDomain(savedEntity);
