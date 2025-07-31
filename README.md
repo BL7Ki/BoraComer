@@ -2,7 +2,6 @@
 
 ## 1. Equipe
 - Leonardo Felipe Ventura Ferreira - RM363339
-- Gabriel Cardoso de Oliveira - RM361190
 - Wagner de Lima Braga Silva - RM364223
 - Everton Cristiano de Souza Teixeira - RM362065
 
