@@ -46,7 +46,7 @@ public class SearchMenuItemControllerTest {
         Mockito.when(searchMenuItemUseCase.findById(id)).thenReturn(mockMenuItem);
         Mockito.when(menuItemMapper.toResponseDTO(mockMenuItem)).thenReturn(responseDTO);
 
-        mockMvc.perform(get("/menuitems/{id}", id)
+        mockMvc.perform(get("/menu-items/{id}", id)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(10L))
@@ -77,7 +77,7 @@ public class SearchMenuItemControllerTest {
         Mockito.when(menuItemMapper.toResponseDTO(menuItem1)).thenReturn(dto1);
         Mockito.when(menuItemMapper.toResponseDTO(menuItem2)).thenReturn(dto2);
 
-        mockMvc.perform(get("/menuitems")
+        mockMvc.perform(get("/menu-items")
                         .param("page", String.valueOf(page))
                         .param("size", String.valueOf(size))
                         .accept(MediaType.APPLICATION_JSON))
