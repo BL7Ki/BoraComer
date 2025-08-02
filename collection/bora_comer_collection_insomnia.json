@@ -4,8 +4,7 @@
 		"name": "Projeto-Bora-comer",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "44240766",
-		"_collection_link": "https://evertonteixeira-8036567.postman.co/workspace/Locatech~008cd7c6-cdec-4e38-aa44-e8e70ef8a536/collection/44240766-0d2f27b5-e02f-4f69-a635-58aac22098e7?action=share&source=collection_link&creator=44240766"
-	},
+		"description": "Coleção de testes para o projeto Bora Comer, que inclui endpoints para login, gerenciamento de usuários, tipos de usuários, restaurantes e itens de menu. Esta coleção foi criada para facilitar o teste e a validação das funcionalidades da API."},
 	"item": [
 		{
 			"name": "login",
