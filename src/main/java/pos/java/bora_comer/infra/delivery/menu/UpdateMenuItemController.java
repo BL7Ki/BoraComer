@@ -12,7 +12,7 @@ import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemUpdateRequestDTO;
 
 
 @RestController
-@RequestMapping("/menuitems")
+@RequestMapping("/menu-items")
 public class UpdateMenuItemController implements UpdateMenuItemControllerDocs {
 
     private final MenuItemMapper menuItemMapper;

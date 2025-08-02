@@ -6,7 +6,7 @@ import pos.java.bora_comer.core.usercase.menu.DeleteMenuItemUseCase;
 import pos.java.bora_comer.infra.delivery.menu.doc.DeleteMenuItemControllerDocs;
 
 @RestController
-@RequestMapping("/menuitems")
+@RequestMapping("/menu-items")
 public class DeleteMenuItemController implements DeleteMenuItemControllerDocs {
 
     private final DeleteMenuItemUseCase deleteMenuItemUseCase;
