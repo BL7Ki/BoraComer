@@ -49,11 +49,11 @@ class CreateMenuItemControllerTest {
         Mockito.when(menuItemMapper.toResponseDTO(any(MenuItem.class))).thenReturn(responseDTO);
 
         // when & then
-        mockMvc.perform(post("/menuitems")
+        mockMvc.perform(post("/menu-items")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/menuitems/10"))
+                .andExpect(header().string("Location", "/menu-items/10"))
                 .andExpect(jsonPath("$.id").value(10L))
                 .andExpect(jsonPath("$.nome").value("Sushi"))
                 .andExpect(jsonPath("$.descricao").value("Sushi de salmão com arroz"))

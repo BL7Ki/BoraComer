@@ -30,7 +30,7 @@ public class DeleteMenuItemControllerTest {
         // Mocka o comportamento do use case para não fazer nada (void)
         doNothing().when(deleteMenuItemUseCase).execute(menuItemId);
 
-        mockMvc.perform(delete("/menuitems/{id}", menuItemId)
+        mockMvc.perform(delete("/menu-items/{id}", menuItemId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 

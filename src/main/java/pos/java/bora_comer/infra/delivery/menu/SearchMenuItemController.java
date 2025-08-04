@@ -12,7 +12,7 @@ import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemResponseDTO;
 import java.util.List;
 
 @RestController
-@RequestMapping("/menuitems")
+@RequestMapping("/menu-items")
 public class SearchMenuItemController implements SearchMenuItemControllerDocs {
 
     private final SearchMenuItemUseCase searchMenuItemUseCase;

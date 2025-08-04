@@ -13,7 +13,7 @@ import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemRequestDTO;
 import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemResponseDTO;
 
 @RestController
-@RequestMapping("/menuitems")
+@RequestMapping("/menu-items")
 public class CreateMenuItemController implements CreateMenuItemControllerDocs {
 
     private final MenuItemMapper menuItemMapper;
@@ -29,7 +29,7 @@ public class CreateMenuItemController implements CreateMenuItemControllerDocs {
         var menuItemDomain = menuItemMapper.toDomain(menuItemRequestDTO);
         MenuItem createdMenuItem = createMenuItemUseCase.execute(menuItemDomain);
         MenuItemResponseDTO responseDTO = menuItemMapper.toResponseDTO(createdMenuItem);
-        URI location = URI.create("/menuitems/" + responseDTO.id());
+        URI location = URI.create("/menu-items/" + responseDTO.id());
         return ResponseEntity.created(location).body(responseDTO);
     }
 

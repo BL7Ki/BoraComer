@@ -81,7 +81,7 @@ public class UpdateMenuItemControllerTest {
 
         Mockito.when(menuItemMapper.toResponseDTO(domainMenuItem)).thenReturn(responseDTO);
 
-        mockMvc.perform(put("/menuitems/{id}", id)
+        mockMvc.perform(put("/menu-items/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateRequestDTO))
                         .accept(MediaType.APPLICATION_JSON))
