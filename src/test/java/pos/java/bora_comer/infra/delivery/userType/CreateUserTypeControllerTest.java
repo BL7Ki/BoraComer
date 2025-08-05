@@ -15,7 +15,7 @@ import pos.java.bora_comer.core.errors.CustomExceptionHandler;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.userType.UserTypeMapper;
 import pos.java.bora_comer.core.usercase.userType.CreateUserTypeUseCase;
-import pos.java.bora_comer.factory.user.UserTypeFactory;
+import pos.java.bora_comer.util.factory.UserTypeFactory;
 import pos.java.bora_comer.infra.delivery.userType.dto.CreateUserTypeRequestDTO;
 import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeResponseDTO;
 
@@ -38,7 +38,7 @@ class CreateUserTypeControllerTest {
     @InjectMocks
     private CreateUserTypeController controller;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setup() {

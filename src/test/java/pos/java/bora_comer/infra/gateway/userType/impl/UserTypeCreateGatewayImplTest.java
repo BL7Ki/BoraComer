@@ -6,7 +6,7 @@ import org.mockito.Mockito;
 import pos.java.bora_comer.core.domain.userType.UserType;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.userType.UserTypeMapper;
-import pos.java.bora_comer.factory.user.UserTypeFactory;
+import pos.java.bora_comer.util.factory.UserTypeFactory;
 import pos.java.bora_comer.infra.persistence.repository.userType.UserTypeRepository;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeNameEntityEnum;

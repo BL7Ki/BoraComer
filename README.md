@@ -2,7 +2,6 @@
 
 ## 1. Equipe
 - Leonardo Felipe Ventura Ferreira - RM363339
-- Gabriel Cardoso de Oliveira - RM361190
 - Wagner de Lima Braga Silva - RM364223
 - Everton Cristiano de Souza Teixeira - RM362065
 
@@ -346,11 +345,124 @@ Contribuições são bem-vindas! Para contribuir:
 
 ---
 
-## 13. Collection do Insomnia
+## 13. Fase 2: Expansão do Sistema
+
+Essa fase expande o sistema ao incluir a gestão dos tipos de usuários, cadastro de restaurantes e cardápios, reforçando práticas de desenvolvimento e estruturação de código limpo.
+
+### 13.1 Tipo de Usuário
+
+Implementa uma estrutura para distinguir entre usuários "Dono de Restaurante" e "Cliente", incluindo um CRUD para gerenciar tipos de usuário e associá-los a usuários existentes.
+
+- **Campos necessários para o cadastro de tipo usuário:**
+    - Nome do Tipo
+
+**Observação:**  
+Foi criada uma associação entre o usuário e o tipo de usuário, permitindo identificar o perfil de cada usuário no sistema.
+
+### 13.2 Cadastro de Restaurante
+
+CRUD completo para cadastro de restaurantes, permitindo associar um usuário como dono do restaurante.
+
+- **Campos necessários para o cadastro de restaurante:**
+    - Nome
+    - Endereço
+    - Tipo de cozinha
+    - Horário de funcionamento
+    - Dono do restaurante (usuário responsável)
+
+### 13.3 Cadastro dos Itens do Cardápio
+
+CRUD para os itens vendidos no restaurante, com detalhes completos.
+
+- **Campos necessários para o cadastro de um item do cardápio:**
+    - Nome
+    - Descrição
+    - Preço
+    - Disponibilidade para pedir apenas no restaurante
+    - Foto do prato (armazenado como caminho da imagem)
+
+---
+
+## 14. Endpoints Adicionados na Fase 2
+
+| **Endpoint**                        | **Método** | **Descrição**                                      |
+|--------------------------------------|------------|----------------------------------------------------|
+| `/user-types`                       | `POST`     | Criar um novo tipo de usuário                      |
+| `/user-types/{id}`                  | `GET`      | Buscar tipo de usuário por ID                      |
+| `/user-types`                       | `GET`      | Listar todos os tipos de usuário                   |
+| `/user-types/{id}`                  | `PUT`      | Atualizar tipo de usuário                          |
+| `/user-types/{id}`                  | `DELETE`   | Deletar tipo de usuário                            |
+| `/restaurants`                      | `POST`     | Criar um novo restaurante                          |
+| `/restaurants/{id}`                 | `GET`      | Buscar restaurante por ID                          |
+| `/restaurants`                      | `GET`      | Listar todos os restaurantes                       |
+| `/restaurants/{id}`                 | `PUT`      | Atualizar restaurante                              |
+| `/restaurants/{id}`                 | `DELETE`   | Deletar restaurante                                |
+| `/menu-items`                       | `POST`     | Criar um novo item de cardápio                     |
+| `/menu-items/{id}`                  | `GET`      | Buscar item de cardápio por ID                     |
+| `/menu-items`                       | `GET`      | Listar todos os itens de cardápio                  |
+| `/menu-items/{id}`                  | `PUT`      | Atualizar item de cardápio                         |
+| `/menu-items/{id}`                  | `DELETE`   | Deletar item de cardápio                           |
+
+---
+
+## 15. Exemplos de Uso dos Novos Endpoints
+
+### Criar Tipo de Usuário
+
+**Requisição:**
+```json
+POST /user-types
+Content-Type: application/json
+
+{
+  "name": "Dono de Restaurante"
+
+}
+```
+### Criar Restaurante
+**Requisição:**
+```json
+POST /restaurants
+Content-Type: application/json
+
+{
+"nome": "Restaurante Saboroso",
+"endereco": "Rua das Flores, 123",
+"tipoCozinha": "Japonesa",
+"horarioFuncionamento": "10:00-22:00",
+"donoId": 1
+}
+
+```
+
+### Criar Item do Cardápio
+**Requisição:**
+
+```json
+POST /menu-items
+Content-Type: application/json
+
+{
+  "nome": "Temaki de Salmão",
+  "descricao": "Temaki recheado com salmão fresco e cebolinha",
+  "preco": 24.90,
+  "soNoLocal": false,
+  "imagemCaminho": "/imagens/temaki.jpg",
+  "restauranteId": 1
+}
+
+```
+
+### Acessar swagger
+- Acesse a documentação Swagger da API em: `http://localhost:8080/swagger-ui.html`
+- A documentação Swagger fornece uma interface interativa para explorar os endpoints da API, facilitando o teste e a compreensão das funcionalidades disponíveis.
+
+
+## 16. Collection do Insomnia
 
 Para facilitar os testes das requisições da API, incluímos uma collection do Insomnia no projeto.
 
-**Localização do arquivo:**
+**Localização do arquivo:**  
 `collection/bora_comer_collection_insomnia.json`
 
 **Como importar:**
@@ -365,4 +477,20 @@ Para facilitar os testes das requisições da API, incluímos uma collection do 
 - Atualizar usuário (`PUT /users/{id}`)
 - Deletar usuário (`DELETE /users/{id}`)
 - Listar todos os usuários (`GET /users`)
+- Trocar senha do usuário (`PUT /users/{id}/change-password`)
 - Validar login (`POST /login`)
+- Criar tipo de usuário (`POST /user-types`)
+- Buscar tipo de usuário por ID (`GET /user-types/{id}`)
+- Listar todos os tipos de usuário (`GET /user-types`)
+- Atualizar tipo de usuário (`PUT /user-types/{id}`)
+- Deletar tipo de usuário (`DELETE /user-types/{id}`)
+- Criar restaurante (`POST /restaurants`)
+- Buscar restaurante por ID (`GET /restaurants/{id}`)
+- Listar todos os restaurantes (`GET /restaurants`)
+- Atualizar restaurante (`PUT /restaurants/{id}`)
+- Deletar restaurante (`DELETE /restaurants/{id}`)
+- Criar item de cardápio (`POST /menu-items`)
+- Buscar item de cardápio por ID (`GET /menu-items/{id}`)
+- Listar todos os itens de cardápio (`GET /menu-items`)
+- Atualizar item de cardápio (`PUT /menu-items/{id}`)
+- Deletar item de cardápio (`DELETE /menu-items/{id}`)

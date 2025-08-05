@@ -74,7 +74,6 @@ public class User {
         return lastModifiedDate;
     }
 
-
     public UserTypeNameEnum getUserTypeNameEnum() {
         return userTypeNameEnum;
     }
