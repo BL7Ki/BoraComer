@@ -2,12 +2,11 @@ package pos.java.bora_comer.core.usercase.user.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pos.java.bora_comer.core.domain.Address;
-import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.domain.UserRoleEnum;
+import pos.java.bora_comer.core.domain.user.Address;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserCreateGateway;
-import pos.java.bora_comer.util.UserTestFactory;
+import pos.java.bora_comer.util.factory.UserTestFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -57,9 +56,7 @@ class CreateUserUseCaseImplTest {
 
         when(userCreateGateway.existsByUsername(user.getUsername())).thenReturn(true);
 
-        UserDomainException exception = assertThrows(UserDomainException.class, () -> {
-            createUserUseCase.execute(user);
-        });
+        UserDomainException exception = assertThrows(UserDomainException.class, () -> createUserUseCase.execute(user));
 
         assertEquals("O userName já está em uso.", exception.getMessage());
 

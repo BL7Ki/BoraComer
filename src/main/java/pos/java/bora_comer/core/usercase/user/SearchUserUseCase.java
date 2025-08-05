@@ -1,7 +1,7 @@
 package pos.java.bora_comer.core.usercase.user;
 
 import org.springframework.data.domain.Page;
-import pos.java.bora_comer.core.domain.User;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.SummerNotFoundException;
 import pos.java.bora_comer.core.errors.UserDomainException;
 

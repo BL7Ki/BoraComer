@@ -1,7 +1,7 @@
 package pos.java.bora_comer.core.usercase.user.impl;
 
 import org.springframework.stereotype.Service;
-import pos.java.bora_comer.core.domain.User;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserCreateGateway;
 import pos.java.bora_comer.core.usercase.user.CreateUserUseCase;

@@ -1,0 +1,42 @@
+package pos.java.bora_comer.util.factory;
+
+import pos.java.bora_comer.core.domain.userType.UserType;
+import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
+import pos.java.bora_comer.infra.delivery.userType.dto.CreateUserTypeRequestDTO;
+import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeNameRequestEnum;
+import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
+import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeNameEntityEnum;
+
+import java.util.Random;
+
+public class UserTypeFactory {
+
+    public static UserType createUserType() {
+        return UserType.create(1L, UserTypeNameEnum.DONO_RESTAURANTE);
+    }
+
+    public static UserType createUserTypeIdRandomic() {
+
+        Random random = new Random();
+        Long id = random.nextLong(1, 1000);
+
+        return UserType.create(id, UserTypeNameEnum.DONO_RESTAURANTE);
+    }
+
+    public static UserTypeEntity createUserTypeEntity() {
+
+        return UserTypeEntity.create(UserTypeNameEntityEnum.DONO_RESTAURANTE);
+    }
+
+    public static UserTypeEntity createUserTypeEntityIdRandomic() {
+
+        Random random = new Random();
+        Long id = random.nextLong(1, 1000);
+
+        return UserTypeEntity.create(id, UserTypeNameEntityEnum.DONO_RESTAURANTE);
+    }
+
+    public static CreateUserTypeRequestDTO createUserTypeRequestDTO() {
+        return new CreateUserTypeRequestDTO(UserTypeNameRequestEnum.DONO_RESTAURANTE);
+    }
+}

@@ -1,11 +1,14 @@
 package pos.java.bora_comer.infra.delivery.user.doc;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import pos.java.bora_comer.infra.delivery.user.dto.UserChangePasswordRequestDTO;
 import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
@@ -51,5 +54,27 @@ public interface UppdateUserControllerDocs {
     ResponseEntity<Map<String, String>> changePassword(
             @PathVariable("id") Long id,
             @RequestBody UserChangePasswordRequestDTO request
+    );
+
+    @Operation(
+            summary = "Associa um tipo de usuário ao usuário",
+            description = "Associa o usuário identificado por userId ao tipo de usuário identificado por tipoUsuarioId. Retorna o usuário atualizado.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Usuário atualizado com sucesso",
+                            content = @Content(schema = @Schema(implementation = UserResponseDTO.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Usuário ou tipo de usuário não encontrado",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+                    )
+            }
+    )
+    @PutMapping("/{userId}/tipo-usuario/{tipoUsuarioId}")
+    ResponseEntity<UserResponseDTO> userTypeAssociate(
+            @PathVariable("userId") Long userId,
+            @PathVariable("tipoUsuarioId") Long tipoUsuarioId
     );
 }

@@ -3,7 +3,7 @@ package pos.java.bora_comer.core.usercase.user.impl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import pos.java.bora_comer.core.domain.User;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.SummerNotFoundException;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;

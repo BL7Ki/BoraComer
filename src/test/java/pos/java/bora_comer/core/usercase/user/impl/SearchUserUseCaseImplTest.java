@@ -7,13 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import pos.java.bora_comer.core.domain.Address;
-import pos.java.bora_comer.core.domain.User;
-import pos.java.bora_comer.core.domain.UserRoleEnum;
+import pos.java.bora_comer.core.domain.user.Address;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.SummerNotFoundException;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
-import pos.java.bora_comer.util.UserTestFactory;
+import pos.java.bora_comer.util.factory.UserTestFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -56,9 +55,7 @@ class SearchUserUseCaseImplTest {
     void findById_deveLancarExcecao_quandoNaoExistir() {
         when(userSearchGateway.findById(99L)).thenReturn(Optional.empty());
 
-        SummerNotFoundException exception = assertThrows(SummerNotFoundException.class, () -> {
-            searchUserUseCase.findById(99L);
-        });
+        SummerNotFoundException exception = assertThrows(SummerNotFoundException.class, () -> searchUserUseCase.findById(99L));
 
         assertEquals("User with ID 99 not found", exception.getMessage());
         verify(userSearchGateway).findById(99L);

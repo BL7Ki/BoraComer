@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pos.java.bora_comer.core.domain.User;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.SearchUserUseCase;
 import pos.java.bora_comer.infra.delivery.user.doc.SearchUserControllerDocs;
@@ -41,9 +41,11 @@ public class SearchUserController implements SearchUserControllerDocs {
     ) {
 
         Page<User> users = searchUserUseCase.findAll(page, size);
+
         List<UserResponseDTO> usuarios = users.stream()
                 .map(userMapper::toResponseDTO)
                 .toList();
+
         return ResponseEntity.ok(usuarios);
     }
 }
