@@ -72,6 +72,7 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+    //criptografar senha no db
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
