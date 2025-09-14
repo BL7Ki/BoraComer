@@ -70,3 +70,20 @@ VALUES
 ('Temaki de Salmão', 'Temaki recheado com salmão fresco e cebolinha', 24.90, false, '/imagens/temaki.jpg', 1),
 ('Sashimi Especial', 'Fatias selecionadas de salmão e atum', 39.90, true, '/imagens/sashimi.jpg', 1);
 
+-- Criação da tabela de pedidos
+
+CREATE TABLE IF NOT EXISTS tb_pedidos (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    delivery BOOLEAN NOT NULL,
+    restaurante_id BIGINT NOT NULL,
+    usuario_id BIGINT NOT NULL,
+    data_alteracao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_pedido_resturante FOREIGN KEY (restaurante_id) REFERENCES tb_restaurantes(id),
+    CONSTRAINT fk_pedido_usuario FOREIGN KEY (usuario_id) REFERENCES tb_usuarios(id)
+);
+
+-- Exemplo de pedido (opcional)
+INSERT INTO tb_pedidos (data_hora, delivery, restaurante_id, usuario_id)
+VALUES (CURRENT_TIMESTAMP, true, 1, 1);
