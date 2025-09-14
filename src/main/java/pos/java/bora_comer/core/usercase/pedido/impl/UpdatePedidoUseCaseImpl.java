@@ -2,7 +2,9 @@ package pos.java.bora_comer.core.usercase.pedido.impl;
 
 import org.springframework.stereotype.Service;
 
+import pos.java.bora_comer.core.domain.menu.MenuItem;
 import pos.java.bora_comer.core.domain.pedido.Pedido;
+import pos.java.bora_comer.core.errors.MenuItemDomainException;
 import pos.java.bora_comer.core.errors.PedidoDomainException;
 import pos.java.bora_comer.core.gateway.pedido.PedidoUpdateGateway;
 import pos.java.bora_comer.core.usercase.pedido.UpdatePedidoUseCase;
@@ -21,9 +23,9 @@ public class UpdatePedidoUseCaseImpl implements UpdatePedidoUseCase {
         return pedidoUpdateGateway.update(pedido);
     }
 
-    @Override
+     @Override
     public Pedido findById(Long id) throws PedidoDomainException {
         return pedidoUpdateGateway.findById(id)
-                .orElseThrow(() -> new pedidoDomainException("Pedido com ID " + id + " não encontrado"));
+                .orElseThrow(() -> new MenuItemDomainException("Pedido com ID " + id + " não encontrado"));
     }
 }

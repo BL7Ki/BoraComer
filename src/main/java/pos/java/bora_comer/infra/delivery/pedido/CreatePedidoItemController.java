@@ -8,28 +8,28 @@ import org.springframework.web.bind.annotation.*;
 import pos.java.bora_comer.core.domain.pedido.Pedido;
 import pos.java.bora_comer.core.mapper.pedido.PedidoMapper;
 import pos.java.bora_comer.core.usercase.pedido.CreatePedidoUseCase;
-import pos.java.bora_comer.infra.delivery.menu.doc.CreateMenuItemControllerDocs;
-import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemRequestDTO;
-import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemResponseDTO;
+import pos.java.bora_comer.infra.delivery.pedido.doc.CreatePedidoControllerDocs;
+import pos.java.bora_comer.infra.delivery.pedido.dto.PedidoRequestDTO;
+import pos.java.bora_comer.infra.delivery.pedido.dto.PedidoResponseDTO;
 
 @RestController
-@RequestMapping("/menu-items")
-public class CreatePedidoItemController implements CreateMenuItemControllerDocs {
+@RequestMapping("/pedidos")
+public class CreatePedidoItemController implements CreatePedidoControllerDocs {
 
-    private final MenuItemMapper menuItemMapper;
-    private final CreatePedidoUseCase createMenuItemUseCase;
+    private final PedidoMapper pedidoMapper;
+    private final CreatePedidoUseCase createPedidoUseCase;
 
-    public CreatePedidoItemController(MenuItemMapper menuItemMapper, CreatePedidoUseCase createMenuItemUseCase) {
-        this.menuItemMapper = menuItemMapper;
-        this.createMenuItemUseCase = createMenuItemUseCase;
+    public CreatePedidoItemController(PedidoMapper pedidoMapper, CreatePedidoUseCase createPedidoUseCase) {
+        this.pedidoMapper = pedidoMapper;
+        this.createPedidoUseCase = createPedidoUseCase;
     }
 
     @PostMapping
-    public ResponseEntity<MenuItemResponseDTO> create(@RequestBody MenuItemRequestDTO menuItemRequestDTO) {
-        var menuItemDomain = menuItemMapper.toDomain(menuItemRequestDTO);
-        MenuItem createdMenuItem = createMenuItemUseCase.execute(menuItemDomain);
-        MenuItemResponseDTO responseDTO = menuItemMapper.toResponseDTO(createdMenuItem);
-        URI location = URI.create("/menu-items/" + responseDTO.id());
+    public ResponseEntity<PedidoResponseDTO> create(@RequestBody PedidoRequestDTO pedidoRequestDTO) {
+        var pedidoDomain = pedidoMapper.toDomain(pedidoRequestDTO);
+        Pedido createdPedido = createPedidoUseCase.execute(pedidoDomain);
+        PedidoResponseDTO responseDTO = pedidoMapper.toResponseDTO(createdPedido);
+        URI location = URI.create("/pedidos/" + responseDTO.id());
         return ResponseEntity.created(location).body(responseDTO);
     }
 

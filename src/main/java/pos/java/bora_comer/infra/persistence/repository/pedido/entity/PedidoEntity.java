@@ -1,7 +1,6 @@
 package pos.java.bora_comer.infra.persistence.repository.pedido.entity;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,7 +23,7 @@ public class PedidoEntity {
 
     // Relacionamento com o usuário
     @Column(name = "usuario_id", nullable = false)
-    private Long usuarioId;
+    private Long userId;
 
     @Column(name = "data_alteracao", nullable = false)
     private LocalDateTime lastModifiedDate;    
@@ -46,8 +45,8 @@ public class PedidoEntity {
         return restaurantId;
     }
     
-    public Long getUsuarioId() {
-        return usuarioId;
+    public Long getUserId() {
+        return userId;
     }
 
     public LocalDateTime getLastModifiedDate() {
@@ -60,30 +59,26 @@ public class PedidoEntity {
     }
     
     // Factory method
-    public static PedidoEntity create(String name, String description, BigDecimal price, boolean inPlaceOnly, String imagePath, Long restaurantId) {
-        return new PedidoEntity(name, description, price, inPlaceOnly, imagePath, restaurantId);
+    public static PedidoEntity create(LocalDateTime dateTimeOrder, boolean delivery, Long userId, Long restaurantId) {
+        return new PedidoEntity(dateTimeOrder, delivery, userId, restaurantId);
     }       
 
     // Construtor privado completo
-    private PedidoEntity(String name, String description, BigDecimal price, boolean inPlaceOnly, String imagePath, Long restaurantId) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.inPlaceOnly = inPlaceOnly;
-        this.imagePath = imagePath;
+    private PedidoEntity(LocalDateTime dateTimeOrder, boolean delivery, Long userId, Long restaurantId ) {
+        this.dateTimeOrder = dateTimeOrder;
+        this.delivery = delivery;
+        this.userId = userId;
         this.restaurantId = restaurantId;
         this.lastModifiedDate = LocalDateTime.now();
     }
 
     // Atualizadores controlados
-       
-
     public void updateRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
     }
     
-    public void updateUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void updateUsuarioId(Long userId) {
+        this.userId = userId;
     }
     
     public void updateDelivery(boolean delivery) {

@@ -1,20 +1,20 @@
 package pos.java.bora_comer.core.mapper.pedido;
 
-import pos.java.bora_comer.core.domain.menu.MenuItem;
-import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemRequestDTO;
-import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemResponseDTO;
-import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemUpdateRequestDTO;
-import pos.java.bora_comer.infra.persistence.repository.menu.entity.MenuItemEntity;
+import pos.java.bora_comer.core.domain.pedido.Pedido;
+import pos.java.bora_comer.infra.delivery.pedido.dto.PedidoRequestDTO;
+import pos.java.bora_comer.infra.delivery.pedido.dto.PedidoResponseDTO;
+import pos.java.bora_comer.infra.delivery.pedido.dto.PedidoUpdateRequestDTO;
+import pos.java.bora_comer.infra.persistence.repository.pedido.entity.PedidoEntity;
 
 public interface PedidoMapper {
 
-    MenuItem toDomain(MenuItemRequestDTO menuItemRequestDTO);
+    Pedido toDomain(PedidoRequestDTO pedidoRequestDTO);
     
-    MenuItemEntity toEntity(MenuItem menuItem);
+    PedidoEntity toEntity(Pedido pedido);
 
-    MenuItem toDomain(MenuItemEntity menuItemEntity);
+    Pedido toDomain(PedidoEntity pedidoEntity);
 
-    MenuItemResponseDTO toResponseDTO(MenuItem menuItem);
+    PedidoResponseDTO toResponseDTO(Pedido pedido);
 
-    MenuItem toDomain(MenuItemUpdateRequestDTO menuItemUpdateRequestDTO, Long id, Long restaurantId);
+    Pedido toDomain(PedidoUpdateRequestDTO pedidoUpdateRequestDTO, Long id, Long restaurantId, Long userId);
 }
