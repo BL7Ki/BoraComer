@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pos.java.bora_comer.core.usercase.login.UserLoginUseCase;
 import pos.java.bora_comer.infra.delivery.login.dto.LoginRequestDTO;
+import pos.java.bora_comer.infra.delivery.login.dto.LoginResponseDTO;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -24,38 +25,21 @@ class LoginControllerTest {
     private LoginController controller;
 
     @Test
-    void deveriaRetornar200QuandoLoginForValido() {
+    void deveriaRetornarTokenQuandoLoginForValido() {
         // Arrange
         LoginRequestDTO loginRequest = new LoginRequestDTO("messi10", "senha123");
+        String fakeToken = "fake-jwt-token";
 
-        when(userLoginUseCase.execute("messi10", "senha123"))
-                .thenReturn(LoginEnum.SUCCESS);
+        when(userLoginUseCase.execute("messi10", "senha123")).thenReturn(fakeToken);
 
         // Act
-        ResponseEntity<String> response = controller.validateLogin(loginRequest);
+        ResponseEntity<LoginResponseDTO> response = controller.validateLogin(loginRequest);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(LoginEnum.SUCCESS.getMessage(), response.getBody());
+        assertEquals(fakeToken, response.getBody().token());
+        assertEquals("Bearer", response.getBody().type());
 
         verify(userLoginUseCase).execute("messi10", "senha123");
-    }
-
-    @Test
-    void deveriaRetornar401QuandoLoginForInvalido() {
-        // Arrange
-        LoginRequestDTO loginRequest = new LoginRequestDTO("messi10", "senhaErrada");
-
-        when(userLoginUseCase.execute("messi10", "senhaErrada"))
-                .thenReturn(LoginEnum.INVALID_PASSWORD);
-
-        // Act
-        ResponseEntity<String> response = controller.validateLogin(loginRequest);
-
-        // Assert
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertEquals(LoginEnum.INVALID_PASSWORD.getMessage(), response.getBody());
-
-        verify(userLoginUseCase).execute("messi10", "senhaErrada");
     }
 }

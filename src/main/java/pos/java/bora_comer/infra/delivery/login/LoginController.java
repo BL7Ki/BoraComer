@@ -20,9 +20,11 @@ public class LoginController implements LoginControllerDocs {
         this.userLoginUseCase = userLoginUseCase;
     }
 
+    @Override
     @PostMapping
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
+    public ResponseEntity<LoginResponseDTO> validateLogin(@RequestBody LoginRequestDTO loginRequestDTO) {
         String token = userLoginUseCase.execute(loginRequestDTO.login(), loginRequestDTO.password());
         return ResponseEntity.ok(new LoginResponseDTO(token, "Bearer"));
     }
 }
+
