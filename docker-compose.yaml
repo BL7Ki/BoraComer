@@ -1,8 +1,25 @@
-name: bora-comer
+# Após subir o docker-compose, acesse a aplicação em:
+# http://<ip-da-maquina>:8080
+# Substitua <ip-da-maquina> pelo IP da máquina onde o Docker está rodando.
+
+version: '3.8'
 
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: bora-comer-rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - bora-comer-network
+
   h2:
     image: oscarfonts/h2
+    container_name: bora-comer-h2
     ports:
       - "1521:1521"
       - "81:81"
@@ -10,42 +27,32 @@ services:
       H2_OPTIONS: "-tcp -tcpAllowOthers -web -webAllowOthers"
     volumes:
       - h2_data:/opt/h2-data
-
-  rabbitmq:
-    image: rabbitmq:3.13-management
-    ports:
-      - "${RABBIT_PORT:-5672}:5672"
-      - "${RABBIT_MGMT_PORT:-15672}:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBIT_USER:-bora}
-      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASS:-comer}
-      RABBITMQ_DEFAULT_VHOST: ${RABBIT_VHOST:-/bora}
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    networks:
+      - bora-comer-network
 
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: bora-comer-app:dev
+    image: openjdk:21-jdk
+    container_name: bora-comer-app
     depends_on:
       - h2
       - rabbitmq
+    volumes:
+      - ./target:/app
+    working_dir: /app
+    command: ["java", "-jar", "bora-comer-0.0.1-SNAPSHOT.jar"]
     environment:
       SPRING_PROFILES_ACTIVE: test
+      # variável de ambiente para a aplicação se conectar ao RabbitMQ
       SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: ${RABBIT_PORT:-5672}
-      SPRING_RABBITMQ_USERNAME: ${RABBIT_USER:-bora}
-      SPRING_RABBITMQ_PASSWORD: ${RABBIT_PASS:-comer}
-      SPRING_RABBITMQ_VIRTUAL_HOST: ${RABBIT_VHOST:-/bora}
     ports:
-      - "${APP_PORT:-8080}:8080"
+      - "8080:8080"
+    networks:
+      - bora-comer-network
 
 volumes:
   h2_data:
   rabbitmq_data:
+
+networks:
+  bora-comer-network:
+    driver: bridge
