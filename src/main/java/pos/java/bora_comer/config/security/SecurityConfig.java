@@ -41,7 +41,12 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // Público
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/health").permitAll() // se tiver health check mais pra frente
+                        // Regras baseadas em ROLE
+                        .requestMatchers("/restaurants/**").hasRole("DONO_RESTAURANTE")
+                        .requestMatchers("/users/**").hasRole("CLIENTE")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
