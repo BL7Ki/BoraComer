@@ -1,193 +1,921 @@
 {
 	"info": {
-		"_postman_id": "bora-comer-collection",
+		"_postman_id": "0d2f27b5-e02f-4f69-a635-58aac22098e7",
 		"name": "Projeto-Bora-comer",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"description": "Coleção de testes para o projeto Bora Comer, incluindo login, usuários, tipos de usuários, restaurantes e itens de menu."
-	},
+		"_exporter_id": "44240766",
+		"description": "Coleção de testes para o projeto Bora Comer, que inclui endpoints para login, gerenciamento de usuários, tipos de usuários, restaurantes e itens de menu. Esta coleção foi criada para facilitar o teste e a validação das funcionalidades da API."},
 	"item": [
 		{
-			"name": "auth",
+			"name": "login",
 			"item": [
 				{
 					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": []
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
 					"request": {
 						"method": "POST",
 						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Insomnia/2023.5.7"
+							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"login\": \"admin\",\n  \"password\": \"senhaAdmin123\"\n}"
+							"raw": "{\n  \"login\": \"admin\",\n  \"password\": \"senhaAdmin123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/login",
-							"host": ["{{baseUrl}}"],
-							"path": ["login"]
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
 						}
 					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "userType",
+			"item": [
+				{
+					"name": "buscar todos os tipos de usuarios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": []
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "Insomnia/2023.5.7"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/user-types/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-types",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar um tipo de usuário [DONO_RESTAURANTE]  [CLIENTE] cadastrar enum na aplicação para criar um novo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": []
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Insomnia/2023.5.7"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"CLIENTE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user-types",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-types"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": " associar o usuário com  o tipo de usuário. ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": []
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "Insomnia/2023.5.7"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/users/2/tipo-usuario/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"2",
+								"tipo-usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "trocar senha usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": []
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Insomnia/2023.5.7"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"senha_atual\": \"senha123\",\n\t\"nova_senha\": \"senhaNova\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/2/change-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"2",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "consultar todos os usuários",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": []
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "Insomnia/2023.5.7"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletar um usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": []
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "Insomnia/2023.5.7"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/users/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "consultar usuário por id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": []
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "Insomnia/2023.5.7"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/users/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar um usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": []
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Insomnia/2023.5.7"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"teste update Silva \",\n  \"email\": \"teste.silva@example.com\",\n  \"senha\": \"senha123456789\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores pretas\",\n    \"bairro\": \"Bairro das cascatas azuis\",\n    \"cidade\": \"SMinas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar um usuário com a associação com o tipo de usuario",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"let response = pm.response.json();",
-									"if (response.token) {",
-									"   pm.environment.set(\"authToken\", response.token);",
-									"}"
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
-					]
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Insomnia/2023.5.7"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Lionel Messi\",\n  \"email\": \"lucas.silva@example.com\",\n  \"login\": \"lucastorres\",\n  \"senha\": \"senha123\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores doces\",\n    \"bairro\": \"Bairro das cascatas pretas\",\n    \"cidade\": \"Minas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  },\n  \"papel\": \"ADMIN\",\n\t\"tipo_usuario\": {\n  \t\"name\": \"CLIENTE\"\n\t\t}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar um usuário sem a associação com o tipo de usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": []
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Insomnia/2023.5.7"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Joao Silva \",\n  \"email\": \"joao.silva@example.com\",\n  \"login\": \"tiagosilva\",\n  \"senha\": \"senha123\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores doces\",\n    \"bairro\": \"Bairro das cascatas pretas\",\n    \"cidade\": \"Minas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  },\n  \"papel\": \"ADMIN\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
-			"name": "user-types",
+			"name": "restaurant",
 			"item": [
 				{
-					"name": "buscar todos os tipos",
-					"request": {
-						"method": "GET",
-						"header": [
-							{ "key": "Authorization", "value": "Bearer {{authToken}}" }
-						],
-						"url": {
-							"raw": "{{baseUrl}}/user-types/search",
-							"host": ["{{baseUrl}}"],
-							"path": ["user-types", "search"]
-						}
-					}
-				},
-				{
-					"name": "criar tipo de usuário",
+					"name": "Create Restaurant",
 					"request": {
 						"method": "POST",
 						"header": [
-							{ "key": "Content-Type", "value": "application/json" },
-							{ "key": "Authorization", "value": "Bearer {{authToken}}" }
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"CLIENTE\"\n}"
+							"raw": "{\n  \"nome\": \"Sakura Sushi\",\n  \"endereco\": \"Rua das Flores, 123\",\n  \"tipo_cozinha\": \"Japonesa\",\n  \"horario_funcionamento\": \"10:00 - 22:00\",\n  \"dono_id\": 2\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/user-types",
-							"host": ["{{baseUrl}}"],
-							"path": ["user-types"]
+							"raw": "http://localhost:8080/restaurants",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurants"
+							]
 						}
-					}
-				}
-			]
-		},
-		{
-			"name": "users",
-			"item": [
-				{
-					"name": "criar usuário",
-					"request": {
-						"method": "POST",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" },
-							{ "key": "Authorization", "value": "Bearer {{authToken}}" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"nome\": \"Joao Silva\",\n  \"email\": \"joao.silva@example.com\",\n  \"login\": \"joaosilva\",\n  \"senha\": \"senha123\",\n  \"endereco\": {\n    \"rua\": \"Rua X\",\n    \"bairro\": \"Bairro Y\",\n    \"cidade\": \"Cidade Z\",\n    \"estado\": \"SP\",\n    \"cep\": \"12345-678\"\n  },\n  \"papel\": \"ADMIN\",\n  \"tipo_usuario\": { \"name\": \"CLIENTE\" }\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/users",
-							"host": ["{{baseUrl}}"],
-							"path": ["users"]
-						}
-					}
+					},
+					"response": []
 				},
 				{
-					"name": "consultar todos usuários",
+					"name": "Get Restaurant By ID",
 					"request": {
 						"method": "GET",
-						"header": [
-							{ "key": "Authorization", "value": "Bearer {{authToken}}" }
-						],
+						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/users",
-							"host": ["{{baseUrl}}"],
-							"path": ["users"]
+							"raw": "http://localhost:8080/restaurants/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurants",
+								"1"
+							]
 						}
-					}
+					},
+					"response": []
 				},
 				{
-					"name": "consultar usuário por id",
+					"name": "Get All Restaurants (Paginated)",
 					"request": {
 						"method": "GET",
-						"header": [
-							{ "key": "Authorization", "value": "Bearer {{authToken}}" }
-						],
+						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/users/1",
-							"host": ["{{baseUrl}}"],
-							"path": ["users", "1"]
+							"raw": "http://localhost:8080/restaurants?page=0&size=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurants"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
 						}
-					}
+					},
+					"response": []
 				},
 				{
-					"name": "atualizar usuário",
+					"name": "Update Restaurant",
 					"request": {
 						"method": "PUT",
 						"header": [
-							{ "key": "Content-Type", "value": "application/json" },
-							{ "key": "Authorization", "value": "Bearer {{authToken}}" }
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"nome\": \"Joao Silva Atualizado\",\n  \"email\": \"joao.novo@example.com\"\n}"
+							"raw": "{\n  \"nome\": \"Sakura Sushi Atualizado\",\n  \"endereco\": \"Rua dos Peixes, 456\",\n  \"tipo_cozinha\": \"Japonesa Premium\",\n  \"horario_funcionamento\": \"11:00 - 23:00\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUrl}}/users/1",
-							"host": ["{{baseUrl}}"],
-							"path": ["users", "1"]
+							"raw": "http://localhost:8080/restaurants/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurants",
+								"1"
+							]
 						}
-					}
+					},
+					"response": []
 				},
 				{
-					"name": "trocar senha",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" },
-							{ "key": "Authorization", "value": "Bearer {{authToken}}" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"senha_atual\": \"senha123\",\n  \"nova_senha\": \"senhaNova\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/users/1/change-password",
-							"host": ["{{baseUrl}}"],
-							"path": ["users", "1", "change-password"]
-						}
-					}
-				},
-				{
-					"name": "deletar usuário",
+					"name": "Delete Restaurant",
 					"request": {
 						"method": "DELETE",
-						"header": [
-							{ "key": "Authorization", "value": "Bearer {{authToken}}" }
-						],
+						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/users/1",
-							"host": ["{{baseUrl}}"],
-							"path": ["users", "1"]
+							"raw": "http://localhost:8080/restaurants/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurants",
+								"1"
+							]
 						}
-					}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "menu",
+			"item": [
+				{
+					"name": "Create Menu Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Temaki Atum\",\n  \"descricao\": \"Saboroso Temaki de Atum\",\n  \"preco\": 25,\n  \"so_no_local\": true,\n  \"imagem_caminho\": \"/imagens/temakiatum.png\",\n  \"restaurante_id\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/menu-items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menu-items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Menu Item By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/menu-items/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menu-items",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Menu Items (Paginated)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/menu-items?page=0&size=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menu-items"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Menu Item",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"nome\": \"Sashimi Especial de Atum\",\n    \"descricao\": \"Fatias selecionadas de atum\",\n    \"preco\": 39.9,\n    \"so_no_local\": true,\n    \"imagem_caminho\": \"/imagens/sashimiespecialatum.jpg\",\n    \"restaurante_id\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/menu-items/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menu-items",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Menu Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/menu-items/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menu-items",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Menu Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Temaki Atum\",\n  \"descricao\": \"Saboroso Temaki de Atum\",\n  \"preco\": 25,\n  \"so_no_local\": true,\n  \"imagem_caminho\": \"/imagens/temakiatum.png\",\n  \"restaurante_id\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/menu-items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menu-items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Menu Item By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/menu-items/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menu-items",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Menu Items (Paginated)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/menu-items?page=0&size=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menu-items"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Menu Item",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"nome\": \"Sashimi Especial de Atum\",\n    \"descricao\": \"Fatias selecionadas de atum\",\n    \"preco\": 39.9,\n    \"so_no_local\": true,\n    \"imagem_caminho\": \"/imagens/sashimiespecialatum.jpg\",\n    \"restaurante_id\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/menu-items/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menu-items",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Menu Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/menu-items/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menu-items",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
-	],
-	"variable": [
-		{ "key": "baseUrl", "value": "http://localhost:8080" },
-		{ "key": "authToken", "value": "" }
 	]
 }
