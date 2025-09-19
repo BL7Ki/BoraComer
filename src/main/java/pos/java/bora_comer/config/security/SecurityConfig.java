@@ -41,9 +41,16 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // Público
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/health").permitAll() // se tiver health check mais pra frente
+                        // Endpoints públicos
+                        .requestMatchers(
+                                "/auth/**",
+                                "/health",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
                         // Regras baseadas em ROLE
                         .requestMatchers("/restaurants/**").hasRole("DONO_RESTAURANTE")
                         .requestMatchers("/users/**").hasRole("CLIENTE")
@@ -52,7 +59,6 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                // Define o AuthenticationProvider e insere o filtro JWT
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
