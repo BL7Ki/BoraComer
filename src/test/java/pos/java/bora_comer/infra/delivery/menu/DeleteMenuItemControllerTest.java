@@ -3,18 +3,26 @@ package pos.java.bora_comer.infra.delivery.menu;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import pos.java.bora_comer.core.usercase.menu.DeleteMenuItemUseCase;
+import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
+import pos.java.bora_comer.infra.security.jwt.JwtUtil;
 
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(DeleteMenuItemController.class)
+@WebMvcTest(
+        controllers = DeleteMenuItemController.class,
+        excludeAutoConfiguration = {
+                SecurityAutoConfiguration.class
+        }
+)
 public class DeleteMenuItemControllerTest {
 
     @Autowired
@@ -22,6 +30,12 @@ public class DeleteMenuItemControllerTest {
 
     @MockBean
     private DeleteMenuItemUseCase deleteMenuItemUseCase;
+
+    @MockBean
+    private JwtUtil jwtUtil;
+
+    @MockBean
+    private CustomUserDetailsService customUserDetailsService;
 
     @Test
     void shouldDeleteMenuItemSuccessfully() throws Exception {

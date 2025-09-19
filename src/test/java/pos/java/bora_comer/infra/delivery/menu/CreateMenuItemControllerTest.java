@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -14,12 +15,20 @@ import pos.java.bora_comer.core.mapper.menu.MenuItemMapper;
 import pos.java.bora_comer.core.usercase.menu.CreateMenuItemUseCase;
 import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemRequestDTO;
 import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemResponseDTO;
+import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
+import pos.java.bora_comer.infra.security.jwt.JwtUtil;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pos.java.bora_comer.util.factory.MenuItemTestFactory.*;
 
-@WebMvcTest(CreateMenuItemController.class)
+@WebMvcTest(
+        controllers = CreateMenuItemController.class,
+        excludeAutoConfiguration = {
+                SecurityAutoConfiguration.class
+        }
+)
 class CreateMenuItemControllerTest {
 
     @Autowired
@@ -27,6 +36,12 @@ class CreateMenuItemControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private JwtUtil jwtUtil;
+
+    @MockBean
+    private CustomUserDetailsService customUserDetailsService;
 
     @MockBean
     private MenuItemMapper menuItemMapper;

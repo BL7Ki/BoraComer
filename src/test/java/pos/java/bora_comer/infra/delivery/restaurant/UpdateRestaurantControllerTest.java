@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -13,12 +14,19 @@ import pos.java.bora_comer.core.mapper.restaurant.RestaurantMapper;
 import pos.java.bora_comer.core.usercase.restaurant.UpdateRestaurantUseCase;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantResponseDTO;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantUpdateRequestDTO;
+import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
+import pos.java.bora_comer.infra.security.jwt.JwtUtil;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pos.java.bora_comer.util.factory.RestaurantTestFactory.createUpdateRequestDTOWithId;
 
-@WebMvcTest(UpdateRestaurantController.class)
+@WebMvcTest(
+        controllers = UpdateRestaurantController.class,
+        excludeAutoConfiguration = {
+                SecurityAutoConfiguration.class
+        }
+)
 public class UpdateRestaurantControllerTest {
 
     @Autowired
@@ -26,6 +34,12 @@ public class UpdateRestaurantControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private JwtUtil jwtUtil;
+
+    @MockBean
+    private CustomUserDetailsService customUserDetailsService;
 
     @MockBean
     private RestaurantMapper restaurantMapper;
