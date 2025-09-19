@@ -1,9 +1,0 @@
-target/
-.git/
-.gitignore
-README.md
-Dockerfile
-docker-compose.yaml
-*.iml
-.idea/
-.vscode/
