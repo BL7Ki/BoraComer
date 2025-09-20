@@ -17,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
+import pos.java.bora_comer.infra.service.JwtService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -45,7 +46,7 @@ public class UpdateMenuItemControllerTest {
     private UpdateMenuItemUseCase updateMenuItemUseCase;
 
     @MockBean
-    private JwtUtil jwtUtil;
+    private JwtService jwtUtil;
 
     @MockBean
     private CustomUserDetailsService customUserDetailsService;

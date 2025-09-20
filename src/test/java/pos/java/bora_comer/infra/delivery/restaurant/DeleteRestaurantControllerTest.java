@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import pos.java.bora_comer.core.usercase.restaurant.DeleteRestaurantUseCase;
 import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
+import pos.java.bora_comer.infra.service.JwtService;
 
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -28,7 +29,7 @@ public class DeleteRestaurantControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private JwtUtil jwtUtil;
+    private JwtService jwtUtil;
 
     @MockBean
     private CustomUserDetailsService customUserDetailsService;

@@ -16,6 +16,7 @@ import pos.java.bora_comer.core.mapper.restaurant.RestaurantMapper;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantResponseDTO;
 import pos.java.bora_comer.core.usercase.restaurant.SearchRestaurantUseCase;
 import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
+import pos.java.bora_comer.infra.service.JwtService;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class SearchRestaurantControllerTest {
     private RestaurantMapper restaurantMapper;
 
     @MockBean
-    private JwtUtil jwtUtil;
+    private JwtService jwtUtil;
 
     @MockBean
     private CustomUserDetailsService customUserDetailsService;
