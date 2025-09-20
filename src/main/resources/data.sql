@@ -68,5 +68,13 @@ CREATE TABLE IF NOT EXISTS tb_menu_items (
 INSERT INTO tb_menu_items (nome, descricao, preco, so_no_local, imagem_caminho, restaurante_id)
 VALUES
 ('Temaki de Salmão', 'Temaki recheado com salmão fresco e cebolinha', 24.90, false, '/imagens/temaki.jpg', 1),
-('Sashimi Especial', 'Fatias selecionadas de salmão e atum', 39.90, true, '/imagens/sashimi.jpg', 1);
+
+-- Criação da tabela de pedidos V5
+CREATE TABLE IF NOT EXISTS tb_pedidos (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    cliente_id VARCHAR(255) NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    data_criacao TIMESTAMP NOT NULL,
+    valor_total DECIMAL(10, 2) NOT NULL
+);
 
