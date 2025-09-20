@@ -16,7 +16,6 @@ import pos.java.bora_comer.core.usercase.menu.CreateMenuItemUseCase;
 import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemRequestDTO;
 import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemResponseDTO;
 import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
-import pos.java.bora_comer.infra.security.jwt.JwtUtil;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

@@ -37,6 +37,6 @@ public class UserLoginUseCaseImpl implements UserLoginUseCase {
             throw new BadCredentialsException("Senha inválida");
         }
 
-        return jwtService.generateToken(user.get().getUsername());
+        return jwtService.generateToken(user.get());
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import pos.java.bora_comer.core.usercase.menu.DeleteMenuItemUseCase;
 import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
-import pos.java.bora_comer.infra.security.jwt.JwtUtil;
 
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
