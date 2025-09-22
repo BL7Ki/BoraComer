@@ -9,12 +9,13 @@ import pos.java.bora_comer.infra.persistence.repository.pedido.entity.PedidoEnti
 public interface PedidoMapper {
 
     Pedido toDomain(PedidoRequestDTO pedidoRequestDTO);
-    
-    PedidoEntity toEntity(Pedido pedido);
-
+      
     Pedido toDomain(PedidoEntity pedidoEntity);
 
     PedidoResponseDTO toResponseDTO(Pedido pedido);
 
     Pedido toDomain(PedidoUpdateRequestDTO pedidoUpdateRequestDTO, Long id, Long restaurantId, Long userId);
+
+
+    PedidoEntity toEntity(Pedido pedido);
 }

@@ -3,7 +3,6 @@ package pos.java.bora_comer.core.mapper.pedido.impl;
 import org.springframework.stereotype.Component;
 
 import pos.java.bora_comer.core.domain.pedido.Pedido;
-import pos.java.bora_comer.core.errors.MenuItemDomainException;
 import pos.java.bora_comer.core.errors.PedidoDomainException;
 import pos.java.bora_comer.core.mapper.pedido.PedidoMapper;
 import pos.java.bora_comer.infra.delivery.pedido.dto.PedidoRequestDTO;
@@ -39,7 +38,7 @@ public class PedidoMapperImpl implements PedidoMapper {
                 pedido.getDateTimeOrder(),
                 pedido.isDelivery(),
                 pedido.getRestaurantId(),
-                pedido.getUserId()
+                pedido.getUserId() 
         );
     }
 

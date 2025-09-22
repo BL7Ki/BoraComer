@@ -7,8 +7,10 @@ import java.util.List;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<PedidoEntity, Long> {
-    List<PedidoEntity> findByInPlaceOnlyTrue();
-    List<PedidoEntity> findByNameContainingIgnoreCase(String name);
+    List<PedidoEntity> findByDeliveryTrue();
+    List<PedidoEntity> findByDeliveryFalse();
+    List<PedidoEntity> findByUserId(Long userId);
+    List<PedidoEntity> findByRestaurantId(Long restaurantId);
+    List<PedidoEntity> findByRestaurantIdAndUserId(Long restaurantId, Long userId);
 
-    boolean existsByNameAndRestaurantIdAndUserId(String name, Long restaurantId, long userId);
 }

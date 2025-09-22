@@ -59,16 +59,16 @@ public class PedidoEntity {
     }
     
     // Factory method
-    public static PedidoEntity create(LocalDateTime dateTimeOrder, boolean delivery, Long userId, Long restaurantId) {
-        return new PedidoEntity(dateTimeOrder, delivery, userId, restaurantId);
+    public static PedidoEntity create(LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId ) {
+        return new PedidoEntity(dateTimeOrder, delivery, restaurantId, userId);
     }       
 
     // Construtor privado completo
-    private PedidoEntity(LocalDateTime dateTimeOrder, boolean delivery, Long userId, Long restaurantId ) {
+    private PedidoEntity(LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId) {
         this.dateTimeOrder = dateTimeOrder;
         this.delivery = delivery;
-        this.userId = userId;
         this.restaurantId = restaurantId;
+        this.userId = userId;
         this.lastModifiedDate = LocalDateTime.now();
     }
 
@@ -77,7 +77,7 @@ public class PedidoEntity {
         this.restaurantId = restaurantId;
     }
     
-    public void updateUsuarioId(Long userId) {
+    public void updateUserId(Long userId) {
         this.userId = userId;
     }
     

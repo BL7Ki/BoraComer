@@ -14,12 +14,12 @@ import pos.java.bora_comer.infra.delivery.pedido.dto.PedidoResponseDTO;
 
 @RestController
 @RequestMapping("/pedidos")
-public class CreatePedidoItemController implements CreatePedidoControllerDocs {
+public class CreatePedidoController implements CreatePedidoControllerDocs {
 
     private final PedidoMapper pedidoMapper;
     private final CreatePedidoUseCase createPedidoUseCase;
 
-    public CreatePedidoItemController(PedidoMapper pedidoMapper, CreatePedidoUseCase createPedidoUseCase) {
+    public CreatePedidoController(PedidoMapper pedidoMapper, CreatePedidoUseCase createPedidoUseCase) {
         this.pedidoMapper = pedidoMapper;
         this.createPedidoUseCase = createPedidoUseCase;
     }

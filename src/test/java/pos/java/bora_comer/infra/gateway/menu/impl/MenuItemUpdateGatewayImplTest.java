@@ -3,7 +3,6 @@ package pos.java.bora_comer.infra.gateway.menu.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 
 import pos.java.bora_comer.core.domain.menu.MenuItem;
 import pos.java.bora_comer.core.errors.MenuItemDomainException;
