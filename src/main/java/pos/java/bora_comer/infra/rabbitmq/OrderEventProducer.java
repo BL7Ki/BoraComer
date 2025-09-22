@@ -14,19 +14,23 @@ public class OrderEventProducer {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    //Envia uma mensagem para a fila de eventos de pedido criado.
     public void sendOrderCreatedEvent(Order order) {
-        // Podemos serializar o objeto Order para JSON ou enviar apenas o ID.
         String message = "Pedido criado. ID: " + order.getId() + " - Cliente: " + order.getClienteId();
-        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ORDER_CREATED_ROUTING_KEY, message);
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.EXCHANGE_NAME,
+                RabbitMQConfig.ORDER_CREATED_ROUTING_KEY,
+                message
+        );
         System.out.println("Evento 'Pedido Criado' enviado: " + message);
     }
 
-    //Envia uma mensagem para a fila de eventos de pedido finalizado.
     public void sendOrderFinalizedEvent(Order order) {
-        // Envia o ID do pedido finalizado.
         String message = "Pedido finalizado. ID: " + order.getId();
-        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ORDER_FINALIZED_ROUTING_KEY, message);
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.EXCHANGE_NAME,
+                RabbitMQConfig.ORDER_FINALIZED_ROUTING_KEY,
+                message
+        );
         System.out.println("Evento 'Pedido Finalizado' enviado: " + message);
     }
 }
