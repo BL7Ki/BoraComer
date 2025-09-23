@@ -18,14 +18,13 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-     //Cadastra um novo usuario com senha criptografada.
-     //Define a role padrão como DEFAULT e userTypeId como null.
+    // Registers a new user with encrypted password.
+    // Sets default role as DEFAULT and userTypeId as null.
     public UserEntity registerUser(String name, String email, String username, String rawPassword) {
         if (userRepository.existsByUsername(username)) {
-            throw new IllegalArgumentException("Usuário já existe com esse username: " + username);
+            throw new IllegalArgumentException("User already exists with username: " + username);
         }
 
-        // Criptografa a senha
         String encodedPassword = passwordEncoder.encode(rawPassword);
 
         UserEntity user = UserEntity.create(
@@ -33,9 +32,9 @@ public class UserService {
                 email,
                 username,
                 encodedPassword,
-                null, // AddressEntity opcional, pode ser null
+                null, // Optional AddressEntity
                 UserRoleEntityEnum.DEFAULT,
-                null // userTypeId, você pode passar se quiser vincular tipo de usuario
+                null // userTypeId, can be set if needed
         );
 
         return userRepository.save(user);
@@ -43,6 +42,6 @@ public class UserService {
 
     public UserEntity findByUsername(String username) {
         return userRepository.findByLogin(username)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado: " + username));
+                .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + username));
     }
 }

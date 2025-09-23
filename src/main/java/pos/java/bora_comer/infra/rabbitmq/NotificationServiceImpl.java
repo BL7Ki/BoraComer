@@ -3,35 +3,27 @@ package pos.java.bora_comer.infra.rabbitmq;
 import org.springframework.stereotype.Service;
 import pos.java.bora_comer.core.port.NotificationService;
 
-
-/*
-4. Comunicação Assíncrona com RabbitMQ ou Kafka
-● RabbitMQ ou Kafka: utilizar uma dessas ferramentas para gerenciar a comunicação assíncrona entre os serviços.
-○ O Serviço de agendamento deve enviar uma mensagem ao serviço de notificações quando uma consulta for criada ou editada.
-○ O serviço de notificações processa essa mensagem e envia um lembrete ao paciente.
- */
-
 @Service
 public class NotificationServiceImpl implements NotificationService {
 
-    // ajustar nome do metodo para ingles
-    public boolean enviarLembretePaciente(String mensagem) {
+    @Override
+    public boolean sendReminder(String message) {
         try {
-            System.out.println("Atenção: " + mensagem);
+            System.out.println("Reminder: " + message);
             return true;
         } catch (Exception e) {
-            System.out.println("Erro ao enviar lembrete: " + e.getMessage());
+            System.out.println("Error sending reminder: " + e.getMessage());
             return false;
         }
     }
 
-    // ajustar nome do metodo para ingles
-    public boolean enviarLembretePedidoCriado(String reminderMessage) {
+    @Override
+    public boolean sendOrderCreatedReminder(String reminderMessage) {
         try {
-            System.out.println("Lembrete: " + reminderMessage);
+            System.out.println("Order Created Reminder: " + reminderMessage);
             return true;
         } catch (Exception e) {
-            System.out.println("Erro ao enviar lembrete: " + e.getMessage());
+            System.out.println("Error sending order created reminder: " + e.getMessage());
             return false;
         }
     }

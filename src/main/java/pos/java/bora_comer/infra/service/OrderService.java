@@ -14,7 +14,7 @@ public class OrderService {
         this.orderEventProducer = orderEventProducer;
     }
 
-    //Cria um novo pedido a partir de um DTO e envia uma notificação para a fila de mensagens.
+    // Creates a new order from DTO and sends a notification to the message queue.
     public Order create(CreateOrderDTO createOrderDTO) {
 
         Order newOrder = Order.create(
@@ -22,10 +22,10 @@ public class OrderService {
                 createOrderDTO.valorTotal()
         );
 
-        // Envia o evento de "pedido criado" para o RabbitMQ, passando a entidade Order completa.
+        // Sends "order created" event to RabbitMQ with the complete Order entity.
         orderEventProducer.sendOrderCreatedEvent(newOrder);
 
-        System.out.println("Serviço de Pedido: Pedido " + newOrder.getId() + " criado com sucesso e evento enviado.");
+        System.out.println("OrderService: Order " + newOrder.getId() + " successfully created and event sent.");
 
         return newOrder;
     }

@@ -2,7 +2,7 @@ package pos.java.bora_comer.core.port;
 
 public interface NotificationService {
 
-    boolean enviarLembretePaciente(String mensagem);
+    boolean sendReminder(String message);
 
-    boolean enviarLembretePedidoCriado(String reminderMessage);
+    boolean sendOrderCreatedReminder(String reminderMessage);
 }

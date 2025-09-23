@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByLogin(login)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + login));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + login));
 
         String role = userEntity.getUserTypeEntity().getName().name();
         // .getName() deve retornar o enum UserTypeNameEntityEnum, então usamos .name() para transformar em String ("ADMIN", "CLIENT", etc.)

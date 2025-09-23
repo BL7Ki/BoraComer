@@ -3,31 +3,29 @@ package pos.java.bora_comer.infra.rabbitmq;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import pos.java.bora_comer.config.rabbitmq.RabbitMQConfig;
+import pos.java.bora_comer.core.port.NotificationService;
 
 @Component
 public class OrderEventConsumer {
 
-    private final NotificationServiceImpl notificationServiceImpl;
+    private final NotificationService notificationService;
 
-    private final String REMINDER_MESSAGE = "Lembrete: Seu pedido foi finalizado com sucesso!";
+    private static final String ORDER_CREATED_MESSAGE = "Your order has been created successfully!";
+    private static final String ORDER_FINALIZED_MESSAGE = "Your order has been finalized successfully!";
 
-    private final String APPOINTMENT_MESSAGE = "Lembrete: Você tem uma consulta agendada.";
-
-    public OrderEventConsumer(NotificationServiceImpl notificationServiceImpl) {
-        this.notificationServiceImpl = notificationServiceImpl;
+    public OrderEventConsumer(NotificationService notificationService) {
+        this.notificationService = notificationService;
     }
 
     @RabbitListener(queues = RabbitMQConfig.ORDER_CREATED_QUEUE)
     public void handleOrderCreatedEvent(String message) {
-        System.out.println("Evento 'Pedido Criado' recebido: " + message);
-        System.out.println("Ação: Enviando notificação de pedido criado...");
-        notificationServiceImpl.enviarLembretePedidoCriado(REMINDER_MESSAGE);
+        System.out.println("Event 'Order Created' received: " + message);
+        notificationService.sendOrderCreatedReminder(ORDER_CREATED_MESSAGE);
     }
 
     @RabbitListener(queues = RabbitMQConfig.ORDER_FINALIZED_QUEUE)
     public void handleOrderFinalizedEvent(String message) {
-        System.out.println("Evento 'Pedido Finalizado' recebido: " + message);
-        System.out.println("Ação: Enviando notificação de pedido finalizado...");
-        notificationServiceImpl.enviarLembretePaciente(APPOINTMENT_MESSAGE);
+        System.out.println("Event 'Order Finalized' received: " + message);
+        notificationService.sendReminder(ORDER_FINALIZED_MESSAGE);
     }
 }
