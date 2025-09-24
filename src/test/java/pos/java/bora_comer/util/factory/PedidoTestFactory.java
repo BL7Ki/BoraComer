@@ -12,8 +12,9 @@ public class PedidoTestFactory {
     private PedidoTestFactory() {
         // impede instanciação
     }
-     private static final String dateStr = "2024-10-10T12:00:00";
-     private static final LocalDateTime dateTime = LocalDateTime.parse(dateStr);
+    
+    private static final String dateStr = "2024-10-10T12:00:00";
+    private static final LocalDateTime dateTime = LocalDateTime.parse(dateStr);
     
     public static Pedido createDefault() {
         return Pedido.create(

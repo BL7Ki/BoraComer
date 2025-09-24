@@ -17,7 +17,9 @@ import pos.java.bora_comer.infra.delivery.pedido.dto.PedidoResponseDTO;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static pos.java.bora_comer.util.factory.PedidoTestFactory.*;
+import static pos.java.bora_comer.util.factory.PedidoTestFactory.createResponseDTOWithId;
+import static pos.java.bora_comer.util.factory.PedidoTestFactory.createRequestDTOWithId;
+import static pos.java.bora_comer.util.factory.PedidoTestFactory.createDefaultWithId;
 
 @WebMvcTest(CreatePedidoController.class)
 class CreatePedidoControllerTest {
@@ -42,7 +44,7 @@ class CreatePedidoControllerTest {
         Pedido domain = createDefaultWithId();
 
         PedidoResponseDTO responseDTO = createResponseDTOWithId();
-
+        
         // mocks
         Mockito.when(pedidoMapper.toDomain(any(PedidoRequestDTO.class))).thenReturn(domain);
         Mockito.when(createPedidoUseCase.execute(any(Pedido.class))).thenReturn(domain);
@@ -55,11 +57,10 @@ class CreatePedidoControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "/pedidos/10"))
                 .andExpect(jsonPath("$.id").value(10))
-                .andExpect(jsonPath("$.userId").value(1))       
-                .andExpect(jsonPath("$.restaurantId").value(2))
+                .andExpect(jsonPath("$.usuario_id").value(1))       
+                .andExpect(jsonPath("$.restaurante_id").value(1))
                 .andExpect(jsonPath("$.delivery").value(true))
-                .andExpect(jsonPath("$.dateTimeOrder").value("2023-10-10T12:00:00"))
-                ;
+                .andExpect(jsonPath("$.data_hora").value("2024-10-10T12:00:00"));                ;
 
                 
         // verificação de chamadas

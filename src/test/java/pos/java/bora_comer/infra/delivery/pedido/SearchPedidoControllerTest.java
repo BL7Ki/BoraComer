@@ -50,8 +50,8 @@ public class SearchPedidoControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(10L))
-                .andExpect(jsonPath("$.userId").value(1))
-                .andExpect(jsonPath("$.restaurantId").value(2))
+                .andExpect(jsonPath("$.usuario_id").value(1))
+                .andExpect(jsonPath("$.restaurante_id").value(1))
                 .andExpect(jsonPath("$.delivery").value(true));
         Mockito.verify(searchPedidoUseCase, Mockito.times(1)).findById(id);
         Mockito.verify(pedidoMapper, Mockito.times(1)).toResponseDTO(mockPedido);
@@ -82,11 +82,13 @@ public class SearchPedidoControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(10L))
-                .andExpect(jsonPath("$[0].restaurantId").value(1L))
-                .andExpect(jsonPath("$[0].userId").value(1L))
+                .andExpect(jsonPath("$[0].restaurante_id").value(1L))
+                .andExpect(jsonPath("$[0].usuario_id").value(1L))
+                .andExpect(jsonPath("$[0].delivery").value(true))
                 .andExpect(jsonPath("$[1].id").value(10L))
-                .andExpect(jsonPath("$[1].restaurantId").value(1L))
-                .andExpect(jsonPath("$[1].userId").value(1L))
+                .andExpect(jsonPath("$[1].restaurante_id").value(1L))
+                .andExpect(jsonPath("$[1].usuario_id").value(1L))
+                .andExpect(jsonPath("$[1].delivery").value(true));
                 ;
                 
     }

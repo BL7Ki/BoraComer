@@ -118,7 +118,7 @@ class PedidoMapperImplTest {
         assertEquals(1L, dto.id());
         assertEquals(dateTime, dto.dateTimeOrder());
         assertEquals(true, dto.delivery());
-        assertTrue(dto.userId() == 1L);
+        assertEquals(1L, dto.userId());
         assertEquals(1L, dto.restaurantId());
 
     }

@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 class PedidoUpdateGatewayImplTest {
@@ -57,6 +58,7 @@ class PedidoUpdateGatewayImplTest {
         PedidoEntity entity = mock(PedidoEntity.class);
         when(pedidoRepository.findById(id)).thenReturn(Optional.of(entity));
         when(entity.getRestaurantId()).thenReturn(restaurantId);
+        when(userRepository.findById(userId)).thenReturn(Optional.of(mock()));
 
         PedidoEntity updatedEntity = mock(PedidoEntity.class);
         when(pedidoRepository.save(entity)).thenReturn(updatedEntity);
@@ -69,9 +71,9 @@ class PedidoUpdateGatewayImplTest {
         verify(restaurantRepository, never()).findById(anyLong());
         verify(entity, never()).updateRestaurantId(anyLong());
         verify(entity).updateUserId(userId);
-        verify(entity).updateDateTimeOrder(dateTime);
+        verify(entity, times(2)).updateDateTimeOrder(dateTime);
         verify(entity).updateDelivery(false);
-        verify(entity).updateDateTimeOrder(dateTime);   
+         
 
         verify(pedidoRepository).save(entity);
         verify(pedidoMapper).toDomain(updatedEntity);
@@ -103,6 +105,7 @@ class PedidoUpdateGatewayImplTest {
         when(entity.getRestaurantId()).thenReturn(oldRestaurantId);
 
         when(restaurantRepository.findById(newRestaurantId)).thenReturn(Optional.of(mock()));
+        when(userRepository.findById(userId)).thenReturn(Optional.of(mock()));
 
         PedidoEntity updatedEntity = mock(PedidoEntity.class);
         when(pedidoRepository.save(entity)).thenReturn(updatedEntity);
@@ -114,13 +117,9 @@ class PedidoUpdateGatewayImplTest {
 
         verify(restaurantRepository).findById(newRestaurantId);
         verify(entity).updateRestaurantId(newRestaurantId);
-
         verify(entity).updateUserId(userId);
-        verify(entity).updateDateTimeOrder(dateTime);
         verify(entity).updateDelivery(false);
-        verify(entity).updateDateTimeOrder(dateTime);   
-
-
+        verify(entity, times(2)).updateDateTimeOrder(dateTime);
         verify(pedidoRepository).save(entity);
         verify(pedidoMapper).toDomain(updatedEntity);
 
@@ -160,6 +159,7 @@ class PedidoUpdateGatewayImplTest {
         Long id = 1L;
         Long oldRestaurantId = 10L;
         Long newRestaurantId = 20L;
+
         String dateStr = "2024-10-10T12:00:00";
         LocalDateTime dateTime = LocalDateTime.parse(dateStr);
         Pedido domainPedido = Pedido.create(
@@ -184,5 +184,38 @@ class PedidoUpdateGatewayImplTest {
         verify(restaurantRepository).findById(newRestaurantId);
 
         verifyNoMoreInteractions(pedidoRepository, restaurantRepository, pedidoMapper);
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção quando o novo usuário não for encontrado")
+    void shouldThrowWhenNewUserNotFound() {
+        Long id = 1L;
+        Long oldUserId = 10L;
+        Long newUserId = 20L;
+        String dateStr = "2024-10-10T12:00:00";
+        LocalDateTime dateTime = LocalDateTime.parse(dateStr);
+        Pedido domainPedido = Pedido.create(
+                id,
+                dateTime,
+                false,
+                1L,
+                newUserId,
+                dateTime
+        );
+
+        PedidoEntity entity = mock(PedidoEntity.class);
+        when(pedidoRepository.findById(id)).thenReturn(Optional.of(entity));
+        when(entity.getUserId()).thenReturn(oldUserId);
+        when(restaurantRepository.findById(1L)).thenReturn(Optional.of(mock()));
+        when(userRepository.findById(newUserId)).thenReturn(Optional.empty());
+
+        PedidoDomainException ex = assertThrows(PedidoDomainException.class, () -> gateway.update(domainPedido));
+        assertEquals("Usuário com ID " + newUserId + " não encontrado.", ex.getMessage());
+
+        verify(pedidoRepository).findById(id);
+        verify(userRepository).findById(newUserId);
+        
+
+        verifyNoMoreInteractions(pedidoRepository, userRepository, pedidoMapper);
     }
 }
