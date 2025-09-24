@@ -1,0 +1,16 @@
+type Restaurant {
+    id: ID!
+    name: String!
+    address: String!
+}
+
+type Query {
+    restaurantById(id: ID!): Restaurant
+    allRestaurants: [Restaurant!]!
+}
+
+type Mutation {
+    createRestaurant(name: String!, address: String!): Restaurant
+    updateRestaurant(id: ID!, name: String, address: String): Restaurant
+    deleteRestaurant(id: ID!): Boolean
+}

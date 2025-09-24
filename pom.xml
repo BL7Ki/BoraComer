@@ -88,6 +88,27 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
+		<!-- GraphQL Spring Boot Starter -->
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphql-spring-boot-starter</artifactId>
+			<version>15.1.0</version>
+		</dependency>
+
+		<!-- GraphQL Java Tools (para schema-first .graphqls) -->
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphql-java-tools</artifactId>
+			<version>13.0.4</version>
+		</dependency>
+
+		<!-- Playground para testar queries -->
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>playground-spring-boot-starter</artifactId>
+			<version>11.1.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
