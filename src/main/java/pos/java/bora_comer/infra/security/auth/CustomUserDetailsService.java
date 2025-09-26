@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-// vai buscar os detalhes do user quando tentar se conectar
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -22,13 +21,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         UserEntity userEntity = userRepository.findByLogin(login)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + login));
 
-        String role = userEntity.getUserTypeEntity().getName().name();
-        // .getName() deve retornar o enum UserTypeNameEntityEnum, então usamos .name() para transformar em String ("ADMIN", "CLIENT", etc.)
+        String role = userEntity.getRole().name();
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(userEntity.getUsername())
                 .password(userEntity.getPassword())
-                .authorities("ROLE_" + role) // Spring Security espera roles prefixadas com "ROLE_"
+                // Usar .roles() para que o Spring Security adicione o prefixo "ROLE_"
+                .roles(role)
+
+                // Definir explicitamente o status de conta (habilitado/expirado/bloqueado)
                 .accountExpired(false)
                 .accountLocked(false)
                 .credentialsExpired(false)
