@@ -21,8 +21,8 @@ public class MenuItemEntity {
     @Column(name = "preco", nullable = false)
     private BigDecimal price;
 
-    @Column(name = "so_no_local", nullable = false)
-    private boolean inPlaceOnly;
+    @Column(name = "delivery", nullable = false)
+    private boolean delivery;
 
     @Column(name = "imagem_caminho", length = 255)
     private String imagePath;
@@ -51,8 +51,8 @@ public class MenuItemEntity {
         return price;
     }
 
-    public boolean isInPlaceOnly() {
-        return inPlaceOnly;
+    public boolean isDelivery() {
+        return delivery;
     }
 
     public String getImagePath() {
@@ -69,16 +69,16 @@ public class MenuItemEntity {
     }
 
     // Factory method
-    public static MenuItemEntity create(String name, String description, BigDecimal price, boolean inPlaceOnly, String imagePath, Long restaurantId) {
-        return new MenuItemEntity(name, description, price, inPlaceOnly, imagePath, restaurantId);
+    public static MenuItemEntity create(String name, String description, BigDecimal price, boolean delivery, String imagePath, Long restaurantId) {
+        return new MenuItemEntity(name, description, price, delivery, imagePath, restaurantId);
     }       
 
     // Construtor privado completo
-    private MenuItemEntity(String name, String description, BigDecimal price, boolean inPlaceOnly, String imagePath, Long restaurantId) {
+    private MenuItemEntity(String name, String description, BigDecimal price, boolean delivery, String imagePath, Long restaurantId) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.inPlaceOnly = inPlaceOnly;
+        this.delivery = delivery;
         this.imagePath = imagePath;
         this.restaurantId = restaurantId;
         this.lastModifiedDate = LocalDateTime.now();
@@ -97,8 +97,8 @@ public class MenuItemEntity {
         this.price = price;
     }
     
-    public void updateInPlaceOnly(boolean inPlaceOnly) {
-        this.inPlaceOnly = inPlaceOnly;
+    public void updateDelivery(boolean delivery) {
+        this.delivery = delivery;
     }
 
     public void updateImagePath(String imagePath) {

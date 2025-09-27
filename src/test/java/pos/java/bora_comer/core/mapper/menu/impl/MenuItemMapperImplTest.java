@@ -42,7 +42,7 @@ class MenuItemMapperImplTest {
         assertEquals("Sushi", domain.getName());
         assertEquals("Sushi de salmão com arroz", domain.getDescription());
         assertEquals(BigDecimal.valueOf(29.99), domain.getPrice());
-        assertTrue(domain.isInPlaceOnly());
+        assertTrue(domain.isDelivery());
         assertEquals("sushi.jpg", domain.getImagePath());
         assertEquals(1L, domain.getRestaurantId());
 
@@ -65,7 +65,7 @@ class MenuItemMapperImplTest {
         assertEquals("Sushi", entity.getName());
         assertEquals("Sushi de salmão com arroz", entity.getDescription());
         assertEquals(BigDecimal.valueOf(29.99), entity.getPrice());
-        assertTrue(entity.isInPlaceOnly());
+        assertTrue(entity.isDelivery());
         assertEquals("sushi.jpg", entity.getImagePath());
         assertEquals(1L, entity.getRestaurantId());
     }
@@ -94,7 +94,7 @@ class MenuItemMapperImplTest {
         assertEquals("Sushi", domain.getName());
         assertEquals("Sushi de salmão com arroz", domain.getDescription());
         assertEquals(BigDecimal.valueOf(29.99), domain.getPrice());
-        assertTrue(domain.isInPlaceOnly());
+        assertTrue(domain.isDelivery());
         assertEquals("sushi.jpg", domain.getImagePath());
         assertEquals(1L, domain.getRestaurantId());
     }
@@ -123,7 +123,7 @@ class MenuItemMapperImplTest {
         assertEquals("Sushi", dto.name());
         assertEquals("Sushi de salmão com arroz", dto.description());
         assertEquals(BigDecimal.valueOf(29.99), dto.price());
-        assertTrue(dto.inPlaceOnly());
+        assertTrue(dto.delivery());
         assertEquals("sushi.jpg", dto.imagePath());
         assertEquals(1L, dto.restaurantId());
     }
@@ -155,7 +155,7 @@ class MenuItemMapperImplTest {
         assertEquals("Sushi Updated", domain.getName());
         assertEquals("Sushi de atum com arroz", domain.getDescription());
         assertEquals(BigDecimal.valueOf(34.99), domain.getPrice());
-        assertFalse(domain.isInPlaceOnly());
+        assertFalse(domain.isDelivery());
         assertEquals("sushi_updated.jpg", domain.getImagePath());
         assertEquals(restaurantID, domain.getRestaurantId());
     }   
@@ -182,7 +182,7 @@ class MenuItemMapperImplTest {
         assertEquals("Sushi Updated", domain.getName());
         assertEquals("Sushi de atum com arroz", domain.getDescription());
         assertEquals(BigDecimal.valueOf(34.99), domain.getPrice());
-        assertFalse(domain.isInPlaceOnly());
+        assertFalse(domain.isDelivery());
         assertEquals("sushi_updated.jpg", domain.getImagePath());
         assertEquals(restaurantId, domain.getRestaurantId());
     }

@@ -23,7 +23,7 @@ public class MenuItemMapperImpl implements MenuItemMapper {
                 menuItemRequestDTO.name(),
                 menuItemRequestDTO.description(),
                 menuItemRequestDTO.price(),
-                menuItemRequestDTO.inPlaceOnly(),
+                menuItemRequestDTO.delivery(),
                 menuItemRequestDTO.imagePath(),
                 menuItemRequestDTO.restaurantId()
         );
@@ -39,7 +39,7 @@ public class MenuItemMapperImpl implements MenuItemMapper {
                 menuItem.getName(),
                 menuItem.getDescription(),
                 menuItem.getPrice(),
-                menuItem.isInPlaceOnly(),
+                menuItem.isDelivery(),
                 menuItem.getImagePath(),
                 menuItem.getRestaurantId()
         );
@@ -56,7 +56,7 @@ public class MenuItemMapperImpl implements MenuItemMapper {
                 menuItemEntity.getName(),
                 menuItemEntity.getDescription(),
                 menuItemEntity.getPrice(),
-                menuItemEntity.isInPlaceOnly(),
+                menuItemEntity.isDelivery(),
                 menuItemEntity.getImagePath(),
                 menuItemEntity.getRestaurantId()
         );
@@ -73,7 +73,7 @@ public class MenuItemMapperImpl implements MenuItemMapper {
                 menuItem.getName(),
                 menuItem.getDescription(),
                 menuItem.getPrice(),
-                menuItem.isInPlaceOnly(),
+                menuItem.isDelivery(),
                 menuItem.getImagePath(),
                 menuItem.getRestaurantId()
         );
@@ -90,7 +90,7 @@ public class MenuItemMapperImpl implements MenuItemMapper {
                 menuItemUpdateRequestDTO.name(),
                 menuItemUpdateRequestDTO.description(),
                 menuItemUpdateRequestDTO.price(),
-                menuItemUpdateRequestDTO.inPlaceOnly(),
+                menuItemUpdateRequestDTO.delivery(),
                 menuItemUpdateRequestDTO.imagePath(),
                 restaurantId // preserva o restaurantId que vem do parâmetro
         );
