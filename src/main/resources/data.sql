@@ -90,16 +90,16 @@ VALUES (CURRENT_TIMESTAMP, true, 1, 1);
 
 -- Criação da tabela de pedidos_itens
 
-CREATE TABLE IF NOT EXISTS tb_pedidos (
+CREATE TABLE IF NOT EXISTS tb_pedidos_items (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     pedido_id BIGINT NOT NULL,
-    usuario_id BIGINT NOT NULL,
+    menu_item_id BIGINT NOT NULL,
+    quantidade BIGINT NOT NULL,
     data_alteracao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT fk_pedido_resturante FOREIGN KEY (restaurante_id) REFERENCES tb_restaurantes(id),
-    CONSTRAINT fk_pedido_usuario FOREIGN KEY (usuario_id) REFERENCES tb_usuarios(id)
+    CONSTRAINT fk_pedido_item_pedido FOREIGN KEY (pedido_id) REFERENCES tb_pedidos(id),
+CONSTRAINT fk_pedido_item_menu_item FOREIGN KEY (menu_item_id) REFERENCES tb_menu_items(id)
 );
-
--- Exemplo de pedido (opcional)
-INSERT INTO tb_pedidos (data_hora, delivery, restaurante_id, usuario_id)
-VALUES (CURRENT_TIMESTAMP, true, 1, 1);
+-- Exemplo de pedido item (opcional)
+INSERT INTO tb_pedidos_items (pedido_id, menu_item_id, quantidade, data_alteracao)
+VALUES (1, 1, 2,CURRENT_TIMESTAMP);

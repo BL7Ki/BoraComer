@@ -9,6 +9,6 @@ public interface PedidoGateway {
     Pedido save(Pedido pedido);
     List<Pedido> findAll();
     Optional<Pedido> findById(Long id);
-    Pedido update(Pedido item);
+    Pedido update(Pedido pedido);
     void deleteById(Long id);
 }
