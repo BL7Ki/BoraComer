@@ -11,7 +11,7 @@ import pos.java.bora_comer.infra.delivery.pedidoItem.dto.PedidoItemUpdateRequest
 import pos.java.bora_comer.infra.persistence.repository.pedidoItem.entity.PedidoItemEntity;
 
 @Component
-public class PedidoMapperImpl implements PedidoItemMapper {
+public class PedidoItemMapperImpl implements PedidoItemMapper {
 
     @Override
     public PedidoItem toDomain(PedidoItemRequestDTO pedidoItemRequestDTO) {

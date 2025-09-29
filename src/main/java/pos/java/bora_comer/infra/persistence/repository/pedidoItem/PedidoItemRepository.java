@@ -7,8 +7,6 @@ import java.util.List;
 
 @Repository
 public interface PedidoItemRepository extends JpaRepository<PedidoItemEntity, Long> {
-    List<PedidoItemEntity> findByDeliveryTrue();
-    List<PedidoItemEntity> findByDeliveryFalse();
     List<PedidoItemEntity> findByMenuItemId(Long menuItemId);
     List<PedidoItemEntity> findByPedidoId(Long pedidoId);
     List<PedidoItemEntity> findByPedidoIdAndMenuItemId(Long pedidoId, Long menuItemId);

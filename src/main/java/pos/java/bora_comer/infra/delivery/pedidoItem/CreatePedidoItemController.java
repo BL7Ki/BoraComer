@@ -29,7 +29,7 @@ public class CreatePedidoItemController implements CreatePedidoItemControllerDoc
         var pedidoItemDomain = pedidoItemMapper.toDomain(pedidoItemRequestDTO);
         PedidoItem createdPedidoItem = createPedidoItemUseCase.execute(pedidoItemDomain);
         PedidoItemResponseDTO responseDTO = pedidoItemMapper.toResponseDTO(createdPedidoItem);
-        URI location = URI.create("/pedidoItems/" + responseDTO.id());
+        URI location = URI.create("/pedidoitems/" + responseDTO.id());
         return ResponseEntity.created(location).body(responseDTO);
     }
 

@@ -7,11 +7,11 @@ import pos.java.bora_comer.core.gateway.pedidoItem.PedidoItemUpdateGateway;
 import pos.java.bora_comer.core.usercase.pedidoItem.UpdatePedidoItemUseCase;
 
 @Service
-public class UpdatePedidoUseCaseImpl implements UpdatePedidoItemUseCase {
+public class UpdatePedidoItemUseCaseImpl implements UpdatePedidoItemUseCase {
 
     private final PedidoItemUpdateGateway pedidoItemUpdateGateway;
 
-    public UpdatePedidoUseCaseImpl(PedidoItemUpdateGateway pedidoItemUpdateGateway) {
+    public UpdatePedidoItemUseCaseImpl(PedidoItemUpdateGateway pedidoItemUpdateGateway) {
         this.pedidoItemUpdateGateway = pedidoItemUpdateGateway;
     }
 

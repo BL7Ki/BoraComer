@@ -17,7 +17,7 @@ public class PedidoItemEntity {
 
     // Relacionamento com o Item de Menu
     @Column(name = "menu_item_id", nullable = false)
-    private Long userId;
+    private Long menuItemId;
 
     @Column(name = "quantidade", nullable = false)
     private Integer quantity;
@@ -35,7 +35,7 @@ public class PedidoItemEntity {
     }
 
     public Long getMenuItemId() {
-        return userId;
+        return menuItemId;
     }
 
     public Integer getQuantity() {
@@ -59,7 +59,7 @@ public class PedidoItemEntity {
     // Construtor privado completo
     private PedidoItemEntity(Long pedidoId, Long menuItemId, Integer quantity) {
         this.pedidoId = pedidoId;
-        this.userId = menuItemId;
+        this.menuItemId = menuItemId;
         this.quantity = quantity;
         this.lastModifiedDate = LocalDateTime.now();
     }
@@ -71,7 +71,7 @@ public class PedidoItemEntity {
     }
         
     public void updateMenuItemId(Long menuItemId) {
-        this.userId = menuItemId;
+        this.menuItemId = menuItemId;
     }
 
     public void updateQuantity(Integer quantity) {
