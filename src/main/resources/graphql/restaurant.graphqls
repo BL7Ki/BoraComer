@@ -1,16 +1,62 @@
+# ----------------- TIPOS DE ENTIDADES ------------------
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    username: String!
+    role: String!
+}
+
 type Restaurant {
     id: ID!
     name: String!
     address: String!
 }
 
-type Query {
-    restaurantById(id: ID!): Restaurant
-    allRestaurants: [Restaurant!]!
+type Order {
+    id: ID!
+    userId: ID!
+    restaurantId: ID!
+    delivery: Boolean!
+    dateTimeOrder: String!
+    valorTotal: Float!
+    status: String!
 }
 
+# ----------------- QUERIES (LEITURA) ------------------
+
+type Query {
+    # Users
+    userById(id: ID!): User
+    allUsers: [User!]!
+
+    # Restaurants
+    restaurantById(id: ID!): Restaurant
+    allRestaurants: [Restaurant!]!
+
+    # Orders
+    orderById(id: ID!): Order
+    allOrders: [Order!]!
+}
+
+# ----------------- MUTATIONS (ESCRITA) ------------------
+
 type Mutation {
+    # Users
+    createUser(name: String!, email: String!, username: String!, password: String!): User
+
+    # Restaurants
     createRestaurant(name: String!, address: String!): Restaurant
     updateRestaurant(id: ID!, name: String, address: String): Restaurant
     deleteRestaurant(id: ID!): Boolean
+
+    # Orders
+    createOrder(
+        userId: ID!,
+        restaurantId: ID!,
+        delivery: Boolean!
+    ): Order
+
+    finalizeOrder(id: ID!): Order
 }
