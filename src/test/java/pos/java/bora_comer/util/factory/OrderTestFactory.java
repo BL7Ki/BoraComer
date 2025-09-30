@@ -1,37 +1,83 @@
 package pos.java.bora_comer.util.factory;
 
-import pos.java.bora_comer.core.domain.order.Order;
-import pos.java.bora_comer.core.domain.order.OrderStatusEnum;
-
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import pos.java.bora_comer.core.domain.order.Order;
+import pos.java.bora_comer.infra.delivery.order.dto.OrderRequestDTO;
+import pos.java.bora_comer.infra.delivery.order.dto.OrderResponseDTO;
+import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO;
+
 public class OrderTestFactory {
-
-    private static final Long DEFAULT_ID = 999L;
-    private static final String DEFAULT_CLIENTE_ID = "client-xyz-123";
-    private static final OrderStatusEnum DEFAULT_STATUS = OrderStatusEnum.CREATED;
-    private static final LocalDateTime DEFAULT_DATA_CRIACAO = LocalDateTime.of(2025, 9, 25, 10, 0);
-    private static final BigDecimal DEFAULT_VALOR_TOTAL = new BigDecimal("150.75");
-
-
-    public static Order createDefaultOrder() {
-        return new Order(
-                DEFAULT_ID,
-                DEFAULT_CLIENTE_ID,
-                DEFAULT_STATUS,
-                DEFAULT_DATA_CRIACAO,
-                DEFAULT_VALOR_TOTAL
+    
+    // Construtor privado para impedir instanciação
+    private OrderTestFactory() {
+        // impede instanciação
+    }
+    
+    private static final String dateStr = "2024-10-10T12:00:00";
+    private static final LocalDateTime dateTime = LocalDateTime.parse(dateStr);
+    
+    public static Order createDefault() {
+        return Order.create(
+                dateTime,
+                true,
+                1L,
+                1L,
+                dateTime
         );
     }
 
-    public static Order createOrderWithStatus(OrderStatusEnum status) {
-        return new Order(
-                DEFAULT_ID,
-                DEFAULT_CLIENTE_ID,
-                status,
-                DEFAULT_DATA_CRIACAO,
-                DEFAULT_VALOR_TOTAL
+    public static Order createDefaultWithId() {
+        return Order.create(
+                10L,
+                dateTime,
+                true,
+                1L,
+                1L,
+                dateTime
+        );
+    }
+
+    public static OrderResponseDTO createResponseDTOWithId() {
+        return new OrderResponseDTO(
+                10L,
+                dateTime,
+                true,
+                1L,
+                1L,
+                dateTime
+        );
+    }
+
+    public static OrderRequestDTO createRequestDTOWithId() {
+        return new OrderRequestDTO(
+                dateTime,
+                true,
+                1L,
+                1L,
+                dateTime
+        );
+    }
+
+    public static OrderUpdateRequestDTO createUpdateRequestDTOWithId() {
+        return new OrderUpdateRequestDTO(
+                dateTime,
+                false,
+                1L,
+                1L,
+                dateTime
+        );
+    }
+
+    public static Order createCustom(Long id, LocalDateTime dateTime, boolean delivery, Long restaurantId, Long userId, LocalDateTime lastModifiedDate) {
+        return Order.create(
+                id,
+                dateTime,
+                delivery,
+                restaurantId,
+                userId,
+                lastModifiedDate
         );
     }
 }
+

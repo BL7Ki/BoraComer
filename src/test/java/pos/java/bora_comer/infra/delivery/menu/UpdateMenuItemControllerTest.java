@@ -75,7 +75,7 @@ public class UpdateMenuItemControllerTest {
                 updateRequestDTO.name(),
                 updateRequestDTO.description(),
                 updateRequestDTO.price(),
-                updateRequestDTO.inPlaceOnly(),
+                updateRequestDTO.delivery(),
                 updateRequestDTO.imagePath(),
                 restauranteId
         );
@@ -88,7 +88,7 @@ public class UpdateMenuItemControllerTest {
                 updateRequestDTO.name(),
                 updateRequestDTO.description(),
                 updateRequestDTO.price(),
-                updateRequestDTO.inPlaceOnly(),
+                updateRequestDTO.delivery(),
                 updateRequestDTO.imagePath(),
                 restauranteId   
         );
@@ -104,7 +104,7 @@ public class UpdateMenuItemControllerTest {
                 .andExpect(jsonPath("$.nome").value(updateRequestDTO.name()))   
                 .andExpect(jsonPath("$.descricao").value(updateRequestDTO.description()))
                 .andExpect(jsonPath("$.preco").value(updateRequestDTO.price().doubleValue()))
-                .andExpect(jsonPath("$.so_no_local").value(updateRequestDTO.inPlaceOnly()))
+                .andExpect(jsonPath("$.delivery").value(updateRequestDTO.delivery()))
                 .andExpect(jsonPath("$.imagem_caminho").value(updateRequestDTO.imagePath()))
                 .andExpect(jsonPath("$.restaurante_id").value(restauranteId));
     }

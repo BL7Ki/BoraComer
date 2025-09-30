@@ -1,56 +1,39 @@
 package pos.java.bora_comer.core.domain.order;
-
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Random;
 
 public class Order {
 
-    private final Long id;
-    private final String clienteId;
-    private final OrderStatusEnum status;
-    private final LocalDateTime dataCriacao;
-    private final BigDecimal valorTotal;
+    private Long id;
+    private final LocalDateTime dateTimeOrder; 
+    private final boolean delivery;
+    private final Long restaurantId;
+    private final Long userId;
+    private final LocalDateTime lastModifiedDate; 
 
-    public Order(Long id, String clienteId, OrderStatusEnum status, LocalDateTime dataCriacao, BigDecimal valorTotal) {
+    private Order(Long id, LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId, LocalDateTime lastModifiedDate) {
         this.id = id;
-        this.clienteId = clienteId;
-        this.status = status;
-        this.dataCriacao = dataCriacao;
-        this.valorTotal = valorTotal;
+        this.dateTimeOrder = dateTimeOrder;
+        this.delivery = delivery;
+        this.restaurantId = restaurantId;
+        this.userId = userId;
+        this.lastModifiedDate = lastModifiedDate;
     }
 
-    public static Order create(String clienteId, BigDecimal valorTotal) {
-        // Gera o ID e a data de criação internamente, garantindo um estado inicial consistente.
-        long orderId = new Random().nextLong();
-        return new Order(
-                orderId,
-                clienteId,
-                OrderStatusEnum.CREATED,
-                LocalDateTime.now(),
-                valorTotal
-        );
+    // Factory method without ID (for creation)
+    public static Order create(LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId, LocalDateTime lastModifiedDate) {
+        return new Order(null, dateTimeOrder, delivery, restaurantId, userId, lastModifiedDate);
+    }
+
+    // Factory method with ID (for updates)
+    public static Order create(Long id, LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId, LocalDateTime lastModifiedDate) {
+        return new Order(id, dateTimeOrder, delivery, restaurantId, userId, lastModifiedDate);
     }
 
     // Getters
-    public Long getId() {
-        return id;
-    }
-
-    public String getClienteId() {
-        return clienteId;
-    }
-
-    public OrderStatusEnum getStatus() {
-        return status;
-    }
-
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public BigDecimal getValorTotal() {
-        return valorTotal;
-    }
+    public Long getId() { return id; }
+    public LocalDateTime getDateTimeOrder() { return dateTimeOrder; }
+    public boolean isDelivery() { return delivery; }
+    public Long getRestaurantId() { return restaurantId; }
+    public Long getUserId() { return userId; }
+    public LocalDateTime getLastModifiedDate() { return lastModifiedDate; }
 }
-

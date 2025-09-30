@@ -1,9 +1,6 @@
 package pos.java.bora_comer.infra.persistence.repository.order.entity;
 
 import jakarta.persistence.*;
-import pos.java.bora_comer.core.domain.order.OrderStatusEnum;
-
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,70 +11,85 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cliente_id", nullable = false)
-    private String clienteId;
+    @Column(name = "data_hora", nullable = false)
+    private LocalDateTime dateTimeOrder;
+    
+    @Column(name = "delivery", nullable = false)
+    private boolean delivery;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private OrderStatusEnum status;
+    // Relacionamento com o restaurante
+    @Column(name = "restaurante_id", nullable = false)
+    private Long restaurantId;
 
-    @Column(name = "data_criacao", nullable = false)
-    private LocalDateTime dataCriacao;
+    // Relacionamento com o usuário
+    @Column(name = "usuario_id", nullable = false)
+    private Long userId;
 
-    @Column(name = "valor_total", nullable = false)
-    private BigDecimal valorTotal;
+    @Column(name = "data_alteracao", nullable = false)
+    private LocalDateTime lastModifiedDate;    
 
-    // Construtor padrão exigido pelo JPA
-    public OrderEntity() {
-    }
-
-    // Construtor privado para a criação da entidade
-    private OrderEntity(String clienteId, BigDecimal valorTotal) {
-        this.clienteId = clienteId;
-        this.status = OrderStatusEnum.CREATED;
-        this.dataCriacao = LocalDateTime.now();
-        this.valorTotal = valorTotal;
-    }
-
-    // fabric para novas instancias
-    public static OrderEntity create(String clienteId, BigDecimal valorTotal) {
-        return new OrderEntity(clienteId, valorTotal);
-    }
-
-    // fabric pra fazer mapper
-    public static OrderEntity of(Long id, String clienteId, OrderStatusEnum status, LocalDateTime dataCriacao, BigDecimal valorTotal) {
-        OrderEntity order = new OrderEntity();
-        order.id = id;
-        order.clienteId = clienteId;
-        order.status = status;
-        order.dataCriacao = dataCriacao;
-        order.valorTotal = valorTotal;
-        return order;
-    }
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
-
-    public String getClienteId() {
-        return clienteId;
+    
+    public LocalDateTime getDateTimeOrder() {
+        return dateTimeOrder;
+    }
+        
+    public boolean isDelivery() {
+        return delivery;
+    }
+    
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+    
+    public Long getUserId() {
+        return userId;
     }
 
-    public OrderStatusEnum getStatus() {
-        return status;
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
     }
 
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
+    // Construtor padrão para JPA
+    public OrderEntity() {   
+        this.lastModifiedDate = LocalDateTime.now();
+    }
+    
+    // Factory method
+    public static OrderEntity create(LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId ) {
+        return new OrderEntity(dateTimeOrder, delivery, restaurantId, userId);
+    }       
+
+    // Construtor privado completo
+    private OrderEntity(LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId) {
+        this.dateTimeOrder = dateTimeOrder;
+        this.delivery = delivery;
+        this.restaurantId = restaurantId;
+        this.userId = userId;
+        this.lastModifiedDate = LocalDateTime.now();
     }
 
-    public BigDecimal getValorTotal() {
-        return valorTotal;
+    // Atualizadores controlados
+    public void updateRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+    
+    public void updateUserId(Long userId) {
+        this.userId = userId;
+    }
+    
+    public void updateDelivery(boolean delivery) {
+        this.delivery = delivery;
     }
 
-    // pra atualizar o status sem setter
-    public void updateStatus(OrderStatusEnum newStatus) {
-        this.status = newStatus;
+    public void updateDateTimeOrder(LocalDateTime dateTimeOrder) {
+        this.dateTimeOrder = dateTimeOrder;
+    }
+
+    public void updateLastModifiedDate() {
+        this.lastModifiedDate = LocalDateTime.now();
     }
 }
-

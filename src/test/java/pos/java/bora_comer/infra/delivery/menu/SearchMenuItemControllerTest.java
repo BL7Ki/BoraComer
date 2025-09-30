@@ -67,7 +67,7 @@ public class SearchMenuItemControllerTest {
                 .andExpect(jsonPath("$.nome").value("Sushi"))
                 .andExpect(jsonPath("$.descricao").value("Sushi de salmão com arroz"))
                 .andExpect(jsonPath("$.preco").value(29.99))
-                .andExpect(jsonPath("$.so_no_local").value(true))
+                .andExpect(jsonPath("$.delivery").value(true))
                 .andExpect(jsonPath("$.imagem_caminho").value("sushi.jpg"))
                 .andExpect(jsonPath("$.restaurante_id").value(1L));
     }
