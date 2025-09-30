@@ -1,4 +1,4 @@
-package pos.java.bora_comer.infra.service;
+package pos.java.bora_comer.infra.security.jwt;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,12 +11,12 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.User;
+import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
+import pos.java.bora_comer.infra.service.JwtService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
-import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import java.util.Collections;
 
@@ -50,20 +50,17 @@ class JwtAuthenticationFilterTest {
 
     @BeforeEach
     void setUp() {
-        // Cria um UserDetails de simulação que será retornado pelo userDetailsService
         userDetails = new User(USERNAME, "pass", Collections.emptyList());
 
-        // Limpa o contexto de segurança antes de cada teste
         SecurityContextHolder.clearContext();
     }
 
     @Test
-    void doFilterInternal_shouldPassChain_whenNoAuthorizationHeader() throws Exception {
+    void doFilter_shouldPassChain_whenNoAuthorizationHeader() throws Exception {
         // Setup: Header nulo
         when(request.getHeader("Authorization")).thenReturn(null);
 
-        // Ação
-        jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
+        jwtAuthenticationFilter.doFilter(request, response, filterChain);
 
         // Verificação: A cadeia de filtros deve ser chamada e nenhuma interação com services
         verify(filterChain).doFilter(request, response);
@@ -72,12 +69,11 @@ class JwtAuthenticationFilterTest {
     }
 
     @Test
-    void doFilterInternal_shouldPassChain_whenAuthorizationHeaderInvalid() throws Exception {
+    void doFilter_shouldPassChain_whenAuthorizationHeaderInvalid() throws Exception {
         // Setup: Header inválido (não começa com "Bearer ")
         when(request.getHeader("Authorization")).thenReturn("Token " + VALID_TOKEN);
 
-        // Ação
-        jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
+        jwtAuthenticationFilter.doFilter(request, response, filterChain);
 
         // Verificação: A cadeia de filtros deve ser chamada e nenhuma interação com services
         verify(filterChain).doFilter(request, response);
@@ -86,7 +82,7 @@ class JwtAuthenticationFilterTest {
     }
 
     @Test
-    void doFilterInternal_shouldAuthenticateUser_whenTokenIsValid() throws Exception {
+    void doFilter_shouldAuthenticateUser_whenTokenIsValid() throws Exception {
         // Setup: Token Válido
         when(request.getHeader("Authorization")).thenReturn("Bearer " + VALID_TOKEN);
         when(jwtService.extractUsername(VALID_TOKEN)).thenReturn(USERNAME);
@@ -96,8 +92,7 @@ class JwtAuthenticationFilterTest {
         // Garante que o contexto está vazio
         assertNull(SecurityContextHolder.getContext().getAuthentication());
 
-        // Ação
-        jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
+        jwtAuthenticationFilter.doFilter(request, response, filterChain);
 
         // Verificação 1: O contexto de segurança deve ter sido preenchido
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -109,15 +104,14 @@ class JwtAuthenticationFilterTest {
     }
 
     @Test
-    void doFilterInternal_shouldNotAuthenticateUser_whenTokenIsInvalid() throws Exception {
+    void doFilter_shouldNotAuthenticateUser_whenTokenIsInvalid() throws Exception {
         // Setup: Token Inválido
         when(request.getHeader("Authorization")).thenReturn("Bearer " + VALID_TOKEN);
         when(jwtService.extractUsername(VALID_TOKEN)).thenReturn(USERNAME);
         when(userDetailsService.loadUserByUsername(USERNAME)).thenReturn(userDetails);
         when(jwtService.isTokenValid(VALID_TOKEN, USERNAME)).thenReturn(false); // Token inválido
 
-        // Ação
-        jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
+        jwtAuthenticationFilter.doFilter(request, response, filterChain);
 
         // Verificação: O contexto de segurança deve permanecer vazio
         assertNull(SecurityContextHolder.getContext().getAuthentication());
@@ -127,7 +121,7 @@ class JwtAuthenticationFilterTest {
     }
 
     @Test
-    void doFilterInternal_shouldNotAuthenticateUser_ifAlreadyAuthenticated() throws Exception {
+    void doFilter_shouldNotAuthenticateUser_ifAlreadyAuthenticated() throws Exception {
         // Setup: Simula um usuário já autenticado no contexto
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(mock(Authentication.class));
@@ -135,8 +129,7 @@ class JwtAuthenticationFilterTest {
 
         when(request.getHeader("Authorization")).thenReturn("Bearer " + VALID_TOKEN);
 
-        // Ação
-        jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
+        jwtAuthenticationFilter.doFilter(request, response, filterChain);
 
         // Verificação: Garante que nenhuma tentativa de autenticação foi feita
         verify(jwtService, never()).extractUsername(anyString());
