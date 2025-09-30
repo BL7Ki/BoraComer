@@ -17,7 +17,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import pos.java.bora_comer.config.rabbitmq.RabbitMQConfig;
 import pos.java.bora_comer.core.domain.order.Order;
 import pos.java.bora_comer.util.factory.OrderTestFactory;
-import pos.java.bora_comer.core.domain.order.OrderStatusEnum;
 
 @ExtendWith(MockitoExtension.class)
 class OrderEventProducerTest {
@@ -36,14 +35,11 @@ class OrderEventProducerTest {
 
     @BeforeEach
     void setUp() {
-        // 1. Usa a Factory para criar o objeto de teste com status CREATED (padrão)
-        createdOrder = OrderTestFactory.createDefaultOrder();
+        createdOrder = OrderTestFactory.createDefault();
 
-        // 2. Define a string JSON esperada para a ordem padrão.
-        // O JSON deve ser consistente com os valores DEFAULTS da OrderTestFactory
-        jsonCreatedOrder = "{\"id\":999,\"clienteId\":\"client-xyz-123\",\"status\":\"CREATED\",\"dataCriacao\":\"2025-09-25T10:00:00\",\"valorTotal\":150.75}";
-
-        // O STUBBING FOI REMOVIDO DAQUI para o método @Test onde é usado.
+        // id, dateTimeOrder, delivery, restaurantId, userId, lastModifiedDate
+        // Usamos valores da OrderTestFactory: id: null, dateTimeOrder: "2024-10-10T12:00:00", delivery: true, restaurantId: 1L, userId: 1L, lastModifiedDate: "2024-10-10T12:00:00"
+        jsonCreatedOrder = "{\"id\":null,\"dateTimeOrder\":\"2024-10-10T12:00:00\",\"delivery\":true,\"restaurantId\":1,\"userId\":1,\"lastModifiedDate\":\"2024-10-10T12:00:00\"}";
     }
 
     @Test
@@ -60,27 +56,6 @@ class OrderEventProducerTest {
                 RabbitMQConfig.EXCHANGE_NAME,
                 RabbitMQConfig.ORDER_CREATED_ROUTING_KEY,
                 jsonCreatedOrder
-        );
-    }
-
-    @Test
-    void testSendOrderFinalizedEvent_shouldSerializeAndSendToOrderFinalizedQueue() throws JsonProcessingException {
-        // Prepara uma ordem com status FINALIZED
-        Order finalizedOrder = OrderTestFactory.createOrderWithStatus(OrderStatusEnum.FINALIZED);
-        String jsonFinalizedOrder = jsonCreatedOrder.replace("CREATED", "FINALIZED");
-
-        // Mocking: Define o comportamento necessário apenas para este teste
-        when(objectMapper.writeValueAsString(finalizedOrder)).thenReturn(jsonFinalizedOrder);
-
-        // Ação
-        orderEventProducer.sendOrderFinalizedEvent(finalizedOrder);
-
-        // Verificação:
-        verify(objectMapper).writeValueAsString(finalizedOrder);
-        verify(rabbitTemplate).convertAndSend(
-                RabbitMQConfig.EXCHANGE_NAME,
-                RabbitMQConfig.ORDER_FINALIZED_ROUTING_KEY,
-                jsonFinalizedOrder
         );
     }
 
