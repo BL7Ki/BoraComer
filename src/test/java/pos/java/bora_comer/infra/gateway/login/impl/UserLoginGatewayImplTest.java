@@ -31,14 +31,14 @@ class UserLoginGatewayImplTest {
         var userEntity = UserTestFactory.umUserEntityPadrao();
         var user = UserTestFactory.umUserPadrao();
 
-        when(userRepository.findByLogin(login)).thenReturn(Optional.of(userEntity));
+        when(userRepository.findByUsername(login)).thenReturn(Optional.of(userEntity));
         when(userMapper.toDomain(userEntity, userEntity.getUserTypeEntity())).thenReturn(user);
 
         var result = userLoginGateway.findByLogin(login);
 
         assertTrue(result.isPresent());
         assertEquals("Messi", result.get().getName());
-        verify(userRepository, times(1)).findByLogin(login);
+        verify(userRepository, times(1)).findByUsername(login);
         verify(userMapper, times(1)).toDomain(userEntity, userEntity.getUserTypeEntity());
     }
 
@@ -46,12 +46,12 @@ class UserLoginGatewayImplTest {
     void deveRetornarOptionalVazioQuandoLoginNaoExistir() {
         String login = "messi";
 
-        when(userRepository.findByLogin(login)).thenReturn(Optional.empty());
+        when(userRepository.findByUsername(login)).thenReturn(Optional.empty());
 
         var result = userLoginGateway.findByLogin(login);
 
         assertTrue(result.isEmpty());
-        verify(userRepository, times(1)).findByLogin(login);
+        verify(userRepository, times(1)).findByUsername(login);
         verifyNoInteractions(userMapper);
     }
 }

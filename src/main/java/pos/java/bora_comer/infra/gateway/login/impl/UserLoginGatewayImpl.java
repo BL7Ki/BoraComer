@@ -23,9 +23,9 @@ public class UserLoginGatewayImpl implements UserLoginGateway {
 
     @Transactional(readOnly = true)
     @Override
-    public Optional<User> findByLogin(String login) {
+    public Optional<User> findByLogin(String username) {
 
-        Optional<UserEntity> userEntity = userRepository.findByLogin(login);
+        Optional<UserEntity> userEntity = userRepository.findByUsername(username);
 
         if (userEntity.isEmpty()) {
             return Optional.empty();

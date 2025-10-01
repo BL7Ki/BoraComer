@@ -5,6 +5,7 @@ import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -18,9 +19,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Registers a new user with encrypted password.
-    // Sets default role as DEFAULT and userTypeId as null.
-    public UserEntity registerUser(String name, String email, String username, String rawPassword) {
+    public UserEntity create(String name, String email, String username, String rawPassword) {
         if (userRepository.existsByUsername(username)) {
             throw new IllegalArgumentException("User already exists with username: " + username);
         }
@@ -33,15 +32,24 @@ public class UserService {
                 username,
                 encodedPassword,
                 null, // Optional AddressEntity
-                UserRoleEntityEnum.DEFAULT,
-                null // userTypeId, can be set if needed
+                UserRoleEntityEnum.DEFAULT, // Define o papel padrão
+                null // userTypeId
         );
 
         return userRepository.save(user);
     }
 
+    public UserEntity findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
+    }
+
+    public List<UserEntity> findAll() {
+        return userRepository.findAll();
+    }
+
     public UserEntity findByUsername(String username) {
-        return userRepository.findByLogin(username)
+        return userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + username));
     }
 }

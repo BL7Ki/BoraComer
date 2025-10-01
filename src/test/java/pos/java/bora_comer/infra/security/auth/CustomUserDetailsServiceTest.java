@@ -53,7 +53,7 @@ class CustomUserDetailsServiceTest {
     void loadUserByUsername_shouldReturnUserDetails_forClient() {
         // Setup
         UserEntity clientUser = setupMockUser(TEST_LOGIN, UserRoleEntityEnum.DEFAULT);
-        when(userRepository.findByLogin(TEST_LOGIN)).thenReturn(Optional.of(clientUser));
+        when(userRepository.findByUsername(TEST_LOGIN)).thenReturn(Optional.of(clientUser));
 
         // Ação
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(TEST_LOGIN);
@@ -73,7 +73,7 @@ class CustomUserDetailsServiceTest {
         // Setup
         String adminLogin = "adminuser";
         UserEntity adminUser = setupMockUser(adminLogin, UserRoleEntityEnum.ADMIN);
-        when(userRepository.findByLogin(adminLogin)).thenReturn(Optional.of(adminUser));
+        when(userRepository.findByUsername(adminLogin)).thenReturn(Optional.of(adminUser));
 
         // Ação
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(adminLogin);
@@ -87,7 +87,7 @@ class CustomUserDetailsServiceTest {
     @Test
     void loadUserByUsername_shouldThrowException_whenUserNotFound() {
         // Setup
-        when(userRepository.findByLogin(anyString())).thenReturn(Optional.empty());
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.empty());
 
         // Ação & Verificação
         assertThrows(UsernameNotFoundException.class, () ->
