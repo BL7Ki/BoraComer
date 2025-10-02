@@ -5,7 +5,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.stereotype.Controller;
 import pos.java.bora_comer.core.domain.order.Order;
 import pos.java.bora_comer.core.domain.restaurant.Restaurant;
-import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.infra.service.OrderService;
 import pos.java.bora_comer.infra.service.UserService;
 import pos.java.bora_comer.infra.service.RestaurantService;
@@ -32,7 +32,7 @@ public class MutationResolver {
 
     // --- User Mutations ---
     @MutationMapping
-    public UserEntity createUser(
+    public User createUser(
             @Argument String name,
             @Argument String email,
             @Argument String username,

@@ -5,7 +5,8 @@ type User {
     name: String!
     email: String!
     username: String!
-    role: String!
+    userRoleEnum: UserRoleEnum!
+    userTypeNameEnum: UserTypeNameEnum!
 }
 
 type Restaurant {
@@ -46,7 +47,7 @@ type Query {
 
 type Mutation {
     # Users
-    createUser(name: String!, email: String!, username: String!, password: String!): User
+    createUser(name: String!, email: String!, username: String!, password: String!, userRoleEnum:  UserRoleEnum!, userTypeNameEnum: UserTypeNameEnum!): User
 
     # Restaurants
     createRestaurant(
@@ -67,4 +68,14 @@ type Mutation {
     ): Order
 
     finalizeOrder(id: ID!): Order
+}
+
+enum UserTypeNameEnum {
+    DONO_RESTAURANTE,
+    CLIENTE
+}
+
+enum UserRoleEnum{
+    DEFAULT,
+    ADMIN
 }
