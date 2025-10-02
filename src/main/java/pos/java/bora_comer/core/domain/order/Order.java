@@ -29,6 +29,11 @@ public class Order {
         return new Order(id, dateTimeOrder, delivery, restaurantId, userId, lastModifiedDate);
     }
 
+    // Factory method without ID and LastModifiedDate(for creation)
+    public static Order create(LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId) {
+        return new Order(null, dateTimeOrder, delivery, restaurantId, userId, null);
+    }
+
     // Getters
     public Long getId() { return id; }
     public LocalDateTime getDateTimeOrder() { return dateTimeOrder; }

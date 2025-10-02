@@ -30,7 +30,7 @@ public class MutationResolver {
         this.orderService = orderService;
     }
 
-    // ... User Mutations ...
+    // --- User Mutations ---
     @MutationMapping
     public UserEntity createUser(
             @Argument String name,
@@ -40,15 +40,19 @@ public class MutationResolver {
         return userService.create(name, email, username, password);
     }
 
-    // ... Restaurant Mutations ...
+    // --- Restaurant Mutations ---
     @MutationMapping
-    public Restaurant createRestaurant(@Argument String name, @Argument String address) {
-        return restaurantService.create(name, address);
+    public Restaurant createRestaurant(
+            @Argument String name,
+            @Argument String address,
+            @Argument String cuisineType,
+            @Argument String openingHours) {
+        return restaurantService.create(name, address, cuisineType, openingHours);
     }
 
     @MutationMapping
-    public Restaurant updateRestaurant(@Argument Long id, @Argument String name, @Argument String address) {
-        return restaurantService.update(id, name, address);
+    public Restaurant updateRestaurant(@Argument Long id, @Argument String name, @Argument String address, @Argument String cuisineType, @Argument String openingHours) {
+        return restaurantService.update(id, name, address, cuisineType, openingHours);
     }
 
     @MutationMapping
@@ -65,9 +69,9 @@ public class MutationResolver {
             @Argument boolean delivery) {
 
         LocalDateTime now = LocalDateTime.now();
-        /// //////////////////////////////////////// AJUSTAR DEPOISSSSSSSS
+
         Order orderToCreate = Order.create(
-                now, // dateTimeOrder (Criado na hora da requisição)
+                now,
                 delivery,
                 restaurantId,
                 userId

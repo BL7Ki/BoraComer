@@ -12,6 +12,8 @@ type Restaurant {
     id: ID!
     name: String!
     address: String!
+    cuisineType: String!
+    openingHours: String!
 }
 
 type Order {
@@ -47,8 +49,14 @@ type Mutation {
     createUser(name: String!, email: String!, username: String!, password: String!): User
 
     # Restaurants
-    createRestaurant(name: String!, address: String!): Restaurant
-    updateRestaurant(id: ID!, name: String, address: String): Restaurant
+    createRestaurant(
+        name: String!,
+        address: String!,
+        cuisineType: String!,
+        openingHours: String!
+    ): Restaurant
+
+    updateRestaurant(id: ID!, name: String, address: String, cuisineType: String, openingHours: String): Restaurant
     deleteRestaurant(id: ID!): Boolean
 
     # Orders

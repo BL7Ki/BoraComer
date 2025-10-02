@@ -15,7 +15,7 @@ public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final RestaurantMapper restaurantMapper;
-    // private final SecurityContextUtils securityContextUtils; futuramente para proteger o ownerID
+    // private final SecurityContextUtils securityContextUtils;
 
     public RestaurantService(RestaurantRepository restaurantRepository,
                              RestaurantMapper restaurantMapper /*, SecurityContextUtils securityContextUtils*/) {
@@ -40,21 +40,20 @@ public class RestaurantService {
 
     // --- MUTATION RESOLVERS (Escrita) ---
 
-    /// //////////////////////////////////////// AJUSTAR DEPOISSSSSSSS
-    public Restaurant create(String name, String address) {
+    public Restaurant create(String name, String address, String cuisineType, String openingHours) {
         if (restaurantRepository.existsByName(name)) {
             throw new IllegalArgumentException("Restaurant already exists with name: " + name);
         }
 
         // Long currentOwnerId = securityContextUtils.getCurrentUserId();
-        Long currentOwnerId = 99L; // MOCK
+        Long currentOwnerId = 99L; // MOCK temporário para OwnerID
 
-        // 1. Cria o objeto de domínio com dados padrão/mock, usando o Factory do Domínio
+        // 1. Cria o objeto de domínio com dados REAIS fornecidos pelo GraphQL
         Restaurant newRestaurantDomain = Restaurant.create(
                 name,
                 address,
-                "Undefined",
-                "09:00 - 18:00",
+                cuisineType,
+                openingHours,
                 currentOwnerId
         );
 
@@ -66,7 +65,7 @@ public class RestaurantService {
         return restaurantMapper.toDomain(savedEntity);
     }
 
-    public Restaurant update(Long id, String name, String address) {
+    public Restaurant update(Long id, String name, String address, String cuisineType, String openingHours) {
         RestaurantEntity existingEntity = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Restaurant not found with ID: " + id));
 
@@ -77,6 +76,16 @@ public class RestaurantService {
         }
         if (address != null) {
             existingEntity.updateAddress(address);
+            updated = true;
+        }
+
+        if (cuisineType != null) {
+            existingEntity.updateCuisineType(cuisineType);
+            updated = true;
+        }
+
+        if (openingHours != null) {
+            existingEntity.updateOpeningHours(openingHours);
             updated = true;
         }
 
