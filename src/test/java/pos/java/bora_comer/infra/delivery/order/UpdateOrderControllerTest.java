@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import pos.java.bora_comer.core.domain.order.Order;
 import pos.java.bora_comer.core.mapper.order.OrderMapper;
 import pos.java.bora_comer.core.usercase.order.UpdateOrderUseCase;
-import pos.java.bora_comer.infra.delivery.order.UpdateOrderController;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderResponseDTO;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO;
 
