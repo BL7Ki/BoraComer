@@ -2,9 +2,11 @@ package pos.java.bora_comer.infra.gateway.user.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
+import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.userType.UserTypeRepository;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeNameEntityEnum;
@@ -35,13 +37,19 @@ class UserUpdateGatewayImplTest {
         // Arrange
         Long id = 1L;
         var user = UserTestFactory.umUserAtualizado(id);
-        var userEntity = UserTestFactory.umUserEntityPadrao();
+        var originalEntity = UserTestFactory.umUserEntityPadrao(); // A Entidade que o DB retorna
+        var updatedEntity = UserTestFactory.umUserEntityPadrao();   // A Entidade que será salva
 
-        when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
-        when(userRepository.save(userEntity)).thenReturn(userEntity);
-        when(userMapper.toDomain(userEntity, userEntity.getUserTypeEntity())).thenReturn(user);
+        when(userRepository.findById(id)).thenReturn(Optional.of(originalEntity));
 
-        when(userTypeRepository.findByName(any()))
+        // 💡 Mock para a conversão de Domínio de volta para Entidade (aplicando as mudanças)
+        when(userMapper.toEntity(user, id)).thenReturn(updatedEntity);
+
+        when(userRepository.save(updatedEntity)).thenReturn(updatedEntity);
+        when(userMapper.toDomain(updatedEntity, updatedEntity.getUserTypeEntity())).thenReturn(user);
+
+        // Atualmente não usado no fluxo de update do Gateway, mas mantido para consistência
+        when(userTypeRepository.findByName(anyString()))
                 .thenReturn(Optional.of(UserTypeEntity.create(1L, UserTypeNameEntityEnum.DONO_RESTAURANTE)));
 
         // Act
@@ -52,8 +60,13 @@ class UserUpdateGatewayImplTest {
         assertEquals(user.getName(), result.getName());
         assertEquals(user.getEmail(), result.getEmail());
         verify(userRepository).findById(id);
-        verify(userRepository).save(userEntity);
-        verify(userMapper).toDomain(userEntity, userEntity.getUserTypeEntity());
+
+        // 💡 Verifica que o Mapper foi chamado para converter o objeto de Domínio atualizado
+        verify(userMapper).toEntity(user, id);
+
+        // 💡 Verifica que a Entidade atualizada foi salva
+        verify(userRepository).save(updatedEntity);
+        verify(userMapper).toDomain(updatedEntity, updatedEntity.getUserTypeEntity());
     }
 
     @Test
@@ -70,7 +83,7 @@ class UserUpdateGatewayImplTest {
         assertEquals("User with ID 2 not found", exception.getMessage());
         verify(userRepository).findById(id);
         verify(userRepository, never()).save(any());
-        verifyNoInteractions(userMapper);
+        verify(userMapper, never()).toEntity(any(), any());
     }
 
     @Test
@@ -78,13 +91,18 @@ class UserUpdateGatewayImplTest {
         // Arrange
         var user = UserTestFactory.umUserComIdRandomico();
         var id = user.getId();
-        var userEntity = UserTestFactory.umUserEntityComDadosDe(user);
+        var originalEntity = UserTestFactory.umUserEntityComDadosDe(user); // Original
+        var updatedEntity = UserTestFactory.umUserEntityComDadosDe(user); // Versão a ser salva
 
-        when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
-        when(userRepository.save(userEntity)).thenReturn(userEntity);
-        when(userMapper.toDomain(userEntity, userEntity.getUserTypeEntity())).thenReturn(user);
+        when(userRepository.findById(id)).thenReturn(Optional.of(originalEntity));
 
-        when(userTypeRepository.findByName(any()))
+        // 💡 Mock para a conversão de Domínio de volta para Entidade
+        when(userMapper.toEntity(user, id)).thenReturn(updatedEntity);
+
+        when(userRepository.save(updatedEntity)).thenReturn(updatedEntity);
+        when(userMapper.toDomain(updatedEntity, updatedEntity.getUserTypeEntity())).thenReturn(user);
+
+        when(userTypeRepository.findByName(anyString()))
                 .thenReturn(Optional.of(UserTypeEntity.create(1L, UserTypeNameEntityEnum.DONO_RESTAURANTE)));
 
         // Act
@@ -94,8 +112,13 @@ class UserUpdateGatewayImplTest {
         assertNotNull(result);
         assertEquals(user.getName(), result.getName());
         verify(userRepository).findById(id);
-        verify(userRepository).save(userEntity);
-        verify(userMapper).toDomain(userEntity, userEntity.getUserTypeEntity());
+
+        // 💡 Verifica que o Mapper foi chamado para converter o objeto de Domínio atualizado
+        verify(userMapper).toEntity(user, id);
+
+        // 💡 Verifica que a Entidade atualizada foi salva
+        verify(userRepository).save(updatedEntity);
+        verify(userMapper).toDomain(updatedEntity, updatedEntity.getUserTypeEntity());
     }
 
     @Test

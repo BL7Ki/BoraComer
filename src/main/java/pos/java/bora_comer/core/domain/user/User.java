@@ -1,6 +1,7 @@
 package pos.java.bora_comer.core.domain.user;
 
 import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
+import java.time.LocalDateTime;
 
 public class User {
 
@@ -9,24 +10,51 @@ public class User {
     private final String email;
     private final String username;
     private String password;
-    private final Address address;
+    private Address address;
     private final UserRoleEnum userRoleEnum;
-    private final String createdDate;
-    private final String lastModifiedDate;
+    private final LocalDateTime createdDate;
+    private LocalDateTime lastModifiedDate;
     private final UserTypeNameEnum userTypeNameEnum;
 
 
-    public static User create(String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String createdDate, String lastModifiedDate, UserTypeNameEnum userTypeNameEnum) {
-        return new User(name, email, username, password, address, userRoleEnum, createdDate, lastModifiedDate, userTypeNameEnum);
+    public static User createNew(String name, String email, String username, String password, UserRoleEnum userRoleEnum, UserTypeNameEnum userTypeNameEnum) {
+
+        // Definindo valores default para campos não fornecidos pelo cliente da API
+        Address defaultAddress = Address.create("", "", "", "", "");
+        LocalDateTime now = LocalDateTime.now();
+
+        return new User(
+                name,
+                email,
+                username,
+                password,
+                defaultAddress,
+                userRoleEnum,
+                now,
+                now,
+                userTypeNameEnum
+        );
     }
 
-    public static User create(Long id, String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String createdDate, String lastModifiedDate, UserTypeNameEnum userTypeNameEnum) {
+    public static User reconstruct(
+            Long id,
+            String name,
+            String email,
+            String username,
+            String password,
+            Address address,
+            UserRoleEnum userRoleEnum,
+            LocalDateTime createdDate, // Tipo ajustado
+            LocalDateTime lastModifiedDate, // Tipo ajustado
+            UserTypeNameEnum userTypeNameEnum) {
+
         User user = new User(name, email, username, password, address, userRoleEnum, createdDate, lastModifiedDate, userTypeNameEnum);
         user.id = id;
         return user;
     }
 
-    private User(String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, String createdDate, String lastModifiedDate, UserTypeNameEnum userTypeNameEnum) {
+    // Construtor Privado ÚNICO (Recebe TUDO)
+    private User(String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, LocalDateTime createdDate, LocalDateTime lastModifiedDate, UserTypeNameEnum userTypeNameEnum) {
         this.name = name;
         this.email = email;
         this.username = username;
@@ -38,48 +66,26 @@ public class User {
         this.userTypeNameEnum = userTypeNameEnum;
     }
 
-    public String getName() {
-        return name;
-    }
+    // --- Getters ---
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public String getEmail() { return email; }
+    public String getUsername() { return username; }
+    public String getPassword() { return password; }
+    public Address getAddress() { return address; }
+    public UserRoleEnum getUserRoleEnum() { return userRoleEnum; }
+    public LocalDateTime getCreatedDate() { return createdDate; } // Tipo de retorno ajustado
+    public LocalDateTime getLastModifiedDate() { return lastModifiedDate; } // Tipo de retorno ajustado
+    public UserTypeNameEnum getUserTypeNameEnum() { return userTypeNameEnum; }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public UserRoleEnum getUserRoleEnum() {
-        return userRoleEnum;
-    }
-
-    public String getCreatedDate() {
-        return createdDate;
-    }
-
-    public String getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public UserTypeNameEnum getUserTypeNameEnum() {
-        return userTypeNameEnum;
-    }
-
-    public void updatePassward(String newPassword) {
+    // --- Mutators Controlados ---
+    public void updatePassword(String newPassword) {
         this.password = newPassword;
+        this.lastModifiedDate = LocalDateTime.now();
     }
 
+    public void updateAddress(Address newAddress) {
+        this.address = newAddress;
+        this.lastModifiedDate = LocalDateTime.now();
+    }
 }

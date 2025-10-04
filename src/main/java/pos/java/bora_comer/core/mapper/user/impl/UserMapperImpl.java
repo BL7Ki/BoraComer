@@ -7,46 +7,58 @@ import pos.java.bora_comer.core.domain.user.UserRoleEnum;
 import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
-import pos.java.bora_comer.infra.delivery.user.dto.UserRequestDTO;
-import pos.java.bora_comer.infra.delivery.user.dto.UserResponseDTO;
-import pos.java.bora_comer.infra.delivery.user.dto.UserUpdateRequestDTO;
-import pos.java.bora_comer.infra.delivery.user.dto.UserRoleRequestEnumDTO;
-import pos.java.bora_comer.infra.delivery.user.dto.AddressResponseDTO;
+import pos.java.bora_comer.infra.delivery.user.dto.*;
 import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeNameRequestEnum;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;
 import pos.java.bora_comer.infra.persistence.repository.userType.entity.UserTypeEntity;
+import pos.java.bora_comer.infra.persistence.repository.userType.UserTypeRepository;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Component
 public class UserMapperImpl implements UserMapper {
 
-    // mapeamento de entrada de usuário para domínio
+    private final UserTypeRepository userTypeRepository;
+
+    public UserMapperImpl(UserTypeRepository userTypeRepository) {
+        this.userTypeRepository = userTypeRepository;
+    }
+
     @Override
     public User toDomain(UserRequestDTO userRequestDTO) {
-        return User.create(
+        return User.createNew(
                 userRequestDTO.name(),
                 userRequestDTO.email(),
                 userRequestDTO.username(),
                 userRequestDTO.password(),
-                Address.create(
-                        userRequestDTO.addressRequestDTO().street(),
-                        userRequestDTO.addressRequestDTO().neighborhood(),
-                        userRequestDTO.addressRequestDTO().city(),
-                        userRequestDTO.addressRequestDTO().state(),
-                        userRequestDTO.addressRequestDTO().zipCode()
-                ),
-                toUserTypeEnumRequestConverter(userRequestDTO.userRole()),
-                null, null,
-                userRequestDTO.userType() != null ? toUserTypeEnumRequestConverter(userRequestDTO.userType().name()) : null
+                toUserRoleEnumConverter(userRequestDTO.userRole()),
+                userRequestDTO.userType() != null ? toUserTypeNameEnumRequestConverter(userRequestDTO.userType()) : null
         );
     }
 
-    // mapeamento de domínio de usuário para entidade
+    private Long findUserTypeId(UserTypeNameEnum userTypeName) {
+        if (userTypeName == null) {
+            throw new UserDomainException("UserTypeNameEnum não pode ser nulo para conversão em Entidade.");
+        }
+
+        Optional<UserTypeEntity> entityOpt = userTypeRepository.findByName(userTypeName.name());
+
+        if (entityOpt.isEmpty()) {
+            throw new UserDomainException("Tipo de Usuário não encontrado na base de dados: " + userTypeName.name());
+        }
+
+        return entityOpt.get().getId();
+    }
 
     @Override
     public UserEntity toEntity(User user, Long id) {
+        Long userTypeId = findUserTypeId(user.getUserTypeNameEnum());
+
         return UserEntity.create(
+                id,
                 user.getName(),
                 user.getEmail(),
                 user.getUsername(),
@@ -58,13 +70,15 @@ public class UserMapperImpl implements UserMapper {
                         user.getAddress().getState(),
                         user.getAddress().getZipCode()
                 ),
-                user.getUserRoleEnum() != null ? toUserTypeEnumEntityConverter(user.getUserRoleEnum()) : null,
-                id
+                toUserRoleEntityConverter(user.getUserRoleEnum()),
+                userTypeId
         );
     }
 
     @Override
     public UserEntity toEntity(User user) {
+        Long userTypeId = findUserTypeId(user.getUserTypeNameEnum());
+
         return UserEntity.create(
                 user.getName(),
                 user.getEmail(),
@@ -77,15 +91,14 @@ public class UserMapperImpl implements UserMapper {
                         user.getAddress().getState(),
                         user.getAddress().getZipCode()
                 ),
-                user.getUserRoleEnum() != null ? toUserTypeEnumEntityConverter(user.getUserRoleEnum()) : null,
-                null
+                toUserRoleEntityConverter(user.getUserRoleEnum()),
+                userTypeId
         );
     }
 
-    // mapeamento de entidade de usuário para domínio
     @Override
     public User toDomain(UserEntity userEntity, UserTypeEntity userTypeEntity) {
-        return User.create(
+        return User.reconstruct(
                 userEntity.getId(),
                 userEntity.getName(),
                 userEntity.getEmail(),
@@ -98,14 +111,12 @@ public class UserMapperImpl implements UserMapper {
                         userEntity.getAddress().getState(),
                         userEntity.getAddress().getZipCode()
                 ),
-                toUserTypeEnumEntityConverter(userEntity.getRole()),
-                userEntity.getCreatedDate().toString(),
-                userEntity.getLastModifiedDate() != null ? userEntity.getLastModifiedDate().toString() : null,
+                toUserRoleEnumConverter(userEntity.getRole()),
+                userEntity.getCreatedDate(),
+                userEntity.getLastModifiedDate(),
                 userTypeEntity != null ? UserTypeNameEnum.valueOf(userTypeEntity.getName().name()) : null
         );
     }
-
-    // mapeamento de dominio de usuário para DTO de resposta
 
     @Override
     public UserResponseDTO toResponseDTO(User user) {
@@ -122,59 +133,42 @@ public class UserMapperImpl implements UserMapper {
                         user.getAddress().getZipCode()
                 ),
                 user.getUserRoleEnum() != null ? user.getUserRoleEnum().name() : null,
-                user.getCreatedDate(),
-                user.getLastModifiedDate(),
+                user.getCreatedDate().toString(),
+                user.getLastModifiedDate() != null ? user.getLastModifiedDate().toString() : null,
                 user.getUserTypeNameEnum() != null ? user.getUserTypeNameEnum().name() : null
         );
     }
 
-    // mapeamento de DTO de atualização de usuário para domínio
-
     @Override
     public User toDomain(UserUpdateRequestDTO userUpdateRequestDTO, Long id) {
-        return User.create(
-                id,
-                userUpdateRequestDTO.name(),
-                userUpdateRequestDTO.email(),
-                null,
-                userUpdateRequestDTO.password(),
-                Address.create(
-                        userUpdateRequestDTO.address().street(),
-                        userUpdateRequestDTO.address().neighborhood(),
-                        userUpdateRequestDTO.address().city(),
-                        userUpdateRequestDTO.address().state(),
-                        userUpdateRequestDTO.address().zipCode()
-                ),
-                null,
-                null,
-                null,
-                userUpdateRequestDTO.userType() != null ? toUserTypeEnumRequestConverter(userUpdateRequestDTO.userType()) : null
-        );
+        throw new UnsupportedOperationException("O Mapper não deve criar Domínio para Update. Use o UserService para buscar/aplicar/salvar.");
     }
 
-    private UserRoleEnum toUserTypeEnumRequestConverter(UserRoleRequestEnumDTO requestEnum) {
+    private UserRoleEnum toUserRoleEnumConverter(UserRoleRequestEnumDTO requestEnum) {
         if (requestEnum == null) {
             throw new UserDomainException("UserRoleRequestEnumDTO não pode ser nulo");
         }
         return UserRoleEnum.valueOf(requestEnum.name());
     }
 
-    private UserRoleEnum toUserTypeEnumEntityConverter(UserRoleEntityEnum userRoleEntityEnum) {
+    private UserRoleEnum toUserRoleEnumConverter(UserRoleEntityEnum userRoleEntityEnum) {
         if (userRoleEntityEnum == null) {
-            throw new UserDomainException("UserRoleEnum não pode ser nulo");
+            throw new UserDomainException("UserRoleEntityEnum não pode ser nulo");
         }
         return UserRoleEnum.valueOf(userRoleEntityEnum.name());
     }
 
-    private UserRoleEntityEnum toUserTypeEnumEntityConverter(UserRoleEnum userRoleEnum) {
+    private UserRoleEntityEnum toUserRoleEntityConverter(UserRoleEnum userRoleEnum) {
         if (userRoleEnum == null) {
             throw new UserDomainException("UserRoleEnum não pode ser nulo");
         }
         return UserRoleEntityEnum.valueOf(userRoleEnum.name());
     }
 
-    private UserTypeNameEnum toUserTypeEnumRequestConverter(UserTypeNameRequestEnum requestEnum) {
-
+    private UserTypeNameEnum toUserTypeNameEnumRequestConverter(UserTypeNameRequestEnum requestEnum) {
+        if (requestEnum == null) {
+            throw new UserDomainException("UserTypeNameRequestEnum não pode ser nulo");
+        }
         return UserTypeNameEnum.valueOf(requestEnum.name());
     }
 }

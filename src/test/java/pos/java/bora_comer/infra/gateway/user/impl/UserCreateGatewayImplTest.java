@@ -35,8 +35,6 @@ class UserCreateGatewayImplTest {
     @Test
     void deveVerificarSeUsernameExiste() {
         when(userRepository.existsByUsername("messi")).thenReturn(true);
-        when(userTypeRepository.findByName(any()))
-                .thenReturn(Optional.of(UserTypeEntity.create(UserTypeNameEntityEnum.DONO_RESTAURANTE)));
 
         boolean exists = userCreateGateway.existsByUsername("messi");
 
@@ -48,18 +46,19 @@ class UserCreateGatewayImplTest {
     void deveSalvarUsuarioComTipoComSucesso() {
         User user = UserTestFactory.umUserPadrao();
         UserEntity userEntity = UserTestFactory.umUserEntityPadrao();
-        UserTypeEntity userTypeEntity = UserTypeEntity.create(1L, UserTypeNameEntityEnum.DONO_RESTAURANTE);
 
-        when(userTypeRepository.findByName(any())).thenReturn(Optional.of(userTypeEntity));
-        when(userMapper.toEntity(user, userTypeEntity.getId())).thenReturn(userEntity);
+        UserTypeEntity userTypeEntity = UserTypeEntity.create(1L, UserTypeNameEntityEnum.DONO_RESTAURANTE);
+        when(userTypeRepository.findByName(any(String.class))).thenReturn(Optional.of(userTypeEntity));
+
+        when(userMapper.toEntity(user)).thenReturn(userEntity);
         when(userRepository.save(userEntity)).thenReturn(userEntity);
         when(userMapper.toDomain(userEntity, userTypeEntity)).thenReturn(user);
 
         User result = userCreateGateway.save(user);
 
         assertNotNull(result);
-        verify(userTypeRepository).findByName(any());
-        verify(userMapper).toEntity(user, userTypeEntity.getId());
+        verify(userTypeRepository).findByName(any(String.class));
+        verify(userMapper).toEntity(user);
         verify(userRepository).save(userEntity);
         verify(userMapper).toDomain(userEntity, userTypeEntity);
     }
@@ -80,17 +79,21 @@ class UserCreateGatewayImplTest {
         verify(userMapper).toEntity(user);
         verify(userRepository).save(userEntity);
         verify(userMapper).toDomain(userEntity, null);
+        verify(userTypeRepository, never()).findByName(any(String.class));
     }
 
     @Test
     void deveLancarExcecaoQuandoTipoUsuarioInvalido() {
         User user = UserTestFactory.umUserPadrao();
 
-        when(userTypeRepository.findByName(any())).thenReturn(Optional.empty());
+        // Mock para simular que o tipo de usuário não foi encontrado
+        when(userTypeRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
         UserDomainException ex = assertThrows(UserDomainException.class, () -> userCreateGateway.save(user));
         assertEquals("Tipo de usuário inválido", ex.getMessage());
-        verify(userTypeRepository).findByName(any());
+
+        verify(userTypeRepository).findByName(any(String.class));
         verify(userRepository, never()).save(any());
+        verify(userMapper, never()).toEntity(any(User.class));
     }
 }

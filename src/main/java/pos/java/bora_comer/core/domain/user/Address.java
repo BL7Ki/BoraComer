@@ -1,11 +1,12 @@
 package pos.java.bora_comer.core.domain.user;
 
 public class Address {
-    private String street;
-    private String neighborhood;
-    private String city;
-    private String state;
-    private String zipCode;
+
+    private final String street;
+    private final String neighborhood;
+    private final String city;
+    private final String state;
+    private final String zipCode;
 
     public static Address create(String street, String neighborhood, String city, String state, String zipCode) {
         return new Address(street, neighborhood, city, state, zipCode);
@@ -19,6 +20,7 @@ public class Address {
         this.zipCode = zipCode;
     }
 
+    // Getters
     public String getStreet() {
         return street;
     }

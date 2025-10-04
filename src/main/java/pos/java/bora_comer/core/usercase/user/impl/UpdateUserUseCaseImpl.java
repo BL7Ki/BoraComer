@@ -39,7 +39,7 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
             throw new UserDomainException("Senha atual incorreta.");
         }
 
-        user.updatePassward(newPassword);
+        user.updatePassword(newPassword);
         userUpdateGateway.update(user);
     }
 
