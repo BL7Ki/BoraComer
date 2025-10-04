@@ -62,7 +62,7 @@ class OrderSearchGatewayImplTest {
     }
 
     @Test
-    @DisplayName("achar todos os pedidos deve retornar uma lista de itens")
+    @DisplayName("achar todos os pedidos deve retornar uma lista de pedidos")
     void findAll_shouldReturnPagedRestaurants() {
         int page = 0;
         int size = 2;

@@ -1,86 +1,86 @@
-package pos.java.bora_comer.core.mapper.order.impl;
+package pos.java.bora_comer.core.mapper.reserve.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import pos.java.bora_comer.core.domain.order.Order;
-import pos.java.bora_comer.core.errors.OrderDomainException;
-import pos.java.bora_comer.infra.delivery.order.dto.OrderRequestDTO;
-import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO;
-import pos.java.bora_comer.infra.persistence.repository.order.entity.OrderEntity;
+import pos.java.bora_comer.core.domain.reserve.Reserve;
+import pos.java.bora_comer.core.errors.ReserveDomainException;
+import pos.java.bora_comer.infra.delivery.reserve.dto.ReserveRequestDTO;
+import pos.java.bora_comer.infra.delivery.reserve.dto.ReserveUpdateRequestDTO;
+import pos.java.bora_comer.infra.persistence.repository.reserve.entity.ReserveEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static pos.java.bora_comer.util.factory.OrderTestFactory.createDefault;
+import static pos.java.bora_comer.util.factory.ReserveTestFactory.createDefault;
 
 import java.time.LocalDateTime;
 
-class OrderMapperImplTest {
+class ReserveMapperImplTest {
 
-    private OrderMapperImpl mapper;
+    private ReserveMapperImpl mapper;
     private static final String dateStr = "2024-10-10T12:00:00";
     private static final LocalDateTime dateTime = LocalDateTime.parse(dateStr);    
 
     @BeforeEach
     void setUp() {
-        mapper = new OrderMapperImpl();
+        mapper = new ReserveMapperImpl();
     }
 
     @Test
-    @DisplayName("toDomain(OrderRequestDTO) returns valid domain")
+    @DisplayName("toDomain(ReserveRequestDTO) returns valid domain")
     void toDomain_FromRequestDTO_ShouldMapCorrectly() {
-        var requestDTO = new OrderRequestDTO(
+        var requestDTO = new ReserveRequestDTO(
                 dateTime,
-                true,
+                2,
                 1L,
                 1L,
                 dateTime
         );
 
-        Order domain = mapper.toDomain(requestDTO);
+        Reserve domain = mapper.toDomain(requestDTO);
 
         assertNotNull(domain);
         assertNull(domain.getId());
-        assertEquals(dateTime, domain.getDateTimeOrder());
-        assertEquals(true, domain.isDelivery());
+        assertEquals(dateTime, domain.getDateTimeReserve());
+        assertEquals(2, domain.getQuantity());
         assertEquals(1L, domain.getRestaurantId());
         assertTrue(domain.getUserId() == 1L);
 
     }
 
     @Test
-    @DisplayName("toDomain(OrderRequestDTO) throws exception on null")
+    @DisplayName("toDomain(ReserveRequestDTO) throws exception on null")
     void toDomain_FromRequestDTO_ShouldThrowOnNull() {
-        assertThrows(OrderDomainException.class, () -> mapper.toDomain((OrderRequestDTO) null));
+        assertThrows(ReserveDomainException.class, () -> mapper.toDomain((ReserveRequestDTO) null));
     }
 
     @Test
-    @DisplayName("toEntity(Order) returns valid entity")
+    @DisplayName("toEntity(Reserve) returns valid entity")
     void toEntity_FromDomain_ShouldMapCorrectly() {
-        Order domain = createDefault();
+        Reserve domain = createDefault();
 
         var entity = mapper.toEntity(domain);
 
         assertNotNull(entity);
-        assertEquals(dateTime, entity.getDateTimeOrder());
-        assertEquals(true, entity.isDelivery());
+        assertEquals(dateTime, entity.getDateTimeReserve());
+        assertEquals(2, entity.getQuantity());
         assertEquals(1L, entity.getUserId());
         assertTrue(entity.getRestaurantId() == 1L);
         
     }
 
     @Test
-    @DisplayName("toEntity(Oerder) throws exception on null")
+    @DisplayName("toEntity(Reserve) throws exception on null")
     void toEntity_FromDomain_ShouldThrowOnNull() {
-        assertThrows(OrderDomainException.class, () -> mapper.toEntity(null));
+        assertThrows(ReserveDomainException.class, () -> mapper.toEntity(null));
     }
 
     @Test
-    @DisplayName("toDomain(OrderEntity) returns valid domain with ID")
+    @DisplayName("toDomain(ReserveEntity) returns valid domain with ID")
     void toDomain_FromEntity_ShouldMapCorrectly() {
-        var entity = OrderEntity.create(
+        var entity = ReserveEntity.create(
                 dateTime,
-                true,
+                2,
                 1L,
                 1L
         );
@@ -88,26 +88,26 @@ class OrderMapperImplTest {
         var domain = mapper.toDomain(entity);
 
         assertNotNull(domain);
-        assertEquals(dateTime, domain.getDateTimeOrder());
-        assertEquals(true, domain.isDelivery());
+        assertEquals(dateTime, domain.getDateTimeReserve());
+        assertEquals(2, domain.getQuantity());
         assertEquals(1L, domain.getUserId());
         assertTrue(domain.getRestaurantId() == 1L);
         assertEquals(entity.getId(), domain.getId());
     }
 
     @Test
-    @DisplayName("toDomain(OrderEntity) throws exception on null")
+    @DisplayName("toDomain(ReserveEntity) throws exception on null")
     void toDomain_FromEntity_ShouldThrowOnNull() {
-        assertThrows(OrderDomainException.class, () -> mapper.toDomain((OrderEntity) null));
+        assertThrows(ReserveDomainException.class, () -> mapper.toDomain((ReserveEntity) null));
     }
 
     @Test
-    @DisplayName("toResponseDTO(Order) returns valid DTO")
+    @DisplayName("toResponseDTO(Reserve) returns valid DTO")
     void toResponseDTO_FromDomain_ShouldMapCorrectly() {
-        var domain = Order.create(
+        var domain = Reserve.create(
                 1L,
                 dateTime,
-                true,
+                2,
                 1L,
                 1L,
                 dateTime
@@ -117,25 +117,25 @@ class OrderMapperImplTest {
 
         assertNotNull(dto);
         assertEquals(1L, dto.id());
-        assertEquals(dateTime, dto.dateTimeOrder());
-        assertEquals(true, dto.delivery());
+        assertEquals(dateTime, dto.dateTimeReserve());
+        assertEquals(2, dto.quantity());
         assertEquals(1L, dto.userId());
         assertEquals(1L, dto.restaurantId());
 
     }
 
     @Test
-    @DisplayName("toResponseDTO(Order) throws exception on null")
+    @DisplayName("toResponseDTO(Reserve) throws exception on null")
     void toResponseDTO_FromDomain_ShouldThrowOnNull() {
-        assertThrows(OrderDomainException.class, () -> mapper.toResponseDTO(null));
+        assertThrows(ReserveDomainException.class, () -> mapper.toResponseDTO(null));
     }
 
     @Test
-    @DisplayName("toDomain(OrderUpdateRequestDTO, Long) returns valid domain with ID")
+    @DisplayName("toDomain(ReserveUpdateRequestDTO, Long) returns valid domain with ID")
     void toDomain_FromUpdateRequestDTO_ShouldMapCorrectly() {
-        var updateDTO = new OrderUpdateRequestDTO(
+        var updateDTO = new ReserveUpdateRequestDTO(
                 dateTime,
-                true,
+                2,
                 1L,
                 1L,
                 dateTime
@@ -147,8 +147,8 @@ class OrderMapperImplTest {
 
         assertNotNull(domain);
         assertEquals(id, domain.getId());
-        assertEquals(dateTime, domain.getDateTimeOrder());
-        assertEquals(true, domain.isDelivery());
+        assertEquals(dateTime, domain.getDateTimeReserve());
+        assertEquals(2, domain.getQuantity());
         assertEquals(restaurantID, domain.getRestaurantId());
         assertFalse(domain.getUserId() == null);
         
@@ -156,11 +156,11 @@ class OrderMapperImplTest {
     
 
     @Test
-    @DisplayName("toDomain(OrderUpdateRequestDTO, Long, Long) returns valid domain with ID and restaurantId and userId")
+    @DisplayName("toDomain(ReserveUpdateRequestDTO, Long, Long) returns valid domain with ID and restaurantId and userId")
     void toDomain_FromUpdateRequestDTOWithRestaurantId_ShouldMapCorrectly() {
-        var updateDTO = new OrderUpdateRequestDTO(
+        var updateDTO = new ReserveUpdateRequestDTO(
                 dateTime,
-                true,
+                2,
                 88L,
                 99L,
                 dateTime
@@ -173,8 +173,8 @@ class OrderMapperImplTest {
 
         assertNotNull(domain);
         assertEquals(id, domain.getId());
-        assertEquals(dateTime, domain.getDateTimeOrder());
-        assertEquals(true, domain.isDelivery());
+        assertEquals(dateTime, domain.getDateTimeReserve());
+        assertEquals(2, domain.getQuantity());
         assertEquals(restaurantId, domain.getRestaurantId());
         assertEquals(userId, domain.getUserId());
     }
