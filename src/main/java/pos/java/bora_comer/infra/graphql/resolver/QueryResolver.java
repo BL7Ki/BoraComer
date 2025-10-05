@@ -5,34 +5,36 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 import pos.java.bora_comer.core.domain.order.Order;
 import pos.java.bora_comer.core.domain.restaurant.Restaurant;
-import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
+import pos.java.bora_comer.core.domain.user.User;
+import pos.java.bora_comer.core.usercase.user.SearchUserUseCase;
 import pos.java.bora_comer.infra.service.OrderService;
 import pos.java.bora_comer.infra.service.RestaurantService;
+import pos.java.bora_comer.core.errors.UserDomainException;
 
 import java.util.List;
 
 @Controller
 public class QueryResolver {
 
-    private final UserService userService;
+    private final SearchUserUseCase searchUserUseCase;
     private final RestaurantService restaurantService;
     private final OrderService orderService;
 
-    public QueryResolver(UserService userService, RestaurantService restaurantService, OrderService orderService) {
-        this.userService = userService;
+    public QueryResolver(SearchUserUseCase searchUserUseCase, RestaurantService restaurantService, OrderService orderService) {
+        this.searchUserUseCase = searchUserUseCase;
         this.restaurantService = restaurantService;
         this.orderService = orderService;
     }
 
     // --- User Queries ---
     @QueryMapping
-    public UserEntity userById(@Argument Long id) {
-        return userService.findById(id);
+    public User userByUsername(@Argument String username) throws UserDomainException {
+        return searchUserUseCase.findByUsername(username);
     }
 
     @QueryMapping
-    public List<UserEntity> allUsers() {
-        return userService.findAll();
+    public List<User> allUsers() {
+        return searchUserUseCase.findAll(0, Integer.MAX_VALUE).getContent();
     }
 
     // --- Restaurant Queries ---

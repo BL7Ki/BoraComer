@@ -5,16 +5,9 @@ import pos.java.bora_comer.core.errors.UserDomainException;
 
 public interface UpdateUserUseCase {
 
-    /**
-     * Método para atualizar um usuário existente.
-     *
-     * @param user Objeto que representa o usuário a ser atualizado.
-     * @return UserDomain O usuário atualizado.
-     * @throws UserDomainException Se ocorrer algum erro durante a atualização do usuário.
-     */
     User execute(User user) throws UserDomainException;
 
-    void changeUserPassword(Long userId, String currentPassword, String newPassword) throws UserDomainException;
+    void changeUserPassword(String username, String currentPassword, String newPassword) throws UserDomainException;
 
 
     User userAssociate(Long userId, Long tipoUsuarioId) throws UserDomainException;

@@ -27,13 +27,16 @@ public class SearchUserController implements SearchUserControllerDocs {
         this.userMapper = userMapper;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
-        var user = searchUserUseCase.findById(id);
+    @Override
+    @GetMapping("/{username}")
+    public ResponseEntity<UserResponseDTO> findByUsername(@PathVariable String username) {
+        User user = searchUserUseCase.findByUsername(username);
+
         return ResponseEntity.ok(userMapper.toResponseDTO(user));
     }
 
 
+    @Override
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> findAll(
             @RequestParam(value = "page", defaultValue = "0") int page,

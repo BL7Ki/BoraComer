@@ -14,8 +14,8 @@ import java.util.List;
 public interface SearchUserControllerDocs {
 
     @Operation(
-            summary = "Buscar usuário por ID",
-            description = "Endpoint para buscar um usuário com base no ID fornecido."
+            summary = "Buscar usuário por Username",
+            description = "Endpoint para buscar um usuário com base no nome de usuário (username) fornecido."
     )
     @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso",
             content = @Content(
@@ -26,7 +26,8 @@ public interface SearchUserControllerDocs {
     @ApiResponse(responseCode = "400", description = "Requisição inválida")
     @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    ResponseEntity<UserResponseDTO> findById(@PathVariable Long id);
+    ResponseEntity<UserResponseDTO> findByUsername(@PathVariable String username);
+
 
     @Operation(
             summary = "Buscar todos os usuários",

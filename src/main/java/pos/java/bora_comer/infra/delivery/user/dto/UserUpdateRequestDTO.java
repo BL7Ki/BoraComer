@@ -7,6 +7,7 @@ public record UserUpdateRequestDTO(
 
         @JsonProperty("nome") String name,
         @JsonProperty("email") String email,
+        @JsonProperty("login") String username,
         @JsonProperty("senha") String password,
         @JsonProperty("endereco") AddressRequestDTO address,
         @JsonProperty("tipo_usuario") UserTypeNameRequestEnum userType

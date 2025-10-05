@@ -17,9 +17,8 @@ public class User {
     private final UserTypeNameEnum userTypeNameEnum;
 
 
-    public static User createNew(String name, String email, String username, String password, UserRoleEnum userRoleEnum, UserTypeNameEnum userTypeNameEnum) {
+    public static User create(String name, String email, String username, String password, UserRoleEnum userRoleEnum, UserTypeNameEnum userTypeNameEnum) {
 
-        // Definindo valores default para campos não fornecidos pelo cliente da API
         Address defaultAddress = Address.create("", "", "", "", "");
         LocalDateTime now = LocalDateTime.now();
 
@@ -44,8 +43,8 @@ public class User {
             String password,
             Address address,
             UserRoleEnum userRoleEnum,
-            LocalDateTime createdDate, // Tipo ajustado
-            LocalDateTime lastModifiedDate, // Tipo ajustado
+            LocalDateTime createdDate,
+            LocalDateTime lastModifiedDate,
             UserTypeNameEnum userTypeNameEnum) {
 
         User user = new User(name, email, username, password, address, userRoleEnum, createdDate, lastModifiedDate, userTypeNameEnum);
@@ -53,7 +52,6 @@ public class User {
         return user;
     }
 
-    // Construtor Privado ÚNICO (Recebe TUDO)
     private User(String name, String email, String username, String password, Address address, UserRoleEnum userRoleEnum, LocalDateTime createdDate, LocalDateTime lastModifiedDate, UserTypeNameEnum userTypeNameEnum) {
         this.name = name;
         this.email = email;
@@ -66,7 +64,6 @@ public class User {
         this.userTypeNameEnum = userTypeNameEnum;
     }
 
-    // --- Getters ---
     public Long getId() { return id; }
     public String getName() { return name; }
     public String getEmail() { return email; }
@@ -74,11 +71,10 @@ public class User {
     public String getPassword() { return password; }
     public Address getAddress() { return address; }
     public UserRoleEnum getUserRoleEnum() { return userRoleEnum; }
-    public LocalDateTime getCreatedDate() { return createdDate; } // Tipo de retorno ajustado
-    public LocalDateTime getLastModifiedDate() { return lastModifiedDate; } // Tipo de retorno ajustado
+    public LocalDateTime getCreatedDate() { return createdDate; }
+    public LocalDateTime getLastModifiedDate() { return lastModifiedDate; }
     public UserTypeNameEnum getUserTypeNameEnum() { return userTypeNameEnum; }
 
-    // --- Mutators Controlados ---
     public void updatePassword(String newPassword) {
         this.password = newPassword;
         this.lastModifiedDate = LocalDateTime.now();

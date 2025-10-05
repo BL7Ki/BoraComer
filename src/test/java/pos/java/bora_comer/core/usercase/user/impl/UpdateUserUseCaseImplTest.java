@@ -27,7 +27,8 @@ class UpdateUserUseCaseImplTest {
     private UserSearchGateway userSearchGateway;
     private PasswordEncoder passwordEncoder;
     private UpdateUserUseCaseImpl uppdateUserUseCase;
-    Long id = 2L;
+
+    String username = "testUser";
 
     @BeforeEach
     void setUp() {
@@ -39,7 +40,7 @@ class UpdateUserUseCaseImplTest {
 
     @Test
     void deveAtualizarUsuarioComSucesso() throws UserDomainException {
-
+        Long id = 2L;
         User user = UserTestFactory.umUserAtualizado(id);
 
         when(userUpdateGateway.update(user)).thenReturn(user);
@@ -53,7 +54,7 @@ class UpdateUserUseCaseImplTest {
 
     @Test
     void deveLancarUserDomainException_quandoUpdateGatewayLancarIllegalArgumentException() {
-
+        Long id = 2L;
         User user = UserTestFactory.umUserAtualizado(id);
 
         when(userUpdateGateway.update(user))
@@ -70,26 +71,22 @@ class UpdateUserUseCaseImplTest {
         // ARRANGE
         String currentRawPassword = "SenhaAntiga123";
         String newRawPassword = "NovaSenhaForte@123";
-        String encodedOldPassword = "hash_da_senha_antiga"; // A senha que o objeto User terá
+        String encodedOldPassword = "hash_da_senha_antiga";
         String encodedNewPassword = "hash_da_nova_senha";
 
-        // Cria um User, e forçamos ele a ter a senha HASHed
-        User user = UserTestFactory.umUserAtualizado(id);
+        User user = UserTestFactory.umUserPadrao();
         user.updatePassword(encodedOldPassword);
 
-        when(userSearchGateway.findById(id)).thenReturn(Optional.of(user));
+        when(userSearchGateway.findByUsername(username)).thenReturn(Optional.of(user));
 
         when(passwordEncoder.matches(currentRawPassword, encodedOldPassword)).thenReturn(true);
-
         when(passwordEncoder.encode(newRawPassword)).thenReturn(encodedNewPassword);
-
         when(userUpdateGateway.update(user)).thenReturn(user);
 
         // ACT
-        uppdateUserUseCase.changeUserPassword(id, currentRawPassword, newRawPassword);
+        uppdateUserUseCase.changeUserPassword(username, currentRawPassword, newRawPassword);
 
         // ASSERT
-        // Verifica se a senha do objeto de domínio FOI ATUALIZADA com o novo HASH
         assertEquals(encodedNewPassword, user.getPassword());
 
         verify(passwordEncoder).matches(currentRawPassword, encodedOldPassword);
@@ -99,10 +96,10 @@ class UpdateUserUseCaseImplTest {
 
     @Test
     void deveLancarExcecaoQuandoUsuarioNaoEncontrado() {
-        when(userSearchGateway.findById(id)).thenReturn(Optional.empty());
+        when(userSearchGateway.findByUsername(username)).thenReturn(Optional.empty());
 
         UserDomainException ex = assertThrows(UserDomainException.class, () ->
-                uppdateUserUseCase.changeUserPassword(id, "qualquer", "novaSenha")
+                uppdateUserUseCase.changeUserPassword(username, "qualquer", "novaSenha")
         );
         assertEquals("Usuário não encontrado.", ex.getMessage());
         verify(userUpdateGateway, never()).update(any());
@@ -115,16 +112,16 @@ class UpdateUserUseCaseImplTest {
         String currentRawPassword = "senhaErrada";
         String encodedOldPassword = "hash_da_senha_correta";
 
-        User user = UserTestFactory.umUserAtualizado(id);
+        User user = UserTestFactory.umUserPadrao();
         user.updatePassword(encodedOldPassword);
 
-        when(userSearchGateway.findById(id)).thenReturn(Optional.of(user));
+        when(userSearchGateway.findByUsername(username)).thenReturn(Optional.of(user));
 
         when(passwordEncoder.matches(currentRawPassword, encodedOldPassword)).thenReturn(false);
 
         // ACT & ASSERT
         UserDomainException ex = assertThrows(UserDomainException.class, () ->
-                uppdateUserUseCase.changeUserPassword(id, currentRawPassword, "novaSenha")
+                uppdateUserUseCase.changeUserPassword(username, currentRawPassword, "novaSenha")
         );
 
         assertEquals("Senha atual incorreta.", ex.getMessage());
@@ -136,7 +133,6 @@ class UpdateUserUseCaseImplTest {
 
     @Test
     void deveAssociarTipoUsuarioComSucesso() throws UserDomainException {
-        // ARRANGE
         Long userId = 10L;
         Long userTypeId = 20L;
         User userReturned = UserTestFactory.umUserAtualizado(userId);

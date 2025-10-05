@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pos.java.bora_comer.core.domain.user.User;
-import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
 import pos.java.bora_comer.core.errors.CustomExceptionHandler;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
@@ -45,6 +44,8 @@ class UpdateUserControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    private final String TEST_USERNAME = "teste.user";
+
     @BeforeEach
     void setup() {
         mockMvc = MockMvcBuilders
@@ -58,13 +59,16 @@ class UpdateUserControllerTest {
         String requestJson = IntegrationTestUtil.fromJsonPath("/json/delivery/user/request_update_user_sucess.json");
         UserUpdateRequestDTO requestDTO = objectMapper.readValue(requestJson, UserUpdateRequestDTO.class);
 
+        // Usuário original (baseado no ID 1L)
         User user = UserTestFactory.umUserComId(1L);
-        User updatedUser = User.create(1L, "Novo Nome", "novo@email.com", "novouser", "senha", null, null, "2025-07-11T17:51:23.554623",
-                "2025-07-11T17:52:05.342190700", UserTypeNameEnum.DONO_RESTAURANTE);
+
+        // Usuário atualizado, usando a factory que já está ajustada para User.reconstruct
+        User updatedUser = UserTestFactory.umUserComIdParaUpdate(1L);
 
 
+        // DTO de resposta esperado (usado para o Mockito)
         UserResponseDTO responseDTO = new UserResponseDTO(1L, "Novo Nome", "novo@email.com", "novouser", null, null, "2025-07-11T17:51:23.554623",
-                "2025-07-11T17:52:05.342190700", UserTypeNameEnum.DONO_RESTAURANTE.name());
+                "2025-07-11T17:52:05.342190700", updatedUser.getUserTypeNameEnum().name()); // Usando o Enum do objeto Domain
 
         when(userMapper.toDomain(requestDTO, 1L)).thenReturn(user);
         when(updateUserUseCase.execute(user)).thenReturn(updatedUser);
@@ -103,11 +107,11 @@ class UpdateUserControllerTest {
     void deveTrocarSenhaComSucesso() throws Exception {
         String requestJson = IntegrationTestUtil.fromJsonPath("/json/delivery/user/request_update_password_sucess.json");
 
-        mockMvc.perform(put("/users/1/change-password")
+        mockMvc.perform(put("/users/change-password")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value(LoginEnum.PASSWORD_CHANGED_SUCCESSFULLY.getMessage()));
+                .andExpect(jsonPath("$.message").value("Senha alterada com sucesso."));
     }
 
     @Test
@@ -115,9 +119,9 @@ class UpdateUserControllerTest {
         String requestJson = IntegrationTestUtil.fromJsonPath("/json/delivery/user/request_update_password_error.json");
 
         doThrow(new UserDomainException("Senha atual incorreta."))
-                .when(updateUserUseCase).changeUserPassword(eq(1L), eq("senhaErrada"), eq("senhaNova"));
+                .when(updateUserUseCase).changeUserPassword(eq(TEST_USERNAME), eq("senhaErrada"), eq("senhaNova"));
 
-        mockMvc.perform(put("/users/1/change-password")
+        mockMvc.perform(put("/users/change-password")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -127,7 +131,7 @@ class UpdateUserControllerTest {
     void deveRetornarErroDeValidacaoQuandoNovaSenhaNaoInformada() throws Exception {
         String requestJson = IntegrationTestUtil.fromJsonPath("/json/delivery/user/request_update_password_null.json");
 
-        mockMvc.perform(put("/users/1/change-password")
+        mockMvc.perform(put("/users/change-password")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -137,7 +141,7 @@ class UpdateUserControllerTest {
     void deveRetornarErroDeValidacaoQuandoNovaSenhaVazia() throws Exception {
         String requestJson = IntegrationTestUtil.fromJsonPath("/json/delivery/user/request_update_password_empty.json");
 
-        mockMvc.perform(put("/users/1/change-password")
+        mockMvc.perform(put("/users/change-password")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest());
@@ -145,7 +149,6 @@ class UpdateUserControllerTest {
 
     @Test
     void deveAssociarTipoUsuarioComSucesso() throws Exception {
-        // Nenhuma exceção esperada do use case
         mockMvc.perform(put("/users/1/tipo-usuario/2"))
                 .andExpect(status().isOk());
     }

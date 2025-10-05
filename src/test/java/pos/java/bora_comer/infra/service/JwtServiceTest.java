@@ -24,10 +24,7 @@ class JwtServiceTest {
                 "lionel@ex.com",
                 TEST_USERNAME,
                 "senha_segura",
-                null, // Address
                 UserRoleEnum.DEFAULT,
-                "2025-01-01",
-                null,
                 UserTypeNameEnum.DONO_RESTAURANTE
         );
 
@@ -37,7 +34,6 @@ class JwtServiceTest {
     @Test
     void testGenerateToken_shouldCreateValidToken() {
         assertNotNull(validToken);
-        // Verifica o formato básico do JWT (Header.Payload.Signature)
         assertEquals(3, validToken.split("\\.").length);
     }
 
@@ -49,18 +45,16 @@ class JwtServiceTest {
 
     @Test
     void testIsTokenValid_shouldReturnTrueForValidToken() {
-        // Valida o token contra o username que o gerou
         assertTrue(jwtService.isTokenValid(validToken, TEST_USERNAME));
     }
 
     @Test
     void testIsTokenValid_shouldReturnFalseForInvalidUsername() {
-        // Valida o token contra um username diferente
         assertFalse(jwtService.isTokenValid(validToken, "wronguser"));
     }
 
     @Test
-    void testIsTokenValid_shouldReturnFalseForEmptyToken() {
+    void testIsTokenValid_shouldReturnFalseForInvalidTokenFormat() {
         assertFalse(jwtService.isTokenValid("invalid.token.signature", TEST_USERNAME));
     }
 }

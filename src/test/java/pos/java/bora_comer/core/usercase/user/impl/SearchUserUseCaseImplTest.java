@@ -29,7 +29,7 @@ class SearchUserUseCaseImplTest {
 
     private UserSearchGateway userSearchGateway;
     private SearchUserUseCaseImpl searchUserUseCase;
-    Long id = 1L;
+    private final String TEST_USERNAME = "messi";
 
     @BeforeEach
     void setUp() {
@@ -38,34 +38,41 @@ class SearchUserUseCaseImplTest {
     }
 
     @Test
-    void findById_deveRetornarUsuario_quandoExistir() throws SummerNotFoundException {
-        Address someAddress = mock(Address.class);
-        User user = UserTestFactory.umUserComId(id);
+    void findByUsername_deveRetornarUsuario_quandoExistir() throws SummerNotFoundException {
+        // Arrange
+        User user = UserTestFactory.umUserPadrao(); // Retorna o usuário com username "messi"
 
-        when(userSearchGateway.findById(1L)).thenReturn(Optional.of(user));
+        when(userSearchGateway.findByUsername(TEST_USERNAME)).thenReturn(Optional.of(user));
 
-        User result = searchUserUseCase.findById(1L);
+        // Act
+        User result = searchUserUseCase.findByUsername(TEST_USERNAME);
 
+        // Assert
         assertNotNull(result);
         assertEquals(user, result);
-        verify(userSearchGateway).findById(1L);
+        verify(userSearchGateway).findByUsername(TEST_USERNAME);
     }
 
     @Test
-    void findById_deveLancarExcecao_quandoNaoExistir() {
-        when(userSearchGateway.findById(99L)).thenReturn(Optional.empty());
+    void findByUsername_deveLancarExcecao_quandoNaoExistir() {
+        // Arrange
+        String nonExistentUsername = "naoexiste";
+        when(userSearchGateway.findByUsername(nonExistentUsername)).thenReturn(Optional.empty());
 
-        SummerNotFoundException exception = assertThrows(SummerNotFoundException.class, () -> searchUserUseCase.findById(99L));
+        // Act & Assert
+        SummerNotFoundException exception = assertThrows(SummerNotFoundException.class,
+                () -> searchUserUseCase.findByUsername(nonExistentUsername));
 
-        assertEquals("User with ID 99 not found", exception.getMessage());
-        verify(userSearchGateway).findById(99L);
+        // Ajuste da mensagem para refletir a busca por username
+        assertEquals("User with username naoexiste not found", exception.getMessage());
+        verify(userSearchGateway).findByUsername(nonExistentUsername);
     }
 
     @Test
     void findAll_deveRetornarPaginaDeUsuarios() throws UserDomainException {
-        Address someAddress = mock(Address.class);
-        User user1 = UserTestFactory.umUserComId(id);
-        User user2 = UserTestFactory.umUserComId(id);
+        // Arrange
+        User user1 = UserTestFactory.umUserPadrao();
+        User user2 = UserTestFactory.umUserPadrao();
 
         List<User> users = List.of(user1, user2);
         Pageable pageable = PageRequest.of(0, 2);
@@ -73,8 +80,10 @@ class SearchUserUseCaseImplTest {
 
         when(userSearchGateway.findAll(any(Pageable.class))).thenReturn(page);
 
+        // Act
         Page<User> result = searchUserUseCase.findAll(0, 2);
 
+        // Assert
         assertNotNull(result);
         assertEquals(2, result.getContent().size());
         assertEquals(users, result.getContent());

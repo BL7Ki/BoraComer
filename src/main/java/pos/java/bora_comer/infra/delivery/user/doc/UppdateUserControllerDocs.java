@@ -37,7 +37,7 @@ public interface UppdateUserControllerDocs {
 
     @Operation(
             summary = "Trocar senha do usuário",
-            description = "Endpoint para trocar a senha de um usuário com base no ID fornecido."
+            description = "Endpoint para trocar a senha de um usuário, identificando-o através dos dados fornecidos no corpo da requisição."
     )
     @ApiResponse(
             responseCode = "200",
@@ -51,7 +51,6 @@ public interface UppdateUserControllerDocs {
     @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
     ResponseEntity<Map<String, String>> changePassword(
-            @PathVariable("id") Long id,
             @RequestBody UserChangePasswordRequestDTO request
     );
 

@@ -31,7 +31,7 @@ type Order {
 
 type Query {
     # Users
-    userById(id: ID!): User
+    userByUsername(username: String!): User
     allUsers: [User!]!
 
     # Restaurants
@@ -47,7 +47,7 @@ type Query {
 
 type Mutation {
     # Users
-    createUser(name: String!, email: String!, username: String!, password: String!, userRoleEnum:  UserRoleEnum!, userTypeNameEnum: UserTypeNameEnum!): User
+    createUser(name: String!, email: String!, username: String!, password: String!, userRoleEnum: UserRoleEnum!, userTypeNameEnum: UserTypeNameEnum!): User
 
     # Restaurants
     createRestaurant(

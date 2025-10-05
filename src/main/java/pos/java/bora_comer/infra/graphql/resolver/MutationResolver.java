@@ -9,37 +9,47 @@ import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.infra.service.OrderService;
 import pos.java.bora_comer.infra.service.RestaurantService;
 import pos.java.bora_comer.core.usercase.order.CreateOrderUseCase;
+import pos.java.bora_comer.core.usercase.user.CreateUserUseCase;
+import pos.java.bora_comer.core.usercase.user.UpdateUserUseCase;
+import pos.java.bora_comer.core.errors.UserDomainException;
+
 import java.time.LocalDateTime;
 
 @Controller
 public class MutationResolver {
 
-    private final UserService userService;
+    private final CreateUserUseCase createUserUseCase;
+    private final UpdateUserUseCase updateUserUseCase; // validar essa parte
     private final RestaurantService restaurantService;
     private final CreateOrderUseCase createOrderUseCase;
     private final OrderService orderService;
 
-    public MutationResolver(UserService userService,
-                            RestaurantService restaurantService,
-                            CreateOrderUseCase createOrderUseCase,
-                            OrderService orderService) {
-        this.userService = userService;
+    public MutationResolver(
+            CreateUserUseCase createUserUseCase,
+            UpdateUserUseCase updateUserUseCase,
+            RestaurantService restaurantService,
+            CreateOrderUseCase createOrderUseCase,
+            OrderService orderService) {
+
+        this.createUserUseCase = createUserUseCase;
+        this.updateUserUseCase = updateUserUseCase;
         this.restaurantService = restaurantService;
         this.createOrderUseCase = createOrderUseCase;
         this.orderService = orderService;
     }
 
-    // --- User Mutations ---
     @MutationMapping
     public User createUser(
             @Argument String name,
             @Argument String email,
             @Argument String username,
-            @Argument String password) {
-        return userService.create(name, email, username, password);
+            @Argument String password) throws UserDomainException {
+
+        User userToCreate = User.create(name, email, username, password, null, null);
+
+        return createUserUseCase.execute(userToCreate);
     }
 
-    // --- Restaurant Mutations ---
     @MutationMapping
     public Restaurant createRestaurant(
             @Argument String name,
@@ -60,7 +70,6 @@ public class MutationResolver {
         return true;
     }
 
-    // --- Order Mutations ---
     @MutationMapping
     public Order createOrder(
             @Argument Long userId,

@@ -29,7 +29,7 @@ public class UserMapperImpl implements UserMapper {
 
     @Override
     public User toDomain(UserRequestDTO userRequestDTO) {
-        return User.createNew(
+        return User.create(
                 userRequestDTO.name(),
                 userRequestDTO.email(),
                 userRequestDTO.username(),
@@ -141,7 +141,18 @@ public class UserMapperImpl implements UserMapper {
 
     @Override
     public User toDomain(UserUpdateRequestDTO userUpdateRequestDTO, Long id) {
-        throw new UnsupportedOperationException("O Mapper não deve criar Domínio para Update. Use o UserService para buscar/aplicar/salvar.");
+        return User.reconstruct(
+                id,
+                userUpdateRequestDTO.name(),
+                userUpdateRequestDTO.email(),
+                userUpdateRequestDTO.username(),
+                userUpdateRequestDTO.password(),
+                Address.create("", "", "", "", ""),
+                UserRoleEnum.DEFAULT,
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                toUserTypeNameEnumRequestConverter(userUpdateRequestDTO.userType())
+        );
     }
 
     private UserRoleEnum toUserRoleEnumConverter(UserRoleRequestEnumDTO requestEnum) {

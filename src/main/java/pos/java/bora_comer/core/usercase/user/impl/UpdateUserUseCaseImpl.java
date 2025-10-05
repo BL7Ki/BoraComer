@@ -37,17 +37,16 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
     }
 
     @Override
-    public void changeUserPassword(Long userId, String currentPassword, String newPassword) throws UserDomainException {
-        Optional<User> userOpt = userSearchGateway.findById(userId);
+    public void changeUserPassword(String username, String currentPassword, String newPassword) throws UserDomainException {
+
+        Optional<User> userOpt = userSearchGateway.findByUsername(username);
 
         User user = userOpt.orElseThrow(() -> new UserDomainException("Usuário não encontrado."));
 
-        // Usa o PasswordEncoder para comparar o rawPassword com o hash
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
             throw new UserDomainException("Senha atual incorreta.");
         }
 
-        // Codifica a nova senha antes de atualizar o objeto de Domínio
         String encodedNewPassword = passwordEncoder.encode(newPassword);
         user.updatePassword(encodedNewPassword);
 

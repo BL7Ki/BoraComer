@@ -35,7 +35,7 @@ public class UpdateUserController implements UppdateUserControllerDocs {
     public ResponseEntity<UserResponseDTO> update(
             @PathVariable("id") Long id,
             @RequestBody UserUpdateRequestDTO userUpdateRequestDTO
-            ) {
+    ) {
         User user = userMapper.toDomain(userUpdateRequestDTO, id);
 
         User updatedUser = updateUserUseCase.execute(user);
@@ -46,20 +46,19 @@ public class UpdateUserController implements UppdateUserControllerDocs {
     }
 
     @Override
-    @PutMapping("/{id}/change-password")
+    @PutMapping("/change-password")
     public ResponseEntity<Map<String, String>> changePassword(
-            @PathVariable("id") Long id,
             @RequestBody @Valid UserChangePasswordRequestDTO request
     ) {
-        updateUserUseCase.changeUserPassword(id, request.currentPassword(), request.newPassword());
-        return ResponseEntity.ok(
-                Map.of("message", LoginEnum.PASSWORD_CHANGED_SUCCESSFULLY.getMessage())
+        updateUserUseCase.changeUserPassword(
+                request.username(),
+                request.currentPassword(),
+                request.newPassword()
         );
-
+        return ResponseEntity.ok(
+                Map.of("message", "Senha alterada com sucesso.")
+        );
     }
-
-    // mudar o retorno para UserResponseDTO
-    // 200 OK com corpo: Retornar o recurso atualizado (ex: o usuário já associado ao novo tipo), permitindo ao cliente ver o estado final.
 
     @Override
     @PutMapping("/{userId}/tipo-usuario/{tipoUsuarioId}")

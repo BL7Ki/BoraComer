@@ -5,26 +5,31 @@ import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.domain.user.UserRoleEnum;
 import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
 import pos.java.bora_comer.infra.delivery.user.dto.*;
-import pos.java.bora_comer.infra.delivery.userType.dto.CreateUserTypeRequestDTO;
-import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeNameRequestEnum;
+import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeNameRequestEnum; // CreateUserTypeRequestDTO foi removido, mantendo apenas o enum
 import pos.java.bora_comer.infra.persistence.repository.user.entity.AddressEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserRoleEntityEnum;
 
+import java.time.LocalDateTime;
+
 public class UserTestFactory {
 
     private static final Long USER_TYPE_ID_DEFAULT = 1L;
-    private static final String DATA_CRIACAO = "2025-07-11T17:51:23.554623";
-    private static final String DATA_ATUALIZACAO = "2025-07-11T17:52:05.342190700";
+    private static final LocalDateTime DATA_CRIACAO = LocalDateTime.of(2025, 7, 11, 17, 51, 23, 554623000);
+    private static final LocalDateTime DATA_ATUALIZACAO = LocalDateTime.of(2025, 7, 11, 17, 52, 5, 342190700);
+
+    private static Address createDefaultAddress() {
+        return Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678");
+    }
 
     public static User umUserComId(Long id) {
-        return User.create(
+        return User.reconstruct(
                 id,
                 "Messi",
                 "messi@ex.com",
                 "messi",
                 "Messi@123",
-                Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
+                createDefaultAddress(),
                 UserRoleEnum.DEFAULT,
                 DATA_CRIACAO,
                 DATA_ATUALIZACAO,
@@ -39,36 +44,28 @@ public class UserTestFactory {
 
     public static User umUserPadrao() {
         return User.create(
-                null,
                 "Messi",
                 "messi@ex.com",
                 "messi",
                 "Messi@123",
-                Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
                 UserRoleEnum.DEFAULT,
-                null,
-                null,
                 UserTypeNameEnum.DONO_RESTAURANTE
         );
     }
 
     public static User umUserTypeNull() {
         return User.create(
-                null,
                 "Messi",
                 "messi@ex.com",
                 "messi",
                 "Messi@123",
-                Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
                 UserRoleEnum.DEFAULT,
-                null,
-                null,
                 null
         );
     }
 
     public static User umUserAtualizado(Long id) {
-        return User.create(
+        return User.reconstruct(
                 id,
                 "Messi Atualizado",
                 "messi_novo@ex.com",
@@ -83,13 +80,28 @@ public class UserTestFactory {
     }
 
     public static User umUserPadraoCliente() {
-        return User.create(
+        return User.reconstruct(
                 1L,
                 "Messi",
                 "messi@ex.com",
                 "messi",
                 "Messi@123",
-                Address.create("Rua A", "Bairro B", "Cidade C", "SP", "12345-678"),
+                createDefaultAddress(),
+                UserRoleEnum.DEFAULT,
+                DATA_CRIACAO,
+                DATA_ATUALIZACAO,
+                UserTypeNameEnum.DONO_RESTAURANTE
+        );
+    }
+
+    public static User umUserComIdParaUpdate(Long id) {
+        return User.reconstruct(
+                id,
+                "Novo Nome",
+                "novo@email.com",
+                "novouser",
+                "senha",
+                createDefaultAddress(),
                 UserRoleEnum.DEFAULT,
                 DATA_CRIACAO,
                 DATA_ATUALIZACAO,
@@ -135,7 +147,7 @@ public class UserTestFactory {
                 "senha123",
                 AddressTestFactory.createAddressRequestDTO(),
                 UserRoleRequestEnumDTO.DEFAULT,
-                new CreateUserTypeRequestDTO(UserTypeNameRequestEnum.DONO_RESTAURANTE)
+                UserTypeNameRequestEnum.DONO_RESTAURANTE
         );
     }
 
@@ -147,7 +159,7 @@ public class UserTestFactory {
                 "Messi@123",
                 AddressTestFactory.createAddressRequestDTO(),
                 null,
-                new CreateUserTypeRequestDTO(UserTypeNameRequestEnum.DONO_RESTAURANTE)
+                UserTypeNameRequestEnum.DONO_RESTAURANTE
         );
     }
 
@@ -160,7 +172,7 @@ public class UserTestFactory {
                 "messi10",
                 AddressTestFactory.createAddressResponseDTO(),
                 "CLIENTE",
-                DATA_CRIACAO,
+                DATA_CRIACAO.toString(),
                 null,
                 UserTypeNameEnum.DONO_RESTAURANTE.name()
         );
@@ -174,7 +186,7 @@ public class UserTestFactory {
                 "messi10",
                 AddressTestFactory.createAddressResponseDTO(),
                 "CLIENTE",
-                DATA_CRIACAO,
+                DATA_CRIACAO.toString(),
                 null,
                 UserTypeNameEnum.DONO_RESTAURANTE.name()
         );
@@ -184,6 +196,7 @@ public class UserTestFactory {
         return new UserUpdateRequestDTO(
                 "Messi",
                 "messi@ex.com",
+                "messi",
                 "NovaSenha@123",
                 AddressTestFactory.createAddressRequestDTO(),
                 UserTypeNameRequestEnum.DONO_RESTAURANTE
