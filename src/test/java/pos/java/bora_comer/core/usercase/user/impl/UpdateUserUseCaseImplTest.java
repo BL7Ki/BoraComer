@@ -2,6 +2,7 @@ package pos.java.bora_comer.core.usercase.user.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,6 +25,7 @@ class UpdateUserUseCaseImplTest {
 
     private UserUpdateGateway userUpdateGateway;
     private UserSearchGateway userSearchGateway;
+    private PasswordEncoder passwordEncoder;
     private UpdateUserUseCaseImpl uppdateUserUseCase;
     Long id = 2L;
 
@@ -30,7 +33,8 @@ class UpdateUserUseCaseImplTest {
     void setUp() {
         userUpdateGateway = mock(UserUpdateGateway.class);
         userSearchGateway = mock(UserSearchGateway.class);
-        uppdateUserUseCase = new UpdateUserUseCaseImpl(userUpdateGateway, userSearchGateway);
+        passwordEncoder = mock(PasswordEncoder.class);
+        uppdateUserUseCase = new UpdateUserUseCaseImpl(userUpdateGateway, userSearchGateway, passwordEncoder);
     }
 
     @Test
@@ -63,38 +67,88 @@ class UpdateUserUseCaseImplTest {
 
     @Test
     void deveTrocarSenhaComSucesso() throws UserDomainException {
-        User user = UserTestFactory.umUserAtualizado(id);
+        // ARRANGE
+        String currentRawPassword = "SenhaAntiga123";
+        String newRawPassword = "NovaSenhaForte@123";
+        String encodedOldPassword = "hash_da_senha_antiga"; // A senha que o objeto User terá
+        String encodedNewPassword = "hash_da_nova_senha";
 
-        when(userSearchGateway.findById(2L)).thenReturn(Optional.of(user));
+        // Cria um User, e forçamos ele a ter a senha HASHed
+        User user = UserTestFactory.umUserAtualizado(id);
+        user.updatePassword(encodedOldPassword);
+
+        when(userSearchGateway.findById(id)).thenReturn(Optional.of(user));
+
+        when(passwordEncoder.matches(currentRawPassword, encodedOldPassword)).thenReturn(true);
+
+        when(passwordEncoder.encode(newRawPassword)).thenReturn(encodedNewPassword);
+
         when(userUpdateGateway.update(user)).thenReturn(user);
 
-        uppdateUserUseCase.changeUserPassword(2L, "NovaSenha@123", "NovaSenha@1234");
+        // ACT
+        uppdateUserUseCase.changeUserPassword(id, currentRawPassword, newRawPassword);
 
-        assertEquals("NovaSenha@1234", user.getPassword());
+        // ASSERT
+        // Verifica se a senha do objeto de domínio FOI ATUALIZADA com o novo HASH
+        assertEquals(encodedNewPassword, user.getPassword());
+
+        verify(passwordEncoder).matches(currentRawPassword, encodedOldPassword);
+        verify(passwordEncoder).encode(newRawPassword);
         verify(userUpdateGateway).update(user);
     }
 
     @Test
     void deveLancarExcecaoQuandoUsuarioNaoEncontrado() {
-        when(userSearchGateway.findById(2L)).thenReturn(Optional.empty());
+        when(userSearchGateway.findById(id)).thenReturn(Optional.empty());
 
         UserDomainException ex = assertThrows(UserDomainException.class, () ->
-                uppdateUserUseCase.changeUserPassword(2L, "qualquer", "novaSenha")
+                uppdateUserUseCase.changeUserPassword(id, "qualquer", "novaSenha")
         );
         assertEquals("Usuário não encontrado.", ex.getMessage());
         verify(userUpdateGateway, never()).update(any());
+        verify(passwordEncoder, never()).matches(anyString(), anyString());
     }
 
     @Test
     void deveLancarExcecaoQuandoSenhaAtualIncorreta() {
+        // ARRANGE
+        String currentRawPassword = "senhaErrada";
+        String encodedOldPassword = "hash_da_senha_correta";
+
         User user = UserTestFactory.umUserAtualizado(id);
+        user.updatePassword(encodedOldPassword);
 
-        when(userSearchGateway.findById(2L)).thenReturn(Optional.of(user));
+        when(userSearchGateway.findById(id)).thenReturn(Optional.of(user));
 
+        when(passwordEncoder.matches(currentRawPassword, encodedOldPassword)).thenReturn(false);
+
+        // ACT & ASSERT
         UserDomainException ex = assertThrows(UserDomainException.class, () ->
-                uppdateUserUseCase.changeUserPassword(2L, "senhaErrada", "novaSenha")
+                uppdateUserUseCase.changeUserPassword(id, currentRawPassword, "novaSenha")
         );
+
         assertEquals("Senha atual incorreta.", ex.getMessage());
+
+        verify(passwordEncoder).matches(currentRawPassword, encodedOldPassword);
         verify(userUpdateGateway, never()).update(any());
+        verify(passwordEncoder, never()).encode(anyString());
+    }
+
+    @Test
+    void deveAssociarTipoUsuarioComSucesso() throws UserDomainException {
+        // ARRANGE
+        Long userId = 10L;
+        Long userTypeId = 20L;
+        User userReturned = UserTestFactory.umUserAtualizado(userId);
+
+        when(userUpdateGateway.associateUserType(userId, userTypeId)).thenReturn(userReturned);
+
+        // ACT
+        User result = uppdateUserUseCase.userAssociate(userId, userTypeId);
+
+        // ASSERT
+        assertNotNull(result);
+        assertEquals(userReturned, result);
+        verify(userUpdateGateway).associateUserType(userId, userTypeId);
     }
 }

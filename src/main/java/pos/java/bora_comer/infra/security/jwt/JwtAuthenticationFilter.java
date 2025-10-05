@@ -1,7 +1,7 @@
 package pos.java.bora_comer.infra.security.jwt;
 
 import pos.java.bora_comer.infra.service.JwtService; // Alterado para usar a JwtService
-import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
+import pos.java.bora_comer.infra.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.SummerNotFoundException;
-import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.gateway.user.UserSearchGateway;
 import pos.java.bora_comer.core.usercase.user.SearchUserUseCase;
 
@@ -20,13 +19,13 @@ public class SearchUserUseCaseImpl implements SearchUserUseCase {
     }
 
     @Override
-    public User findById(Long id) throws SummerNotFoundException {
-        return userSearchGateway.findById(id)
-                .orElseThrow(() -> new SummerNotFoundException("User with ID " + id + " not found"));
+    public User findByUsername(String username) throws SummerNotFoundException {
+        return userSearchGateway.findByUsername(username)
+                .orElseThrow(() -> new SummerNotFoundException("User with username " + username + " not found"));
     }
 
     @Override
-    public Page<User> findAll(int page, int size) throws UserDomainException {
+    public Page<User> findAll(int page, int size) {
         var pageable = PageRequest.of(page, size);
         return userSearchGateway.findAll(pageable);
     }

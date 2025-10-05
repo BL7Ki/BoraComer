@@ -7,7 +7,6 @@ import pos.java.bora_comer.core.domain.order.Order;
 import pos.java.bora_comer.core.domain.restaurant.Restaurant;
 import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.infra.service.OrderService;
-import pos.java.bora_comer.infra.service.UserService;
 import pos.java.bora_comer.infra.service.RestaurantService;
 import pos.java.bora_comer.core.usercase.order.CreateOrderUseCase;
 import java.time.LocalDateTime;

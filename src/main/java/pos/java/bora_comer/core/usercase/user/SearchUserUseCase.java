@@ -8,7 +8,7 @@ import pos.java.bora_comer.core.errors.UserDomainException;
 
 public interface SearchUserUseCase {
 
-    User findById(Long id) throws SummerNotFoundException;
+    User findByUsername(String Username) throws SummerNotFoundException;
 
     Page<User> findAll(int page, int size) throws UserDomainException;
 }

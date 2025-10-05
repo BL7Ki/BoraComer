@@ -15,7 +15,7 @@ import pos.java.bora_comer.core.mapper.menu.MenuItemMapper;
 import pos.java.bora_comer.core.usercase.menu.CreateMenuItemUseCase;
 import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemRequestDTO;
 import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemResponseDTO;
-import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
+import pos.java.bora_comer.infra.service.CustomUserDetailsService;
 import pos.java.bora_comer.infra.service.JwtService;
 
 import static org.mockito.ArgumentMatchers.any;

@@ -14,7 +14,7 @@ import pos.java.bora_comer.core.mapper.restaurant.RestaurantMapper;
 import pos.java.bora_comer.core.usercase.restaurant.UpdateRestaurantUseCase;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantResponseDTO;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantUpdateRequestDTO;
-import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
+import pos.java.bora_comer.infra.service.CustomUserDetailsService;
 import pos.java.bora_comer.infra.service.JwtService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;

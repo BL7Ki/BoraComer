@@ -1,5 +1,6 @@
 package pos.java.bora_comer.core.usercase.user.impl;
 
+import org.springframework.security.crypto.password.PasswordEncoder; // Novo import
 import org.springframework.stereotype.Service;
 import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
@@ -10,17 +11,12 @@ import pos.java.bora_comer.core.usercase.user.CreateUserUseCase;
 public class CreateUserUseCaseImpl implements CreateUserUseCase {
 
     private final UserCreateGateway userCreateGateway;
+    private final PasswordEncoder passwordEncoder; // Injeção necessária
 
-    public CreateUserUseCaseImpl(UserCreateGateway userCreateGateway) {
+    public CreateUserUseCaseImpl(UserCreateGateway userCreateGateway, PasswordEncoder passwordEncoder) {
         this.userCreateGateway = userCreateGateway;
+        this.passwordEncoder = passwordEncoder;
     }
-    /**
-     * Método para criar um novo usuário.
-     *
-     * @param user Objeto que representa o usuário a ser criado.
-     * @return UserDomain O usuário criado.
-     * @throws UserDomainException Se ocorrer algum erro durante a criação do usuário.
-     */
 
     @Override
     public User execute(User user) throws UserDomainException {
@@ -28,6 +24,10 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
         if (userCreateGateway.existsByUsername(user.getUsername())) {
             throw new UserDomainException("O userName já está em uso.");
         }
+
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+
+        user.updatePassword(encodedPassword);
 
         return userCreateGateway.save(user);
     }

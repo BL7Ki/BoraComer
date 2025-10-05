@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface UserSearchGateway {
 
-    Optional<User> findById(Long id);
+    Optional<User> findByUsername(String username);
     Page<User> findAll(Pageable pageable);
 }

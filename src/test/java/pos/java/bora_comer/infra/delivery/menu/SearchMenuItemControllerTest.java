@@ -16,7 +16,7 @@ import pos.java.bora_comer.core.domain.menu.MenuItem;
 import pos.java.bora_comer.core.mapper.menu.MenuItemMapper;
 import pos.java.bora_comer.core.usercase.menu.SearchMenuItemUseCase;
 import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemResponseDTO;
-import pos.java.bora_comer.infra.security.auth.CustomUserDetailsService;
+import pos.java.bora_comer.infra.service.CustomUserDetailsService;
 import pos.java.bora_comer.infra.service.JwtService;
 
 import java.util.List;

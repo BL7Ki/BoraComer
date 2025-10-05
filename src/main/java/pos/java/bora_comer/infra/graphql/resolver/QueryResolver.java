@@ -7,7 +7,6 @@ import pos.java.bora_comer.core.domain.order.Order;
 import pos.java.bora_comer.core.domain.restaurant.Restaurant;
 import pos.java.bora_comer.infra.persistence.repository.user.entity.UserEntity;
 import pos.java.bora_comer.infra.service.OrderService;
-import pos.java.bora_comer.infra.service.UserService;
 import pos.java.bora_comer.infra.service.RestaurantService;
 
 import java.util.List;
