@@ -111,3 +111,22 @@ CONSTRAINT fk_pedido_item_menu_item FOREIGN KEY (menu_item_id) REFERENCES tb_men
 -- Exemplo de pedido item (opcional)
 INSERT INTO tb_pedidos_items (pedido_id, menu_item_id, quantidade, data_alteracao)
 VALUES (1, 1, 2,CURRENT_TIMESTAMP);
+
+
+-- Criação da tabela de reservas
+
+CREATE TABLE IF NOT EXISTS tb_reservas (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    quantidade INT NOT NULL,
+    restaurante_id BIGINT NOT NULL,
+    usuario_id BIGINT NOT NULL,
+    data_alteracao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_reserva_resturante FOREIGN KEY (restaurante_id) REFERENCES tb_restaurantes(id),
+    CONSTRAINT fk_reserva_usuario FOREIGN KEY (usuario_id) REFERENCES tb_usuarios(id)
+);
+
+-- Exemplo de reserva (opcional)
+INSERT INTO tb_reservas (data_hora, quantidade, restaurante_id, usuario_id)
+VALUES ('2025-01-01 22:00:00', 2, 1, 1);
