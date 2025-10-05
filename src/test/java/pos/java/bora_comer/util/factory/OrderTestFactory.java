@@ -1,29 +1,30 @@
 package pos.java.bora_comer.util.factory;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import pos.java.bora_comer.core.domain.order.Order;
+import pos.java.bora_comer.core.domain.order.OrderStatusEnum;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderRequestDTO;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderResponseDTO;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO;
 
 public class OrderTestFactory {
-    
-    // Construtor privado para impedir instanciação
+
     private OrderTestFactory() {
-        // impede instanciação
     }
-    
+
     private static final String dateStr = "2024-10-10T12:00:00";
     private static final LocalDateTime dateTime = LocalDateTime.parse(dateStr);
-    
+    private static final OrderStatusEnum defaultStatus = OrderStatusEnum.CREATED;
+    private static final BigDecimal defaultValorTotal = BigDecimal.ZERO;
+
     public static Order createDefault() {
         return Order.create(
                 dateTime,
                 true,
                 1L,
-                1L,
-                dateTime
+                1L
         );
     }
 
@@ -34,7 +35,21 @@ public class OrderTestFactory {
                 true,
                 1L,
                 1L,
-                dateTime
+                dateTime,
+                defaultStatus,
+                defaultValorTotal
+        );
+    }
+    public static Order createDefaultWithId(Long id, OrderStatusEnum status) {
+        return Order.create(
+                id,
+                dateTime,
+                true,
+                1L,
+                1L,
+                dateTime,
+                status,
+                defaultValorTotal
         );
     }
 
@@ -45,39 +60,40 @@ public class OrderTestFactory {
                 true,
                 1L,
                 1L,
+                defaultStatus.name(),
                 dateTime
         );
     }
 
-    public static OrderRequestDTO createRequestDTOWithId() {
+    public static OrderRequestDTO createRequestDTO() {
         return new OrderRequestDTO(
                 dateTime,
                 true,
                 1L,
-                1L,
-                dateTime
+                1L
         );
     }
 
-    public static OrderUpdateRequestDTO createUpdateRequestDTOWithId() {
+    public static OrderUpdateRequestDTO createUpdateRequestDTO() {
         return new OrderUpdateRequestDTO(
-                dateTime,
+                dateTime.plusHours(1),
                 false,
                 1L,
                 1L,
-                dateTime
+                OrderStatusEnum.IN_PROGRESS.name()
         );
     }
 
-    public static Order createCustom(Long id, LocalDateTime dateTime, boolean delivery, Long restaurantId, Long userId, LocalDateTime lastModifiedDate) {
+    public static Order createCustom(Long id, LocalDateTime dateTime, boolean delivery, Long restaurantId, Long userId, LocalDateTime lastModifiedDate, OrderStatusEnum status, BigDecimal valorTotal) {
         return Order.create(
                 id,
                 dateTime,
                 delivery,
                 restaurantId,
                 userId,
-                lastModifiedDate
+                lastModifiedDate,
+                status,
+                valorTotal
         );
     }
 }
-

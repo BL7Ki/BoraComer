@@ -1,6 +1,7 @@
 package pos.java.bora_comer.core.usercase.order.impl;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -20,15 +21,15 @@ class CreateOrderUseCaseImplTest {
 
     @BeforeEach
     void setUp() {
-        orderCreateGateway = Mockito.mock(OrderCreateGateway.class);
+        orderCreateGateway = mock(OrderCreateGateway.class);
         createOrderUseCase = new CreateOrderUseCaseImpl(orderCreateGateway);
     }
 
     @Test
+    @DisplayName("Deve salvar o pedido usando o gateway e retornar a versão com ID")
     void execute_shouldReturnCreatedOrder() {
         // Arrange
         Order orderToSave = createDefault();
-
         Order savedOrder = createDefaultWithId();
 
         when(orderCreateGateway.save(any(Order.class))).thenReturn(savedOrder);
@@ -38,10 +39,13 @@ class CreateOrderUseCaseImplTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals(10L, result.getId());
-        assertEquals(orderToSave.getUserId(), result.getUserId());
-        assertEquals(orderToSave.getRestaurantId(), result.getRestaurantId());
-        assertEquals(orderToSave.isDelivery(), result.isDelivery());
+
+        assertEquals(savedOrder.getId(), result.getId());
+        assertEquals(savedOrder.getUserId(), result.getUserId());
+
         verify(orderCreateGateway, times(1)).save(orderToSave);
+
+        assertEquals(10L, result.getId());
+        assertTrue(result.isDelivery());
     }
 }

@@ -10,11 +10,9 @@ import pos.java.bora_comer.core.mapper.order.OrderMapper;
 import pos.java.bora_comer.infra.persistence.repository.order.OrderRepository;
 import pos.java.bora_comer.infra.persistence.repository.order.entity.OrderEntity;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static pos.java.bora_comer.util.factory.OrderTestFactory.createDefault;
+import static pos.java.bora_comer.util.factory.OrderTestFactory.createDefaultWithId;
 
 class OrderUpdateGatewayImplTest {
 
@@ -33,7 +31,7 @@ class OrderUpdateGatewayImplTest {
     @Test
     @DisplayName("Deve mapear o domínio para entidade e salvar o pedido atualizado com sucesso")
     void shouldMapDomainToEntityAndSaveUpdatedOrder() {
-        Order orderToUpdate = createDefault();
+        Order orderToUpdate = createDefaultWithId();
 
         OrderEntity entityToSave = mock(OrderEntity.class);
         OrderEntity savedEntity = mock(OrderEntity.class);
@@ -65,35 +63,4 @@ class OrderUpdateGatewayImplTest {
         verifyNoInteractions(orderRepository, orderMapper);
     }
 
-    @Test
-    @DisplayName("Deve encontrar e mapear OrderEntity para Order Domain")
-    void shouldFindAndMapOrderEntityToDomain() {
-        Long id = 1L;
-        OrderEntity entity = mock(OrderEntity.class);
-        Order expectedDomain = mock(Order.class);
-
-        when(orderRepository.findById(id)).thenReturn(Optional.of(entity));
-        when(orderMapper.toDomain(entity)).thenReturn(expectedDomain);
-
-        Optional<Order> result = gateway.findById(id);
-
-        assertTrue(result.isPresent());
-        assertSame(expectedDomain, result.get());
-
-        verify(orderRepository, times(1)).findById(id);
-        verify(orderMapper, times(1)).toDomain(entity);
-    }
-
-    @Test
-    @DisplayName("Deve retornar Optional vazio quando o pedido não for encontrado")
-    void shouldReturnEmptyOptionalWhenNotFound() {
-        Long id = 99L;
-        when(orderRepository.findById(id)).thenReturn(Optional.empty());
-
-        Optional<Order> result = gateway.findById(id);
-
-        assertTrue(result.isEmpty());
-        verify(orderRepository, times(1)).findById(id);
-        verifyNoInteractions(orderMapper);
-    }
 }

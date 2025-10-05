@@ -1,30 +1,36 @@
 package pos.java.bora_comer.infra.delivery.order;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import pos.java.bora_comer.core.domain.order.Order;
-import pos.java.bora_comer.core.mapper.order.OrderMapper;
-import pos.java.bora_comer.core.usercase.order.UpdateOrderUseCase;
-import pos.java.bora_comer.infra.delivery.order.UpdateOrderController;
-import pos.java.bora_comer.infra.delivery.order.dto.OrderResponseDTO;
-import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO;
-
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import pos.java.bora_comer.core.domain.order.Order;
+import pos.java.bora_comer.core.mapper.order.OrderMapper;
+import pos.java.bora_comer.core.usercase.order.UpdateOrderUseCase;
+import pos.java.bora_comer.infra.delivery.order.dto.OrderResponseDTO;
+import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static pos.java.bora_comer.util.factory.OrderTestFactory.createUpdateRequestDTOWithId;
+import static pos.java.bora_comer.util.factory.OrderTestFactory.createUpdateRequestDTO;
+import static pos.java.bora_comer.util.factory.OrderTestFactory.createResponseDTOWithId;
+import static pos.java.bora_comer.util.factory.OrderTestFactory.createDefaultWithId;
 
-import java.time.LocalDateTime;
-
-@WebMvcTest(UpdateOrderController.class)
+@WebMvcTest(
+        controllers = UpdateOrderController.class,
+        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
+)
 public class UpdateOrderControllerTest {
+
+    private static final Long TEST_ID = 10L;
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,56 +46,34 @@ public class UpdateOrderControllerTest {
 
     @Test
     void shouldUpdateOrderSuccessfully() throws Exception {
-        Long id = 10L;
-        Long restauranteId = 1L;
-        Long userId = 1L;
-        String dateStr = "2024-10-10T12:00:00";
-        LocalDateTime dateTime = LocalDateTime.parse(dateStr);
+        // Arrange: Preparação dos objetos de teste e mocks
+        OrderUpdateRequestDTO requestDTO = createUpdateRequestDTO();
 
-        OrderUpdateRequestDTO updateRequestDTO = createUpdateRequestDTOWithId();
+        Order updatedDomain = createDefaultWithId();
+        updatedDomain = updatedDomain.applyUpdate(requestDTO);
 
-        Order existingOrder = Order.create(  
-                id,
-                dateTime,
-                true,
-                restauranteId,
-                userId,
-                dateTime
-        );
+        OrderResponseDTO responseDTO = createResponseDTOWithId();
 
-        Mockito.when(updateOrderUseCase.findById(id)).thenReturn(existingOrder);
+        // Configuração dos Mocks (Foco no fluxo UseCase -> Mapper)
+        when(updateOrderUseCase.execute(eq(TEST_ID), any(OrderUpdateRequestDTO.class)))
+                .thenReturn(updatedDomain);
 
-        Order domainOrder = Order.create(    
-                id,
-                updateRequestDTO.dateTimeOrder(),
-                updateRequestDTO.delivery(),
-                updateRequestDTO.userId(),
-                updateRequestDTO.restaurantId(),
-                updateRequestDTO.lastModifiedDate()
-        );
+        when(orderMapper.toResponseDTO(eq(updatedDomain)))
+                .thenReturn(responseDTO);
 
-        Mockito.when(orderMapper.toDomain(updateRequestDTO, id, restauranteId, userId)).thenReturn(domainOrder);
-        Mockito.when(updateOrderUseCase.execute(domainOrder)).thenReturn(domainOrder);
-
-        OrderResponseDTO responseDTO = new OrderResponseDTO(
-                id,
-                updateRequestDTO.dateTimeOrder(),
-                updateRequestDTO.delivery(),
-                userId,
-                restauranteId,
-                updateRequestDTO.lastModifiedDate()
-        );
-
-        Mockito.when(orderMapper.toResponseDTO(domainOrder)).thenReturn(responseDTO);
-
-        mockMvc.perform(put("/orders/{id}", id)
+        // Act & Assert: Execução da requisição e validação
+        mockMvc.perform(put("/orders/{id}", TEST_ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updateRequestDTO))
+                        .content(objectMapper.writeValueAsString(requestDTO))
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.delivery").value(updateRequestDTO.delivery()))
-                .andExpect(jsonPath("$.restaurante_id").value(restauranteId))
-                .andExpect(jsonPath("$.usuario_id").value(userId));
+                .andExpect(status().isOk()) // Esperamos status 200 OK
+                .andExpect(jsonPath("$.id").value(responseDTO.id()))
+                .andExpect(jsonPath("$.delivery").value(responseDTO.delivery()))
+                .andExpect(jsonPath("$.restaurante_id").value(responseDTO.restaurantId()))
+                .andExpect(jsonPath("$.usuario_id").value(responseDTO.userId()))
+                .andExpect(jsonPath("$.status").value(responseDTO.status()));
+
+        verify(updateOrderUseCase).execute(eq(TEST_ID), eq(requestDTO));
+        verify(orderMapper).toResponseDTO(updatedDomain);
     }
 }

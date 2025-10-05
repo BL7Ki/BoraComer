@@ -24,14 +24,12 @@ public class UpdateOrderController implements UpdateOrderControllerDocs {
 
     @PutMapping("/{id}")
     public ResponseEntity<OrderResponseDTO> update(@PathVariable Long id,
-                                                      @RequestBody OrderUpdateRequestDTO updateRequestDTO) {
-        // Busca o pedido existente para preservar o restaurantId e userId
-        Order existingOrder = updateOrderUseCase.findById(id);
-        var orderDomain = orderMapper.toDomain(updateRequestDTO, id, existingOrder.getRestaurantId(), existingOrder.getUserId());
+                                                   @RequestBody OrderUpdateRequestDTO updateRequestDTO) {
 
-        Order updatedOrder = updateOrderUseCase.execute(orderDomain);
+        Order updatedOrder = updateOrderUseCase.execute(id, updateRequestDTO);
+
         OrderResponseDTO responseDTO = orderMapper.toResponseDTO(updatedOrder);
+
         return ResponseEntity.ok(responseDTO);
     }
-
 }
