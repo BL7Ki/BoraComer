@@ -3,12 +3,14 @@ package pos.java.bora_comer.core.mapper.order.impl;
 import org.springframework.stereotype.Component;
 
 import pos.java.bora_comer.core.domain.order.Order;
+import pos.java.bora_comer.core.domain.order.OrderStatusEnum;
 import pos.java.bora_comer.core.errors.OrderDomainException;
 import pos.java.bora_comer.core.mapper.order.OrderMapper;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderRequestDTO;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderResponseDTO;
-import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO;
+import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO; // Mantido para compilação do arquivo, mas não usado
 import pos.java.bora_comer.infra.persistence.repository.order.entity.OrderEntity;
+import java.math.BigDecimal;
 
 @Component
 public class OrderMapperImpl implements OrderMapper {
@@ -23,8 +25,7 @@ public class OrderMapperImpl implements OrderMapper {
                 orderRequestDTO.dateTimeOrder(),
                 orderRequestDTO.delivery(),
                 orderRequestDTO.restaurantId(),
-                orderRequestDTO.userId(),
-                orderRequestDTO.lastModifiedDate()
+                orderRequestDTO.userId()
         );
     }
 
@@ -34,11 +35,17 @@ public class OrderMapperImpl implements OrderMapper {
             throw new OrderDomainException("Pedido não pode ser nulo");
         }
 
+        BigDecimal valorTotal = order.getValorTotal() != null ? order.getValorTotal() : BigDecimal.ZERO;
+
         return OrderEntity.create(
+                order.getId(),
                 order.getDateTimeOrder(),
                 order.isDelivery(),
                 order.getRestaurantId(),
-                order.getUserId() 
+                order.getUserId(),
+                order.getStatus(),
+                valorTotal,
+                order.getLastModifiedDate()
         );
     }
 
@@ -54,7 +61,9 @@ public class OrderMapperImpl implements OrderMapper {
                 orderEntity.isDelivery(),
                 orderEntity.getRestaurantId(),
                 orderEntity.getUserId(),
-                orderEntity.getLastModifiedDate()
+                orderEntity.getLastModifiedDate(),
+                orderEntity.getStatus(),
+                orderEntity.getValorTotal()
         );
     }
 
@@ -70,23 +79,8 @@ public class OrderMapperImpl implements OrderMapper {
                 order.isDelivery(),
                 order.getRestaurantId(),
                 order.getUserId(),
+                order.getStatus().name(),
                 order.getLastModifiedDate()
-        );
-    }
-
-    @Override
-    public Order toDomain(OrderUpdateRequestDTO orderUpdateRequestDTO, Long id, Long restaurantId, Long userId) {
-        if (orderUpdateRequestDTO == null) {
-            throw new OrderDomainException("OrderUpdateRequestDTO não pode ser nulo");
-        }
-
-        return Order.create(
-                id,
-                orderUpdateRequestDTO.dateTimeOrder(),
-                orderUpdateRequestDTO.delivery(),  
-                restaurantId, // preserva o restaurantId que vem do parâmetro
-                userId, // preserva o userId que vem do parâmetro
-                orderUpdateRequestDTO.lastModifiedDate()
         );
     }
 }

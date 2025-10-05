@@ -9,8 +9,6 @@ import pos.java.bora_comer.core.gateway.order.OrderUpdateGateway;
 import pos.java.bora_comer.core.mapper.order.OrderMapper;
 import pos.java.bora_comer.infra.persistence.repository.order.OrderRepository;
 import pos.java.bora_comer.infra.persistence.repository.order.entity.OrderEntity;
-import pos.java.bora_comer.infra.persistence.repository.restaurant.RestaurantRepository;
-import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 
 import java.util.Optional;
 
@@ -19,43 +17,24 @@ public class OrderUpdateGatewayImpl implements OrderUpdateGateway {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
-    private final RestaurantRepository restaurantRepository;
-    private final UserRepository userRepository;
 
     public OrderUpdateGatewayImpl(OrderRepository orderRepository,
-                                   OrderMapper orderMapper,
-                                   RestaurantRepository restaurantRepository,
-                                   UserRepository userRepository) {
+                                  OrderMapper orderMapper) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
-        this.restaurantRepository = restaurantRepository;
-        this.userRepository = userRepository;
     }
 
     @Transactional
     @Override
     public Order update(Order order) throws OrderDomainException {
-        OrderEntity entity = orderRepository.findById(order.getId())
-                .orElseThrow(() -> new OrderDomainException("Pedido com ID " + order.getId() + " não encontrado."));
-
-        if (!order.getRestaurantId().equals(entity.getRestaurantId())) {
-            restaurantRepository.findById(order.getRestaurantId())
-                    .orElseThrow(() -> new OrderDomainException("Restaurante com ID " + order.getRestaurantId() + " não encontrado."));
-            entity.updateRestaurantId(order.getRestaurantId());
+        if (order.getId() == null) {
+            throw new OrderDomainException("O pedido deve ter um ID para ser atualizado.");
         }
 
-        if (!order.getUserId().equals(entity.getUserId())) {
-            userRepository.findById(order.getUserId())
-                    .orElseThrow(() -> new OrderDomainException("Usuário com ID " + order.getUserId() + " não encontrado."));
-            entity.updateUserId(order.getUserId());
-        }
+        OrderEntity entityToSave = orderMapper.toEntity(order);
 
-        entity.updateDateTimeOrder(order.getDateTimeOrder());
-        entity.updateDelivery(order.isDelivery());
-        entity.updateDateTimeOrder(order.getDateTimeOrder());
-        entity.updateLastModifiedDate();
+        OrderEntity updatedEntity = orderRepository.save(entityToSave);
 
-       OrderEntity updatedEntity = orderRepository.save(entity);
         return orderMapper.toDomain(updatedEntity);
     }
 

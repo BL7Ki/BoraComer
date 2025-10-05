@@ -6,9 +6,13 @@ import org.springframework.stereotype.Controller;
 import pos.java.bora_comer.core.domain.order.Order;
 import pos.java.bora_comer.core.domain.restaurant.Restaurant;
 import pos.java.bora_comer.core.domain.user.User;
-import pos.java.bora_comer.infra.service.OrderService;
-import pos.java.bora_comer.infra.service.RestaurantService;
+import pos.java.bora_comer.core.domain.user.UserRoleEnum;
+import pos.java.bora_comer.core.domain.userType.UserTypeNameEnum;
 import pos.java.bora_comer.core.usercase.order.CreateOrderUseCase;
+import pos.java.bora_comer.core.usercase.order.FinalizeOrderUseCase;
+import pos.java.bora_comer.core.usercase.restaurant.CreateRestaurantUseCase;
+import pos.java.bora_comer.core.usercase.restaurant.UpdateRestaurantUseCase;
+import pos.java.bora_comer.core.usercase.restaurant.DeleteRestaurantUseCase;
 import pos.java.bora_comer.core.usercase.user.CreateUserUseCase;
 import pos.java.bora_comer.core.usercase.user.UpdateUserUseCase;
 import pos.java.bora_comer.core.errors.UserDomainException;
@@ -19,57 +23,82 @@ import java.time.LocalDateTime;
 public class MutationResolver {
 
     private final CreateUserUseCase createUserUseCase;
-    private final UpdateUserUseCase updateUserUseCase; // validar essa parte
-    private final RestaurantService restaurantService;
+    private final UpdateUserUseCase updateUserUseCase;
+    private final CreateRestaurantUseCase createRestaurantUseCase;
+    private final UpdateRestaurantUseCase updateRestaurantUseCase;
+    private final DeleteRestaurantUseCase deleteRestaurantUseCase;
     private final CreateOrderUseCase createOrderUseCase;
-    private final OrderService orderService;
+    private final FinalizeOrderUseCase finalizeOrderUseCase;
+
 
     public MutationResolver(
             CreateUserUseCase createUserUseCase,
             UpdateUserUseCase updateUserUseCase,
-            RestaurantService restaurantService,
+            CreateRestaurantUseCase createRestaurantUseCase,
+            UpdateRestaurantUseCase updateRestaurantUseCase,
+            DeleteRestaurantUseCase deleteRestaurantUseCase,
             CreateOrderUseCase createOrderUseCase,
-            OrderService orderService) {
+            FinalizeOrderUseCase finalizeOrderUseCase) {
 
         this.createUserUseCase = createUserUseCase;
         this.updateUserUseCase = updateUserUseCase;
-        this.restaurantService = restaurantService;
+        this.createRestaurantUseCase = createRestaurantUseCase;
+        this.updateRestaurantUseCase = updateRestaurantUseCase;
+        this.deleteRestaurantUseCase = deleteRestaurantUseCase;
         this.createOrderUseCase = createOrderUseCase;
-        this.orderService = orderService;
+        this.finalizeOrderUseCase = finalizeOrderUseCase;
     }
 
+    // --- User Mutations ---
     @MutationMapping
     public User createUser(
             @Argument String name,
             @Argument String email,
             @Argument String username,
-            @Argument String password) throws UserDomainException {
+            @Argument String password,
+            @Argument UserRoleEnum userRoleEnum,
+            @Argument UserTypeNameEnum userTypeNameEnum) throws UserDomainException {
 
-        User userToCreate = User.create(name, email, username, password, null, null);
+        User userToCreate = User.create(name, email, username, password, userRoleEnum, userTypeNameEnum);
 
         return createUserUseCase.execute(userToCreate);
     }
 
+    // --- Restaurant Mutations ---
     @MutationMapping
     public Restaurant createRestaurant(
             @Argument String name,
             @Argument String address,
             @Argument String cuisineType,
-            @Argument String openingHours) {
-        return restaurantService.create(name, address, cuisineType, openingHours);
+            @Argument String openingHours,
+            @Argument Long ownerId) {
+
+        Restaurant restaurantToCreate = Restaurant.create(name, address, cuisineType, openingHours, ownerId);
+
+        return createRestaurantUseCase.execute(restaurantToCreate);
     }
 
     @MutationMapping
-    public Restaurant updateRestaurant(@Argument Long id, @Argument String name, @Argument String address, @Argument String cuisineType, @Argument String openingHours) {
-        return restaurantService.update(id, name, address, cuisineType, openingHours);
+    public Restaurant updateRestaurant(
+            @Argument Long id,
+            @Argument String name,
+            @Argument String address,
+            @Argument String cuisineType,
+            @Argument String openingHours,
+            @Argument Long ownerId) {
+
+        Restaurant restaurantToUpdate = Restaurant.create(id, name, address, cuisineType, openingHours, ownerId);
+
+        return updateRestaurantUseCase.execute(restaurantToUpdate);
     }
 
     @MutationMapping
     public Boolean deleteRestaurant(@Argument Long id) {
-        restaurantService.delete(id);
+        deleteRestaurantUseCase.execute(id);
         return true;
     }
 
+    // --- Order Mutations ---
     @MutationMapping
     public Order createOrder(
             @Argument Long userId,
@@ -90,6 +119,6 @@ public class MutationResolver {
 
     @MutationMapping
     public Order finalizeOrder(@Argument Long id) {
-        return orderService.finalize(id);
+        return finalizeOrderUseCase.execute(id);
     }
 }

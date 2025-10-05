@@ -8,19 +8,22 @@ import pos.java.bora_comer.core.errors.OrderDomainException;
 import pos.java.bora_comer.core.gateway.order.OrderCreateGateway;
 import pos.java.bora_comer.core.mapper.order.OrderMapper;
 import pos.java.bora_comer.infra.persistence.repository.order.OrderRepository;
+import pos.java.bora_comer.infra.rabbitmq.OrderEventProducer;
 
 @Component
 public class OrderCreateGatewayImpl implements OrderCreateGateway {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+    private final OrderEventProducer orderEventProducer;
 
-    public OrderCreateGatewayImpl(OrderRepository orderRepository, OrderMapper orderMapper) {
+    public OrderCreateGatewayImpl(OrderRepository orderRepository, OrderMapper orderMapper, OrderEventProducer orderEventProducer) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
+        this.orderEventProducer = orderEventProducer;
     }
 
-    
+
     @Transactional
     @Override
     public Order save(Order order) {
@@ -30,6 +33,10 @@ public class OrderCreateGatewayImpl implements OrderCreateGateway {
         var orderEntity = orderMapper.toEntity(order);
         var savedEntity = orderRepository.save(orderEntity);
 
-        return orderMapper.toDomain(savedEntity);
+        Order persistedOrder = orderMapper.toDomain(savedEntity);
+
+        orderEventProducer.sendOrderCreatedEvent(persistedOrder);
+
+        return persistedOrder;
     }
 }

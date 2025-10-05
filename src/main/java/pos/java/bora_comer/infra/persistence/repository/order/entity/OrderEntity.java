@@ -1,6 +1,7 @@
 package pos.java.bora_comer.infra.persistence.repository.order.entity;
 
 import jakarta.persistence.*;
+import pos.java.bora_comer.core.domain.order.OrderStatusEnum;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 
@@ -24,8 +25,9 @@ public class OrderEntity {
     @Column(name = "usuario_id", nullable = false)
     private Long userId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
-    private String status;
+    private OrderStatusEnum status;
 
     @Column(name = "valor_total", nullable = false, precision = 10, scale = 2)
     private BigDecimal valorTotal;
@@ -35,25 +37,19 @@ public class OrderEntity {
 
     // Construtor padrão para JPA
     public OrderEntity() {
-        this.lastModifiedDate = LocalDateTime.now();
-        this.status = "CREATED";
-        this.valorTotal = BigDecimal.ZERO;
     }
 
-    // Factory method
-    public static OrderEntity create(LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId ) {
-        return new OrderEntity(dateTimeOrder, delivery, restaurantId, userId);
-    }
-
-    // Construtor privado completo
-    private OrderEntity(LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId) {
-        this.dateTimeOrder = dateTimeOrder;
-        this.delivery = delivery;
-        this.restaurantId = restaurantId;
-        this.userId = userId;
-        this.status = "CREATED";
-        this.valorTotal = BigDecimal.ZERO;
-        this.lastModifiedDate = LocalDateTime.now();
+    public static OrderEntity create(Long id, LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId, OrderStatusEnum status, BigDecimal valorTotal, LocalDateTime lastModifiedDate) {
+        OrderEntity entity = new OrderEntity();
+        entity.id = id;
+        entity.dateTimeOrder = dateTimeOrder;
+        entity.delivery = delivery;
+        entity.restaurantId = restaurantId;
+        entity.userId = userId;
+        entity.status = status;
+        entity.valorTotal = valorTotal;
+        entity.lastModifiedDate = lastModifiedDate;
+        return entity;
     }
 
     // --- Getters ---
@@ -63,45 +59,6 @@ public class OrderEntity {
     public Long getRestaurantId() { return restaurantId; }
     public Long getUserId() { return userId; }
     public LocalDateTime getLastModifiedDate() { return lastModifiedDate; }
-    public String getStatus() { return status; }
+    public OrderStatusEnum getStatus() { return status; }
     public BigDecimal getValorTotal() { return valorTotal; }
-
-    // --- Atualizadores Controlados ---
-
-    public void updateStatus(String newStatus) {
-        if (newStatus == null || newStatus.isBlank()) {
-            throw new IllegalArgumentException("O status não pode ser nulo ou vazio.");
-        }
-        this.status = newStatus;
-        this.lastModifiedDate = LocalDateTime.now();
-    }
-
-    public void updateValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
-        this.lastModifiedDate = LocalDateTime.now();
-    }
-
-    public void updateDelivery(boolean delivery) {
-        this.delivery = delivery;
-        this.lastModifiedDate = LocalDateTime.now();
-    }
-
-    public void updateRestaurantId(Long restaurantId) {
-        this.restaurantId = restaurantId;
-        this.lastModifiedDate = LocalDateTime.now();
-    }
-
-    public void updateUserId(Long userId) {
-        this.userId = userId;
-        this.lastModifiedDate = LocalDateTime.now();
-    }
-
-    public void updateDateTimeOrder(LocalDateTime dateTimeOrder) {
-        this.dateTimeOrder = dateTimeOrder;
-        this.lastModifiedDate = LocalDateTime.now();
-    }
-
-    public void updateLastModifiedDate() {
-        this.lastModifiedDate = LocalDateTime.now();
-    }
 }

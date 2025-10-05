@@ -9,213 +9,91 @@ import pos.java.bora_comer.core.errors.OrderDomainException;
 import pos.java.bora_comer.core.mapper.order.OrderMapper;
 import pos.java.bora_comer.infra.persistence.repository.order.OrderRepository;
 import pos.java.bora_comer.infra.persistence.repository.order.entity.OrderEntity;
-import pos.java.bora_comer.infra.persistence.repository.restaurant.RestaurantRepository;
-import pos.java.bora_comer.infra.persistence.repository.user.UserRepository;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
+import static pos.java.bora_comer.util.factory.OrderTestFactory.createDefault;
 
 class OrderUpdateGatewayImplTest {
 
     private OrderRepository orderRepository;
     private OrderMapper orderMapper;
-    private RestaurantRepository restaurantRepository;
-    private UserRepository userRepository;
     private OrderUpdateGatewayImpl gateway;
 
     @BeforeEach
     void setup() {
         orderRepository = mock(OrderRepository.class);
         orderMapper = mock(OrderMapper.class);
-        restaurantRepository = mock(RestaurantRepository.class);
-        userRepository = mock(UserRepository.class);
 
-        gateway = new OrderUpdateGatewayImpl(orderRepository, orderMapper, restaurantRepository, userRepository);
+        gateway = new OrderUpdateGatewayImpl(orderRepository, orderMapper);
     }
 
     @Test
-    @DisplayName("Deve atualizar um pedido com sucesso quando o restaurante não for alterado")
-    void shouldUpdateOrderWhenRestaurantIdNotChanged() {
-        Long id = 1L;
-        Long restaurantId = 10L;
-        Long userId = 1L;
-        String dateStr = "2024-10-10T12:00:00";
-        LocalDateTime dateTime = LocalDateTime.parse(dateStr);
+    @DisplayName("Deve mapear o domínio para entidade e salvar o pedido atualizado com sucesso")
+    void shouldMapDomainToEntityAndSaveUpdatedOrder() {
+        Order orderToUpdate = createDefault();
 
-        Order domainOrder = Order.create(
-                id,
-                dateTime,
-                false,
-                restaurantId,
-                userId,
-                dateTime
-        );
-
-        OrderEntity entity = mock(OrderEntity.class);
-        when(orderRepository.findById(id)).thenReturn(Optional.of(entity));
-        when(entity.getRestaurantId()).thenReturn(restaurantId);
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mock()));
-
-        OrderEntity updatedEntity = mock(OrderEntity.class);
-        when(orderRepository.save(entity)).thenReturn(updatedEntity);
-
+        OrderEntity entityToSave = mock(OrderEntity.class);
+        OrderEntity savedEntity = mock(OrderEntity.class);
         Order expectedDomain = mock(Order.class);
-        when(orderMapper.toDomain(updatedEntity)).thenReturn(expectedDomain);
 
-        Order result = gateway.update(domainOrder);
+        when(orderMapper.toEntity(orderToUpdate)).thenReturn(entityToSave);
+        when(orderRepository.save(entityToSave)).thenReturn(savedEntity);
+        when(orderMapper.toDomain(savedEntity)).thenReturn(expectedDomain);
 
-        verify(restaurantRepository, never()).findById(anyLong());
-        verify(entity, never()).updateRestaurantId(anyLong());
-        verify(entity).updateUserId(userId);
-        verify(entity, times(2)).updateDateTimeOrder(dateTime);
-        verify(entity).updateDelivery(false);
-         
+        Order result = gateway.update(orderToUpdate);
 
-        verify(orderRepository).save(entity);
-        verify(orderMapper).toDomain(updatedEntity);
-
+        assertNotNull(result);
         assertSame(expectedDomain, result);
+
+        verify(orderMapper, times(1)).toEntity(orderToUpdate);
+        verify(orderRepository, times(1)).save(entityToSave);
+        verify(orderMapper, times(1)).toDomain(savedEntity);
     }
 
     @Test
-    @DisplayName("Deve atualizar um pedido e alterar o restaurante quando o ID do restaurante for alterado")
-    void shouldUpdateOrderAndChangeRestaurant() {
+    @DisplayName("Deve lançar exceção se o ID do pedido for nulo (regra de persistência)")
+    void shouldThrowWhenOrderIdIsNull() {
+        Order orderWithoutId = mock(Order.class);
+        when(orderWithoutId.getId()).thenReturn(null);
+
+        OrderDomainException ex = assertThrows(OrderDomainException.class, () -> gateway.update(orderWithoutId));
+        assertEquals("O pedido deve ter um ID para ser atualizado.", ex.getMessage());
+
+        verifyNoInteractions(orderRepository, orderMapper);
+    }
+
+    @Test
+    @DisplayName("Deve encontrar e mapear OrderEntity para Order Domain")
+    void shouldFindAndMapOrderEntityToDomain() {
         Long id = 1L;
-        Long oldRestaurantId = 10L;
-        Long newRestaurantId = 20L;
-        Long userId = 1L;
-        String dateStr = "2024-10-10T12:00:00";
-        LocalDateTime dateTime = LocalDateTime.parse(dateStr);
-
-        Order domainOrder = Order.create(
-                id,
-                dateTime,
-                false,
-                newRestaurantId,
-                userId,
-                dateTime
-        );
-
         OrderEntity entity = mock(OrderEntity.class);
-        when(orderRepository.findById(id)).thenReturn(Optional.of(entity));
-        when(entity.getRestaurantId()).thenReturn(oldRestaurantId);
-
-        when(restaurantRepository.findById(newRestaurantId)).thenReturn(Optional.of(mock()));
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mock()));
-
-        OrderEntity updatedEntity = mock(OrderEntity.class);
-        when(orderRepository.save(entity)).thenReturn(updatedEntity);
-
         Order expectedDomain = mock(Order.class);
-        when(orderMapper.toDomain(updatedEntity)).thenReturn(expectedDomain);
 
-        Order result = gateway.update(domainOrder);
+        when(orderRepository.findById(id)).thenReturn(Optional.of(entity));
+        when(orderMapper.toDomain(entity)).thenReturn(expectedDomain);
 
-        verify(restaurantRepository).findById(newRestaurantId);
-        verify(entity).updateRestaurantId(newRestaurantId);
-        verify(entity).updateUserId(userId);
-        verify(entity).updateDelivery(false);
-        verify(entity, times(2)).updateDateTimeOrder(dateTime);
-        verify(orderRepository).save(entity);
-        verify(orderMapper).toDomain(updatedEntity);
+        Optional<Order> result = gateway.findById(id);
 
-        assertSame(expectedDomain, result);
+        assertTrue(result.isPresent());
+        assertSame(expectedDomain, result.get());
+
+        verify(orderRepository, times(1)).findById(id);
+        verify(orderMapper, times(1)).toDomain(entity);
     }
 
     @Test
-    @DisplayName("Deve lançar exceção quando o pedido não for encontrado")
-    void shouldThrowWhenOrderNotFound() {
-        Long id = 1L;
-        String dateStr = "2024-10-10T12:00:00";
-        LocalDateTime dateTime = LocalDateTime.parse(dateStr);
-
-        Order domainOrder = Order.create(
-                id,
-                dateTime,
-                false,
-                10L,
-                1L,
-                dateTime
-        );
-
+    @DisplayName("Deve retornar Optional vazio quando o pedido não for encontrado")
+    void shouldReturnEmptyOptionalWhenNotFound() {
+        Long id = 99L;
         when(orderRepository.findById(id)).thenReturn(Optional.empty());
 
-        when(orderRepository.findById(id)).thenReturn(Optional.empty());
+        Optional<Order> result = gateway.findById(id);
 
-        OrderDomainException ex = assertThrows(OrderDomainException.class, () -> gateway.update(domainOrder));
-        assertEquals("Pedido com ID " + id + " não encontrado.", ex.getMessage());
-
-        verify(orderRepository).findById(id);
-        verifyNoMoreInteractions(orderRepository, restaurantRepository, userRepository, orderMapper);
-    }
-
-    @Test
-    @DisplayName("Deve lançar exceção quando o novo restaurante não for encontrado")
-    void shouldThrowWhenNewRestaurantNotFound() {
-        Long id = 1L;
-        Long oldRestaurantId = 10L;
-        Long newRestaurantId = 20L;
-
-        String dateStr = "2024-10-10T12:00:00";
-        LocalDateTime dateTime = LocalDateTime.parse(dateStr);
-        Order domainOrder = Order.create(
-                id,
-                dateTime,
-                false,
-                newRestaurantId,
-                1L,
-                dateTime
-        );
-
-        OrderEntity entity = mock(OrderEntity.class);
-        when(orderRepository.findById(id)).thenReturn(Optional.of(entity));
-        when(entity.getRestaurantId()).thenReturn(oldRestaurantId);
-
-        when(restaurantRepository.findById(newRestaurantId)).thenReturn(Optional.empty());
-
-        OrderDomainException ex = assertThrows(OrderDomainException.class, () -> gateway.update(domainOrder));
-        assertEquals("Restaurante com ID " + newRestaurantId + " não encontrado.", ex.getMessage());
-
-        verify(orderRepository).findById(id);
-        verify(restaurantRepository).findById(newRestaurantId);
-
-        verifyNoMoreInteractions(orderRepository, restaurantRepository, orderMapper);
-    }
-
-    @Test
-    @DisplayName("Deve lançar exceção quando o novo usuário não for encontrado")
-    void shouldThrowWhenNewUserNotFound() {
-        Long id = 1L;
-        Long oldUserId = 10L;
-        Long newUserId = 20L;
-        String dateStr = "2024-10-10T12:00:00";
-        LocalDateTime dateTime = LocalDateTime.parse(dateStr);
-        Order domainOrder = Order.create(
-                id,
-                dateTime,
-                false,
-                1L,
-                newUserId,
-                dateTime
-        );
-
-        OrderEntity entity = mock(OrderEntity.class);
-        when(orderRepository.findById(id)).thenReturn(Optional.of(entity));
-        when(entity.getUserId()).thenReturn(oldUserId);
-        when(restaurantRepository.findById(1L)).thenReturn(Optional.of(mock()));
-        when(userRepository.findById(newUserId)).thenReturn(Optional.empty());
-
-        OrderDomainException ex = assertThrows(OrderDomainException.class, () -> gateway.update(domainOrder));
-        assertEquals("Usuário com ID " + newUserId + " não encontrado.", ex.getMessage());
-
-        verify(orderRepository).findById(id);
-        verify(userRepository).findById(newUserId);
-        
-
-        verifyNoMoreInteractions(orderRepository, userRepository, orderMapper);
+        assertTrue(result.isEmpty());
+        verify(orderRepository, times(1)).findById(id);
+        verifyNoInteractions(orderMapper);
     }
 }
