@@ -40,6 +40,7 @@ public class OrderTestFactory {
                 defaultValorTotal
         );
     }
+
     public static Order createDefaultWithId(Long id, OrderStatusEnum status) {
         return Order.create(
                 id,
@@ -53,15 +54,16 @@ public class OrderTestFactory {
         );
     }
 
-    public static OrderResponseDTO createResponseDTOWithId() {
+
+    public static OrderResponseDTO createResponseDTO(Long id, LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId, OrderStatusEnum status, LocalDateTime lastModifiedDate) {
         return new OrderResponseDTO(
-                10L,
-                dateTime,
-                true,
-                1L,
-                1L,
-                defaultStatus.name(),
-                dateTime
+                id,
+                dateTimeOrder,
+                delivery,
+                restaurantId,
+                userId,
+                status.name(),
+                lastModifiedDate
         );
     }
 
