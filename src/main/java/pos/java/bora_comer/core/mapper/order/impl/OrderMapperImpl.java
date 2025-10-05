@@ -8,9 +8,10 @@ import pos.java.bora_comer.core.errors.OrderDomainException;
 import pos.java.bora_comer.core.mapper.order.OrderMapper;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderRequestDTO;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderResponseDTO;
-import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO; // Mantido para compilação do arquivo, mas não usado
+import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO;
 import pos.java.bora_comer.infra.persistence.repository.order.entity.OrderEntity;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Component
 public class OrderMapperImpl implements OrderMapper {
@@ -81,6 +82,32 @@ public class OrderMapperImpl implements OrderMapper {
                 order.getUserId(),
                 order.getStatus().name(),
                 order.getLastModifiedDate()
+        );
+    }
+
+    @Override
+    public Order toDomain(OrderUpdateRequestDTO orderUpdateRequestDTO, Long id, Long restaurantId, Long userId) {
+        if (orderUpdateRequestDTO == null) {
+            throw new OrderDomainException("OrderUpdateRequestDTO não pode ser nulo");
+        }
+
+        // Tenta converter a string de status para o Enum.
+        OrderStatusEnum newStatus;
+        try {
+            newStatus = OrderStatusEnum.valueOf(orderUpdateRequestDTO.status());
+        } catch (IllegalArgumentException e) {
+            throw new OrderDomainException("Status do pedido inválido: " + orderUpdateRequestDTO.status());
+        }
+
+        return Order.create(
+                id,
+                orderUpdateRequestDTO.dateTimeOrder(),
+                orderUpdateRequestDTO.delivery(),
+                restaurantId,
+                userId,
+                null,
+                newStatus,
+                BigDecimal.ZERO
         );
     }
 }

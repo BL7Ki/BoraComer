@@ -8,7 +8,7 @@ import pos.java.bora_comer.core.domain.order.Order;
 import pos.java.bora_comer.core.domain.order.OrderStatusEnum;
 import pos.java.bora_comer.core.errors.OrderDomainException;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderRequestDTO;
-import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO; // Importe o DTO de Update
+import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO;
 import pos.java.bora_comer.infra.persistence.repository.order.entity.OrderEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -136,22 +136,19 @@ class OrderMapperImplTest {
         assertThrows(OrderDomainException.class, () -> mapper.toResponseDTO(null));
     }
 
-    // --- Novos testes da Feature-EvertonFase3 ---
-
     @Test
     @DisplayName("toDomain(OrderUpdateRequestDTO, Long) retorna domínio válido com ID")
     void toDomain_FromUpdateRequestDTO_ShouldMapCorrectly() {
-        // Criando uma OrderUpdateRequestDTO (usando valores concretos para mapeamento)
         var updateDTO = new OrderUpdateRequestDTO(
                 dateTime,
                 true,
                 1L,
                 1L,
-                OrderStatusEnum.IN_PROGRESS.name() // Corrigido para o campo 'status'
+                OrderStatusEnum.IN_PROGRESS.name()
         );
         Long id = 555L;
         Long restaurantID = 88L;
-        Long userId = 1L; // Usando o userId esperado
+        Long userId = 1L;
 
         var domain = mapper.toDomain(updateDTO, id, restaurantID, userId);
 
@@ -161,22 +158,20 @@ class OrderMapperImplTest {
         assertEquals(true, domain.isDelivery());
         assertEquals(restaurantID, domain.getRestaurantId());
         assertEquals(userId, domain.getUserId());
-        assertEquals(OrderStatusEnum.IN_PROGRESS, domain.getStatus()); // Verifica status
-        
-        // Verifica que o valor total é inicializado (se o mapeador fizer isso)
+        assertEquals(OrderStatusEnum.IN_PROGRESS, domain.getStatus());
+
         assertNotNull(domain.getValorTotal()); 
     } 
 
     @Test
     @DisplayName("toDomain(OrderUpdateRequestDTO, Long, Long) retorna domínio válido com todos os IDs")
     void toDomain_FromUpdateRequestDTOWithRestaurantId_ShouldMapCorrectly() {
-        // Criando uma OrderUpdateRequestDTO
         var updateDTO = new OrderUpdateRequestDTO(
                 dateTime.plusHours(1),
                 false,
                 88L,
                 99L,
-                OrderStatusEnum.CANCELED.name()
+                OrderStatusEnum.CANCELLED.name()
         );
         Long id = 555L;
         Long restaurantId = 88L;
@@ -190,6 +185,6 @@ class OrderMapperImplTest {
         assertEquals(false, domain.isDelivery());
         assertEquals(restaurantId, domain.getRestaurantId());
         assertEquals(userId, domain.getUserId());
-        assertEquals(OrderStatusEnum.CANCELED, domain.getStatus());
+        assertEquals(OrderStatusEnum.CANCELLED, domain.getStatus());
     }
 }
