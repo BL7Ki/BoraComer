@@ -1,5 +1,6 @@
 package pos.java.bora_comer.infra.gateway.user.impl;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pos.java.bora_comer.core.domain.user.User;
@@ -18,11 +19,13 @@ public class UserCreateGatewayImpl implements UserCreateGateway {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final UserTypeRepository userTypeRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserCreateGatewayImpl(UserRepository userRepository, UserMapper userMapper, UserTypeRepository userTypeRepository) {
+    public UserCreateGatewayImpl(UserRepository userRepository, UserMapper userMapper, UserTypeRepository userTypeRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.userTypeRepository = userTypeRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -36,6 +39,9 @@ public class UserCreateGatewayImpl implements UserCreateGateway {
     public User save(User user) {
         // Implementação do método para salvar o usuário
 
+        String senhaCodificada = passwordEncoder.encode(user.getPassword());
+
+
         if (user.getUserTypeNameEnum() != null) {
 
             UserTypeNameEntityEnum userTypeNameEntityEnum = UserTypeNameEntityEnum.valueOf(user.getUserTypeNameEnum().name());
@@ -45,12 +51,14 @@ public class UserCreateGatewayImpl implements UserCreateGateway {
                     .orElseThrow(() -> new UserDomainException("Tipo de usuário inválido"));
 
             UserEntity userEntity = userMapper.toEntity(user, userTypeEntity.getId());
+            userEntity.setPassword(senhaCodificada);
 
             UserEntity savedUserEntity = userRepository.save(userEntity);
             return userMapper.toDomain(savedUserEntity, userTypeEntity);
         }
 
         UserEntity userEntity = userMapper.toEntity(user);
+        userEntity.setPassword(senhaCodificada);
 
         UserEntity savedUserEntity = userRepository.save(userEntity);
 

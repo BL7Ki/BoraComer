@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS tb_usuarios (
 );
 
 INSERT INTO tb_usuarios (nome, email, login, senha, data_criacao, data_alteracao, role, rua, bairro, cidade, estado, cep)
-VALUES ('Admin', 'admin@example.com', 'admin', 'senhaAdmin123', CURRENT_TIMESTAMP, null, 'ADMIN', 'Rua Principal', 'Centro', 'Cidade Exemplo', 'SP', '12345-678');
+VALUES ('Admin', 'admin@example.com', 'admin', '$2a$10$WkxC5by7FW1dxnZZMSIWf.0ep0dZ01OLjsZVt8iYhwq6TOUk4N9Rq', CURRENT_TIMESTAMP, null, 'ADMIN', 'Rua Principal', 'Centro', 'Cidade Exemplo', 'SP', '12345-678');
 
 -- Criação da tabela de tipos de usuários e relacionamento com a tabela de usuários V2
 CREATE TABLE IF NOT EXISTS tb_tipo_usuarios (

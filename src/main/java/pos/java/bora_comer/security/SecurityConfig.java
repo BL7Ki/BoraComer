@@ -44,12 +44,15 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/swagger-resources/**",
-                                "/webjars/**"
+                                "/webjars/**",
+                                "/h2-console/**",
+                                "/users/**"
                         ).permitAll()
                         .requestMatchers("/restaurants/**").hasRole("DONO_RESTAURANTE")
                         .requestMatchers("/users/**").hasRole("CLIENTE")
                         .anyRequest().authenticated()
                 )
+                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

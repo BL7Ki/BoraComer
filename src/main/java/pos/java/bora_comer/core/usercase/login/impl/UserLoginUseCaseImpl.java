@@ -28,6 +28,7 @@ public class UserLoginUseCaseImpl implements UserLoginUseCase {
 
     @Override
     public String execute(String login, String password) {
+
         Optional<User> user = userLoginGateway.findByLogin(login);
 
         if (user.isEmpty()) {

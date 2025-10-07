@@ -16,7 +16,7 @@ import java.util.function.Function;
 public class JwtService { // gera e valida tokens
 
     // chave secreta (use uma bem grande e segura, pode gerar com base64)
-    private static final String SECRET_KEY = "3f79bb7b435b05321651daefd374cdc7...coloque_sua_chave_segura_aqui...";
+    private static final String SECRET_KEY = "u8v1Q2h3J4k5L6m7N8o9P0q1R2s3T4u5V6w7X8y9Z0a1B2c3D4e5F6g7H8i9J0k1";
 
     // tempo de expiração
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 6; // 6 horas
