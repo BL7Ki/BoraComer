@@ -7,7 +7,7 @@ import java.util.List;
 
 @Repository
 public interface MenuItemRepository extends JpaRepository<MenuItemEntity, Long> {
-    List<MenuItemEntity> findByInPlaceOnlyTrue();
+    List<MenuItemEntity> findByDeliveryTrue();
     List<MenuItemEntity> findByNameContainingIgnoreCase(String name);
 
     boolean existsByNameAndRestaurantId(String name, Long restaurantId);

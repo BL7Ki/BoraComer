@@ -1,921 +1,1194 @@
 {
-	"info": {
-		"_postman_id": "0d2f27b5-e02f-4f69-a635-58aac22098e7",
-		"name": "Projeto-Bora-comer",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "44240766",
-		"description": "Coleção de testes para o projeto Bora Comer, que inclui endpoints para login, gerenciamento de usuários, tipos de usuários, restaurantes e itens de menu. Esta coleção foi criada para facilitar o teste e a validação das funcionalidades da API."},
-	"item": [
-		{
-			"name": "login",
-			"item": [
-				{
-					"name": "login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": []
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"followRedirects": true,
-						"disableUrlEncoding": false,
-						"disableCookies": false
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Insomnia/2023.5.7"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"login\": \"admin\",\n  \"password\": \"senhaAdmin123\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"login"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "userType",
-			"item": [
-				{
-					"name": "buscar todos os tipos de usuarios",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": []
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"followRedirects": true,
-						"disableUrlEncoding": false,
-						"disableCookies": false
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "User-Agent",
-								"value": "Insomnia/2023.5.7"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/user-types/search",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"user-types",
-								"search"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "criar um tipo de usuário [DONO_RESTAURANTE]  [CLIENTE] cadastrar enum na aplicação para criar um novo",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": []
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"followRedirects": true,
-						"disableUrlEncoding": false,
-						"disableCookies": false
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Insomnia/2023.5.7"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"CLIENTE\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/user-types",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"user-types"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "user",
-			"item": [
-				{
-					"name": " associar o usuário com  o tipo de usuário. ",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": []
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"followRedirects": true,
-						"disableUrlEncoding": false,
-						"disableCookies": false
-					},
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "User-Agent",
-								"value": "Insomnia/2023.5.7"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/users/2/tipo-usuario/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users",
-								"2",
-								"tipo-usuario",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "trocar senha usuario",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": []
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"followRedirects": true,
-						"disableUrlEncoding": false,
-						"disableCookies": false
-					},
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Insomnia/2023.5.7"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"senha_atual\": \"senha123\",\n\t\"nova_senha\": \"senhaNova\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/users/2/change-password",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users",
-								"2",
-								"change-password"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "consultar todos os usuários",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": []
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"followRedirects": true,
-						"disableUrlEncoding": false,
-						"disableCookies": false
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "User-Agent",
-								"value": "Insomnia/2023.5.7"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deletar um usuario",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": []
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"followRedirects": true,
-						"disableUrlEncoding": false,
-						"disableCookies": false
-					},
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "User-Agent",
-								"value": "Insomnia/2023.5.7"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/users/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "consultar usuário por id",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": []
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"followRedirects": true,
-						"disableUrlEncoding": false,
-						"disableCookies": false
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "User-Agent",
-								"value": "Insomnia/2023.5.7"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/users/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "atualizar um usuario",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": []
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"followRedirects": true,
-						"disableUrlEncoding": false,
-						"disableCookies": false
-					},
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Insomnia/2023.5.7"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"nome\": \"teste update Silva \",\n  \"email\": \"teste.silva@example.com\",\n  \"senha\": \"senha123456789\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores pretas\",\n    \"bairro\": \"Bairro das cascatas azuis\",\n    \"cidade\": \"SMinas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/users/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "criar um usuário com a associação com o tipo de usuario",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"followRedirects": true,
-						"disableUrlEncoding": false,
-						"disableCookies": false
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Insomnia/2023.5.7"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"nome\": \"Lionel Messi\",\n  \"email\": \"lucas.silva@example.com\",\n  \"login\": \"lucastorres\",\n  \"senha\": \"senha123\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores doces\",\n    \"bairro\": \"Bairro das cascatas pretas\",\n    \"cidade\": \"Minas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  },\n  \"papel\": \"ADMIN\",\n\t\"tipo_usuario\": {\n  \t\"name\": \"CLIENTE\"\n\t\t}\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "criar um usuário sem a associação com o tipo de usuário",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": []
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"followRedirects": true,
-						"disableUrlEncoding": false,
-						"disableCookies": false
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "User-Agent",
-								"value": "Insomnia/2023.5.7"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"nome\": \"Joao Silva \",\n  \"email\": \"joao.silva@example.com\",\n  \"login\": \"tiagosilva\",\n  \"senha\": \"senha123\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores doces\",\n    \"bairro\": \"Bairro das cascatas pretas\",\n    \"cidade\": \"Minas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  },\n  \"papel\": \"ADMIN\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "restaurant",
-			"item": [
-				{
-					"name": "Create Restaurant",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"nome\": \"Sakura Sushi\",\n  \"endereco\": \"Rua das Flores, 123\",\n  \"tipo_cozinha\": \"Japonesa\",\n  \"horario_funcionamento\": \"10:00 - 22:00\",\n  \"dono_id\": 2\n}"
-						},
-						"url": {
-							"raw": "http://localhost:8080/restaurants",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurants"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Restaurant By ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/restaurants/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurants",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Restaurants (Paginated)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/restaurants?page=0&size=10",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurants"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "0"
-								},
-								{
-									"key": "size",
-									"value": "10"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Restaurant",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"nome\": \"Sakura Sushi Atualizado\",\n  \"endereco\": \"Rua dos Peixes, 456\",\n  \"tipo_cozinha\": \"Japonesa Premium\",\n  \"horario_funcionamento\": \"11:00 - 23:00\"\n}"
-						},
-						"url": {
-							"raw": "http://localhost:8080/restaurants/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurants",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Restaurant",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/restaurants/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"restaurants",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "menu",
-			"item": [
-				{
-					"name": "Create Menu Item",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"nome\": \"Temaki Atum\",\n  \"descricao\": \"Saboroso Temaki de Atum\",\n  \"preco\": 25,\n  \"so_no_local\": true,\n  \"imagem_caminho\": \"/imagens/temakiatum.png\",\n  \"restaurante_id\": 1\n}"
-						},
-						"url": {
-							"raw": "http://localhost:8080/menu-items",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu-items"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Menu Item By ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/menu-items/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu-items",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Menu Items (Paginated)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/menu-items?page=0&size=10",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu-items"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "0"
-								},
-								{
-									"key": "size",
-									"value": "10"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Menu Item",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 2,\n    \"nome\": \"Sashimi Especial de Atum\",\n    \"descricao\": \"Fatias selecionadas de atum\",\n    \"preco\": 39.9,\n    \"so_no_local\": true,\n    \"imagem_caminho\": \"/imagens/sashimiespecialatum.jpg\",\n    \"restaurante_id\": 1\n}"
-						},
-						"url": {
-							"raw": "http://localhost:8080/menu-items/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu-items",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Menu Item",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/menu-items/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu-items",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Menu Item",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"nome\": \"Temaki Atum\",\n  \"descricao\": \"Saboroso Temaki de Atum\",\n  \"preco\": 25,\n  \"so_no_local\": true,\n  \"imagem_caminho\": \"/imagens/temakiatum.png\",\n  \"restaurante_id\": 1\n}"
-						},
-						"url": {
-							"raw": "http://localhost:8080/menu-items",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu-items"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Menu Item By ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/menu-items/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu-items",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Menu Items (Paginated)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/menu-items?page=0&size=10",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu-items"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "0"
-								},
-								{
-									"key": "size",
-									"value": "10"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Menu Item",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 2,\n    \"nome\": \"Sashimi Especial de Atum\",\n    \"descricao\": \"Fatias selecionadas de atum\",\n    \"preco\": 39.9,\n    \"so_no_local\": true,\n    \"imagem_caminho\": \"/imagens/sashimiespecialatum.jpg\",\n    \"restaurante_id\": 1\n}"
-						},
-						"url": {
-							"raw": "http://localhost:8080/menu-items/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu-items",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Menu Item",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/menu-items/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"menu-items",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		}
-	]
+  "type": "collection.insomnia.rest/5.0",
+  "name": "Projeto-Bora-comer",
+  "meta": {
+    "id": "wrk_e20cee6c013f471d918db1bdfae66ab6",
+    "created": 1759616172663,
+    "modified": 1759616172663
+  },
+  "collection": [
+    {
+      "name": "Projeto-Bora-comer",
+      "meta": {
+        "id": "fld_914db51c16884373863833fada6fd5e2",
+        "created": 1759587808773,
+        "modified": 1759587808773,
+        "sortKey": -1759587805528,
+        "description": "Coleção de testes para o projeto Bora Comer, que inclui endpoints para login, gerenciamento de usuários, tipos de usuários, restaurantes e itens de menu. Esta coleção foi criada para facilitar o teste e a validação das funcionalidades da API."
+      },
+      "children": [
+        {
+          "name": "login",
+          "meta": {
+            "id": "fld_0fb46a34e6ad48078acc1883de7e1d24",
+            "created": 1759587808776,
+            "modified": 1759587808776,
+            "sortKey": -1759587805527
+          },
+          "children": [
+            {
+              "url": "http://localhost:8080/login",
+              "name": "login",
+              "meta": {
+                "id": "req_aa166a57b8db4a188124747db636417d",
+                "created": 1759587808777,
+                "modified": 1759587808777,
+                "isPrivate": false,
+                "sortKey": -1759587805526
+              },
+              "method": "POST",
+              "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"login\": \"admin\",\n  \"password\": \"senhaAdmin123\"\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "name": "User-Agent",
+                  "value": "Insomnia/2023.5.7"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            }
+          ]
+        },
+        {
+          "name": "userType",
+          "meta": {
+            "id": "fld_e615c47390bf4196821d6b5ce9d8dee9",
+            "created": 1759587808779,
+            "modified": 1759587808779,
+            "sortKey": -1759587805525
+          },
+          "children": [
+            {
+              "url": "http://localhost:8080/user-types/search",
+              "name": "buscar todos os tipos de usuarios",
+              "meta": {
+                "id": "req_0780aaa6210d4750ad8edb52063eb328",
+                "created": 1759587808781,
+                "modified": 1759587808781,
+                "isPrivate": false,
+                "sortKey": -1759587805524
+              },
+              "method": "GET",
+              "headers": [
+                {
+                  "name": "User-Agent",
+                  "value": "Insomnia/2023.5.7"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/user-types",
+              "name": "criar um tipo de usuário [DONO_RESTAURANTE]  [CLIENTE] cadastrar enum na aplicação para criar um novo",
+              "meta": {
+                "id": "req_b6513f2c910e431887280479a77ee0e7",
+                "created": 1759587808783,
+                "modified": 1759587808783,
+                "isPrivate": false,
+                "sortKey": -1759587805523
+              },
+              "method": "POST",
+              "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"name\": \"CLIENTE\"\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "name": "User-Agent",
+                  "value": "Insomnia/2023.5.7"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            }
+          ]
+        },
+        {
+          "name": "user",
+          "meta": {
+            "id": "fld_8935873d39af4188b9c08adcbd3908db",
+            "created": 1759587808785,
+            "modified": 1759587808785,
+            "sortKey": -1759587805522
+          },
+          "children": [
+            {
+              "url": "http://localhost:8080/users/2/tipo-usuario/1",
+              "name": " associar o usuário com  o tipo de usuário. ",
+              "meta": {
+                "id": "req_76af91c067284c0ba71e8348875817ea",
+                "created": 1759587808787,
+                "modified": 1759587808787,
+                "isPrivate": false,
+                "sortKey": -1759587805521
+              },
+              "method": "PUT",
+              "headers": [
+                {
+                  "name": "User-Agent",
+                  "value": "Insomnia/2023.5.7"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/users/2/change-password",
+              "name": "trocar senha usuario",
+              "meta": {
+                "id": "req_7880c753c4f8497096800ed50cf918f0",
+                "created": 1759587808789,
+                "modified": 1759587808789,
+                "isPrivate": false,
+                "sortKey": -1759587805520
+              },
+              "method": "PUT",
+              "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"senha_atual\": \"senha123\",\n\t\"nova_senha\": \"senhaNova\"\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "name": "User-Agent",
+                  "value": "Insomnia/2023.5.7"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/users",
+              "name": "consultar todos os usuários",
+              "meta": {
+                "id": "req_7c22f602a97449978787a47c81c6b06b",
+                "created": 1759587808791,
+                "modified": 1759587808791,
+                "isPrivate": false,
+                "sortKey": -1759587805519
+              },
+              "method": "GET",
+              "headers": [
+                {
+                  "name": "User-Agent",
+                  "value": "Insomnia/2023.5.7"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/users/2",
+              "name": "deletar um usuario",
+              "meta": {
+                "id": "req_ef610034cf7946b9aa3b7ec5b719287a",
+                "created": 1759587808793,
+                "modified": 1759587808793,
+                "isPrivate": false,
+                "sortKey": -1759587805518
+              },
+              "method": "DELETE",
+              "headers": [
+                {
+                  "name": "User-Agent",
+                  "value": "Insomnia/2023.5.7"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/users/2",
+              "name": "consultar usuário por id",
+              "meta": {
+                "id": "req_97c34813d6a247b49d1b0b65bc7189e8",
+                "created": 1759587808794,
+                "modified": 1759587808794,
+                "isPrivate": false,
+                "sortKey": -1759587805517
+              },
+              "method": "GET",
+              "headers": [
+                {
+                  "name": "User-Agent",
+                  "value": "Insomnia/2023.5.7"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/users/1",
+              "name": "atualizar um usuario",
+              "meta": {
+                "id": "req_61243ae9ad7b457489b077afcf73456a",
+                "created": 1759587808796,
+                "modified": 1759587808796,
+                "isPrivate": false,
+                "sortKey": -1759587805516
+              },
+              "method": "PUT",
+              "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"nome\": \"teste update Silva \",\n  \"email\": \"teste.silva@example.com\",\n  \"senha\": \"senha123456789\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores pretas\",\n    \"bairro\": \"Bairro das cascatas azuis\",\n    \"cidade\": \"SMinas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  }\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "name": "User-Agent",
+                  "value": "Insomnia/2023.5.7"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/users",
+              "name": "criar um usuário com a associação com o tipo de usuario",
+              "meta": {
+                "id": "req_5ffd84c8c8b84cd5ba506b06db525ea2",
+                "created": 1759587808798,
+                "modified": 1759587808798,
+                "isPrivate": false,
+                "sortKey": -1759587805515
+              },
+              "method": "POST",
+              "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"nome\": \"Lionel Messi\",\n  \"email\": \"lucas.silva@example.com\",\n  \"login\": \"lucastorres\",\n  \"senha\": \"senha123\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores doces\",\n    \"bairro\": \"Bairro das cascatas pretas\",\n    \"cidade\": \"Minas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  },\n  \"papel\": \"ADMIN\",\n\t\"tipo_usuario\": {\n  \t\"name\": \"CLIENTE\"\n\t\t}\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "name": "User-Agent",
+                  "value": "Insomnia/2023.5.7"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/users",
+              "name": "criar um usuário sem a associação com o tipo de usuário",
+              "meta": {
+                "id": "req_76dae0f8a18d4bd48761f224e8a77cbe",
+                "created": 1759587808800,
+                "modified": 1759587808800,
+                "isPrivate": false,
+                "sortKey": -1759587805514
+              },
+              "method": "POST",
+              "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"nome\": \"Joao Silva \",\n  \"email\": \"joao.silva@example.com\",\n  \"login\": \"tiagosilva\",\n  \"senha\": \"senha123\",\n  \"endereco\": {\n    \"rua\": \"Rua das Flores doces\",\n    \"bairro\": \"Bairro das cascatas pretas\",\n    \"cidade\": \"Minas\",\n    \"estado\": \"PE\",\n    \"cep\": \"12345-400\"\n  },\n  \"papel\": \"ADMIN\"\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "name": "User-Agent",
+                  "value": "Insomnia/2023.5.7"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            }
+          ]
+        },
+        {
+          "name": "restaurant",
+          "meta": {
+            "id": "fld_61b8e208d10d4794b602153d2996632a",
+            "created": 1759587808802,
+            "modified": 1759587808802,
+            "sortKey": -1759587805513
+          },
+          "children": [
+            {
+              "url": "http://localhost:8080/restaurants",
+              "name": "criar um restaurante",
+              "meta": {
+                "id": "req_0b92073f8acd4372a6713aa2decf3751",
+                "created": 1759587808804,
+                "modified": 1759589404651,
+                "isPrivate": false,
+                "sortKey": -1759587805512
+              },
+              "method": "POST",
+              "body": {
+                "mimeType": "text/plain",
+                "text": "{\n  \"nome\": \"Sakura Sushi\",\n  \"endereco\": \"Rua das Flores, 123\",\n  \"tipo_cozinha\": \"Japonesa\",\n  \"horario_funcionamento\": \"10:00 - 22:00\",\n  \"dono_id\": 2\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/restaurants/1",
+              "name": "consulta restaurante por ID",
+              "meta": {
+                "id": "req_16cf11ed9f4448c88cd1efc8a751c7d0",
+                "created": 1759587808806,
+                "modified": 1759589298546,
+                "isPrivate": false,
+                "sortKey": -1759587805511
+              },
+              "method": "GET",
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/restaurants",
+              "name": "consulta todos restaurantes",
+              "meta": {
+                "id": "req_eea06d4c90964d61ba5dd55ff2d5154f",
+                "created": 1759587808807,
+                "modified": 1759589317138,
+                "isPrivate": false,
+                "sortKey": -1759587805510
+              },
+              "method": "GET",
+              "parameters": [
+                {
+                  "name": "page",
+                  "value": "0",
+                  "disabled": false
+                },
+                {
+                  "name": "size",
+                  "value": "10",
+                  "disabled": false
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/restaurants/1",
+              "name": "atualizar um restaurante",
+              "meta": {
+                "id": "req_9815bf621ab54addbe8e0b35c51d3b68",
+                "created": 1759587808809,
+                "modified": 1759589364455,
+                "isPrivate": false,
+                "sortKey": -1759587805509
+              },
+              "method": "PUT",
+              "body": {
+                "mimeType": "text/plain",
+                "text": "{\n  \"nome\": \"Sakura Sushi Atualizado\",\n  \"endereco\": \"Rua dos Peixes, 456\",\n  \"tipo_cozinha\": \"Japonesa Premium\",\n  \"horario_funcionamento\": \"11:00 - 23:00\"\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/restaurants/1",
+              "name": "deletar um restaurante",
+              "meta": {
+                "id": "req_de95524f638740f3b673b491ab6eb934",
+                "created": 1759587808811,
+                "modified": 1759589393198,
+                "isPrivate": false,
+                "sortKey": -1759587805508
+              },
+              "method": "DELETE",
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            }
+          ]
+        },
+        {
+          "name": "menu",
+          "meta": {
+            "id": "fld_633101c360e44c49aff83e23778e7076",
+            "created": 1759587808813,
+            "modified": 1759587808813,
+            "sortKey": -1759587805507
+          },
+          "children": [
+            {
+              "url": "http://localhost:8080/menu-items",
+              "name": "criar um item de menu",
+              "meta": {
+                "id": "req_5a782b2e3a294532a77d4b8e422dbefa",
+                "created": 1759587808814,
+                "modified": 1759589417756,
+                "isPrivate": false,
+                "sortKey": -1759587805506
+              },
+              "method": "POST",
+              "body": {
+                "mimeType": "text/plain",
+                "text": "{\n  \"nome\": \"Temaki Atum\",\n  \"descricao\": \"Saboroso Temaki de Atum\",\n  \"preco\": 25,\n  \"so_no_local\": true,\n  \"imagem_caminho\": \"/imagens/temakiatum.png\",\n  \"restaurante_id\": 1\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/menu-items/1",
+              "name": "consultar um item de menu por ID",
+              "meta": {
+                "id": "req_2decc7c766ec4456a38ba1bd80c8638f",
+                "created": 1759587808816,
+                "modified": 1759592536719,
+                "isPrivate": false,
+                "sortKey": -1759587805505
+              },
+              "method": "GET",
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/menu-items",
+              "name": "consultar todos os itens de menu",
+              "meta": {
+                "id": "req_01eec2b201f64402885cfe6c521f4a19",
+                "created": 1759587808818,
+                "modified": 1759589446755,
+                "isPrivate": false,
+                "sortKey": -1759587805504
+              },
+              "method": "GET",
+              "parameters": [
+                {
+                  "name": "page",
+                  "value": "0",
+                  "disabled": false
+                },
+                {
+                  "name": "size",
+                  "value": "10",
+                  "disabled": false
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/menu-items/2",
+              "name": "atualizar um item de menu",
+              "meta": {
+                "id": "req_26bf55f6ff4b423789b8a8d513b5b90d",
+                "created": 1759587808820,
+                "modified": 1759589455822,
+                "isPrivate": false,
+                "sortKey": -1759587805503
+              },
+              "method": "PUT",
+              "body": {
+                "mimeType": "text/plain",
+                "text": "{\n    \"id\": 2,\n    \"nome\": \"Sashimi Especial de Atum\",\n    \"descricao\": \"Fatias selecionadas de atum\",\n    \"preco\": 39.9,\n    \"so_no_local\": true,\n    \"imagem_caminho\": \"/imagens/sashimiespecialatum.jpg\",\n    \"restaurante_id\": 1\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/menu-items/1",
+              "name": "deletar um item de menu",
+              "meta": {
+                "id": "req_ebfd55b19c7646a683bd0ceca633e0e2",
+                "created": 1759587808822,
+                "modified": 1759589466479,
+                "isPrivate": false,
+                "sortKey": -1759587805502
+              },
+              "method": "DELETE",
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            }
+          ]
+        },
+        {
+          "name": "order",
+          "meta": {
+            "id": "fld_501f178235624c31830101f545385cef",
+            "created": 1759587808833,
+            "modified": 1759587808833,
+            "sortKey": -1759587805496
+          },
+          "children": [
+            {
+              "url": "http://localhost:8080/orders",
+              "name": "criar um pedido",
+              "meta": {
+                "id": "req_4d30456100ec40f78a70a6c4c8405c98",
+                "created": 1759587808835,
+                "modified": 1759592407276,
+                "isPrivate": false,
+                "sortKey": -1759587805495
+              },
+              "method": "POST",
+              "body": {
+                "mimeType": "text/plain",
+                "text": "{\n  \"data_hora\": \"2024-10-10T12:00:00\",\n  \"delivery\": true,\n  \"restaurante_id\": 2,\n  \"usuario_id\": 1,\n  \"data_alteracao\": \"2024-10-10T12:00:00\" \n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/orders/1",
+              "name": "consultar um pedido por ID",
+              "meta": {
+                "id": "req_e9ca84df40994733a24b1b28520bae05",
+                "created": 1759587808837,
+                "modified": 1759592425960,
+                "isPrivate": false,
+                "sortKey": -1759587805494
+              },
+              "method": "GET",
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/orders",
+              "name": "consultar todos os pedidos",
+              "meta": {
+                "id": "req_b1baa631e9f34643bcb6d734a8a2e302",
+                "created": 1759587808839,
+                "modified": 1759589522257,
+                "isPrivate": false,
+                "sortKey": -1759587805493
+              },
+              "method": "GET",
+              "parameters": [
+                {
+                  "name": "page",
+                  "value": "0",
+                  "disabled": false
+                },
+                {
+                  "name": "size",
+                  "value": "10",
+                  "disabled": false
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/orders/1",
+              "name": "atualizar um pedido",
+              "meta": {
+                "id": "req_7c775eb0664948fb9b587d415d3e093c",
+                "created": 1759587808841,
+                "modified": 1759592556965,
+                "isPrivate": false,
+                "sortKey": -1759587805492
+              },
+              "method": "PUT",
+              "body": {
+                "mimeType": "text/plain",
+                "text": "{\n  \"data_hora\": \"2024-10-10T13:00:00\",\n  \"delivery\": false,\n  \"data_alteracao\": \"2024-10-10T13:05:00\"\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/orders/2",
+              "name": "deletar um pedido",
+              "meta": {
+                "id": "req_cad6e7439a60451dac838137b7064f17",
+                "created": 1759587808843,
+                "modified": 1759592562950,
+                "isPrivate": false,
+                "sortKey": -1759587805491
+              },
+              "method": "DELETE",
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            }
+          ]
+        },
+        {
+          "name": "orderItem",
+          "meta": {
+            "id": "fld_c352ef0e7c5e4966b03b83f25eb424cd",
+            "created": 1759587808845,
+            "modified": 1759587808845,
+            "sortKey": -1759587805490
+          },
+          "children": [
+            {
+              "url": "http://localhost:8080/orderitems",
+              "name": "criar um item de pedido",
+              "meta": {
+                "id": "req_1c989cf801cf4c6a879ca69a1f239d6f",
+                "created": 1759587808847,
+                "modified": 1759589554470,
+                "isPrivate": false,
+                "sortKey": -1759587805489
+              },
+              "method": "POST",
+              "body": {
+                "mimeType": "text/plain",
+                "text": "{\n  \"pedido_id\": 1,\n  \"menu_item_id\": 1,\n  \"quantidade\": 1\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/orderitems/1",
+              "name": "consultar um item de pedido por ID",
+              "meta": {
+                "id": "req_da09279d5f4a4368afee84b85099d86b",
+                "created": 1759587808848,
+                "modified": 1759592373936,
+                "isPrivate": false,
+                "sortKey": -1759587805488
+              },
+              "method": "GET",
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/orderitems",
+              "name": "consultar todos os itens de pedido",
+              "meta": {
+                "id": "req_492a165ad995417bbe4feb87f68c2e9c",
+                "created": 1759587808850,
+                "modified": 1759589579052,
+                "isPrivate": false,
+                "sortKey": -1759587805487
+              },
+              "method": "GET",
+              "parameters": [
+                {
+                  "name": "page",
+                  "value": "0",
+                  "disabled": false
+                },
+                {
+                  "name": "size",
+                  "value": "10",
+                  "disabled": false
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/orderitems/1",
+              "name": "atualizar um item de pedido",
+              "meta": {
+                "id": "req_9d8be837bf7147a984a49f73c19d977d",
+                "created": 1759587808852,
+                "modified": 1759616495364,
+                "isPrivate": false,
+                "sortKey": -1759587805486
+              },
+              "method": "PUT",
+              "body": {
+                "mimeType": "text/plain",
+                "text": "{\n  \"pedido_id\": 1,\n  \"menu_item_id\": 2,\n  \"quantidade\": 5,\n\t\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/orderitems/2",
+              "name": "deletar um item de pedido",
+              "meta": {
+                "id": "req_476f426f93834b34a2579c26c3336474",
+                "created": 1759587808854,
+                "modified": 1759592573623,
+                "isPrivate": false,
+                "sortKey": -1759587805485
+              },
+              "method": "DELETE",
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            }
+          ]
+        },
+        {
+          "name": "reserve",
+          "meta": {
+            "id": "fld_111329184abb42139d76b8296b88cfab",
+            "created": 1759616205727,
+            "modified": 1759616205727,
+            "sortKey": -1759587805493
+          },
+          "children": [
+            {
+              "url": "http://localhost:8080/reserves",
+              "name": "criar uma reserva",
+              "meta": {
+                "id": "req_bded079b1cbf491189e592bbfdcfb3a2",
+                "created": 1759616205729,
+                "modified": 1759616473779,
+                "isPrivate": false,
+                "sortKey": -1759587805495
+              },
+              "method": "POST",
+              "body": {
+                "mimeType": "text/plain",
+                "text": "{\n  \"data_hora\": \"2024-10-10T12:00:00\",\n  \"quantidade\": 2,\n  \"restaurante_id\": 2,\n  \"usuario_id\": 1,\n  \"data_alteracao\": \"2024-10-10T12:00:00\" \n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/reserves/1",
+              "name": "consultar uma reserva por ID",
+              "meta": {
+                "id": "req_30fd218b946243f3b81836436b096e8e",
+                "created": 1759616205732,
+                "modified": 1759616313206,
+                "isPrivate": false,
+                "sortKey": -1759587805494
+              },
+              "method": "GET",
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/reserves",
+              "name": "consultar todas as reservas",
+              "meta": {
+                "id": "req_b2f1fa9a9e0f4f3297509d5f1bbd44b5",
+                "created": 1759616205734,
+                "modified": 1759616307314,
+                "isPrivate": false,
+                "sortKey": -1759587805493
+              },
+              "method": "GET",
+              "parameters": [
+                {
+                  "name": "page",
+                  "value": "0",
+                  "disabled": false
+                },
+                {
+                  "name": "size",
+                  "value": "10",
+                  "disabled": false
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/reserves/1",
+              "name": "atualizar uma reserva",
+              "meta": {
+                "id": "req_9da44b2b0fdc4b6a82f0e45a2a2843f8",
+                "created": 1759616205736,
+                "modified": 1759616566378,
+                "isPrivate": false,
+                "sortKey": -1759587805492
+              },
+              "method": "PUT",
+              "body": {
+                "mimeType": "text/plain",
+                "text": "{\n  \"data_hora\": \"2024-11-10T13:00:00\",\n  \"quantidade\": 6,\n\t\"data_alteracao\": \"2024-10-10T13:05:00\"\n}"
+              },
+              "headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
+              "url": "http://localhost:8080/reserves/2",
+              "name": "deletar uma reserva",
+              "meta": {
+                "id": "req_4737cbd517494c85a14c38c5d47549a7",
+                "created": 1759616205739,
+                "modified": 1759616279563,
+                "isPrivate": false,
+                "sortKey": -1759587805491
+              },
+              "method": "DELETE",
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "cookieJar": {
+    "name": "Default Jar",
+    "meta": {
+      "id": "jar_c9113c809a8b4cd8bf69eb64c2cfb640",
+      "created": 1759587808860,
+      "modified": 1759587808860
+    }
+  },
+  "environments": {
+    "name": "Base Environment",
+    "meta": {
+      "id": "env_7226106b7f4941efa01cea0f9b90362a",
+      "created": 1759587808858,
+      "modified": 1759587808858,
+      "isPrivate": false
+    }
+  }
 }

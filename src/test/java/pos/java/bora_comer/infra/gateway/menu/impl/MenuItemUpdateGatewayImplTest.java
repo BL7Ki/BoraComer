@@ -3,7 +3,6 @@ package pos.java.bora_comer.infra.gateway.menu.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 
 import pos.java.bora_comer.core.domain.menu.MenuItem;
 import pos.java.bora_comer.core.errors.MenuItemDomainException;
@@ -62,7 +61,7 @@ class MenuItemUpdateGatewayImplTest {
         verify(entity).updateName("Sushi");
         verify(entity).updateDescription("Sushi de salmão com arroz");
         verify(entity).updatePrice(BigDecimal.valueOf(29.99));
-        verify(entity).updateInPlaceOnly(true);
+        verify(entity).updateDelivery(true);
         verify(entity).updateImagePath("sushi.jpg");
         verify(entity).updateLastModifiedDate();
         
@@ -107,7 +106,7 @@ class MenuItemUpdateGatewayImplTest {
         verify(entity).updateName("Sushi");
         verify(entity).updateDescription("Sushi de salmão com arroz");      
         verify(entity).updatePrice(BigDecimal.valueOf(29.99));
-        verify(entity).updateInPlaceOnly(true);
+        verify(entity).updateDelivery(true);
         verify(entity).updateImagePath("sushi.jpg");
         verify(entity).updateLastModifiedDate();
 
