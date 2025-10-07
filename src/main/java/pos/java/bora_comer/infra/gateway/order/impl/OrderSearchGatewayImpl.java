@@ -10,6 +10,8 @@ import pos.java.bora_comer.core.gateway.order.OrderSearchGateway;
 import pos.java.bora_comer.core.mapper.order.OrderMapper;
 import pos.java.bora_comer.infra.persistence.repository.order.OrderRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderSearchGatewayImpl implements OrderSearchGateway {
@@ -33,5 +35,12 @@ public class OrderSearchGatewayImpl implements OrderSearchGateway {
     public Page<Order> findAll(int page, int size) {
         return orderRepository.findAll(PageRequest.of(page, size))
                 .map(orderMapper::toDomain);
+    }
+
+    @Override
+    public List<Order> findAllByUserId(Long userId) {
+        return orderRepository.findByUserId(userId).stream()
+                .map(orderMapper::toDomain)
+                .collect(Collectors.toList());
     }
 }

@@ -7,6 +7,7 @@ import pos.java.bora_comer.core.domain.order.Order;
 import pos.java.bora_comer.core.gateway.order.OrderSearchGateway;
 import pos.java.bora_comer.core.usercase.order.SearchOrderUseCase;
 
+import java.util.List;
 
 @Service
 public class SearchOrderUseCaseImpl implements SearchOrderUseCase {
@@ -25,5 +26,10 @@ public class SearchOrderUseCaseImpl implements SearchOrderUseCase {
     @Override
     public Page<Order> findAll(int page, int size) {
         return orderSearchGateway.findAll(page, size);
+    }
+
+    @Override
+    public List<Order> findAllByUserId(Long userId) {
+        return orderSearchGateway.findAllByUserId(userId);
     }
 }
