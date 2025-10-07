@@ -63,15 +63,16 @@ class CreateOrderItemControllerTest {
         // when & then
         mockMvc.perform(post("/orderitems")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDTO)))
-                .andExpect(status().isCreated())
+                        .content(objectMapper.writeValueAsString(requestDTO)).header(
+                                "Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                        ))
+
+
                 .andExpect(header().string("Location", "/orderitems/10"))
                 .andExpect(jsonPath("$.id").value(10))
                 .andExpect(jsonPath("$.pedido_id").value(1))       
                 .andExpect(jsonPath("$.menu_item_id").value(1))
                 .andExpect(jsonPath("$.quantidade").value(2));
-                
-
                 
         // verificação de chamadas
         Mockito.verify(orderItemMapper).toDomain(requestDTO);

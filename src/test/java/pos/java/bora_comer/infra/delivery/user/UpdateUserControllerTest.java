@@ -73,7 +73,10 @@ class UpdateUserControllerTest {
 
         mockMvc.perform(put("/users/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestJson))
+                        .content(requestJson).header(
+                                "Authorization",
+                                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                        ))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.nome").value("Novo Nome"));
@@ -92,7 +95,10 @@ class UpdateUserControllerTest {
 
         mockMvc.perform(put("/users/30")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestJson))
+                        .content(requestJson).header(
+                                "Authorization",
+                                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                        ))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.error").value("BAD_REQUEST"))
@@ -106,7 +112,10 @@ class UpdateUserControllerTest {
 
         mockMvc.perform(put("/users/1/change-password")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestJson))
+                        .content(requestJson).header(
+                                "Authorization",
+                                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                        ))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value(LoginEnum.PASSWORD_CHANGED_SUCCESSFULLY.getMessage()));
     }
@@ -120,7 +129,10 @@ class UpdateUserControllerTest {
 
         mockMvc.perform(put("/users/1/change-password")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestJson))
+                        .content(requestJson).header(
+                                "Authorization",
+                                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                        ))
                 .andExpect(status().isBadRequest());
     }
 
@@ -130,7 +142,10 @@ class UpdateUserControllerTest {
 
         mockMvc.perform(put("/users/1/change-password")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestJson))
+                        .content(requestJson).header(
+                                "Authorization",
+                                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                        ))
                 .andExpect(status().isBadRequest());
     }
 
@@ -140,14 +155,20 @@ class UpdateUserControllerTest {
 
         mockMvc.perform(put("/users/1/change-password")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestJson))
+                        .content(requestJson).header(
+                                "Authorization",
+                                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                        ))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void deveAssociarTipoUsuarioComSucesso() throws Exception {
         // Nenhuma exceção esperada do use case
-        mockMvc.perform(put("/users/1/tipo-usuario/2"))
+        mockMvc.perform(put("/users/1/tipo-usuario/2").header(
+                "Authorization",
+                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                ))
                 .andExpect(status().isOk());
     }
 
@@ -156,7 +177,10 @@ class UpdateUserControllerTest {
         doThrow(new UserDomainException("Usuário não encontrado."))
                 .when(updateUserUseCase).userAssociate(1L, 2L);
 
-        mockMvc.perform(put("/users/1/tipo-usuario/2"))
+        mockMvc.perform(put("/users/1/tipo-usuario/2").header(
+                "Authorization",
+                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                ))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Usuário não encontrado."));
     }
@@ -166,7 +190,10 @@ class UpdateUserControllerTest {
         doThrow(new UserDomainException("Tipo de usuário não encontrado"))
                 .when(updateUserUseCase).userAssociate(1L, 99L);
 
-        mockMvc.perform(put("/users/1/tipo-usuario/99"))
+        mockMvc.perform(put("/users/1/tipo-usuario/99").header(
+                "Authorization",
+                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                ))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Tipo de usuário não encontrado"));
     }
