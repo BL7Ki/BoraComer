@@ -2,6 +2,7 @@ package pos.java.bora_comer.infra.delivery.restaurant;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pos.java.bora_comer.core.domain.restaurant.Restaurant;
 import pos.java.bora_comer.core.mapper.restaurant.RestaurantMapper;
@@ -23,16 +24,23 @@ public class SearchRestaurantController implements SearchRestaurantControllerDoc
         this.restaurantMapper = restaurantMapper;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
-    public ResponseEntity<RestaurantResponseDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<RestaurantResponseDTO> findById(
+            @PathVariable Long id,
+            @RequestHeader("Authorization") String authorization
+    ) {
+
         var restaurant = searchRestaurantUseCase.findById(id);
         return ResponseEntity.ok(restaurantMapper.toResponseDTO(restaurant));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<List<RestaurantResponseDTO>> findAll(
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestHeader("Authorization") String authorization
     ) {
         Page<Restaurant> restaurants = searchRestaurantUseCase.findAll(page, size);
 

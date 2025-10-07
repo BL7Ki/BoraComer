@@ -1,6 +1,7 @@
 package pos.java.bora_comer.infra.delivery.reserve;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import pos.java.bora_comer.core.domain.reserve.Reserve;
@@ -22,9 +23,12 @@ public class UpdateReserveController implements UpdateReserveControllerDocs {
         this.updateReserveUseCase = updateReserveUseCase;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/{id}")
-    public ResponseEntity<ReserveResponseDTO> update(@PathVariable Long id,
-                                                      @RequestBody ReserveUpdateRequestDTO updateRequestDTO) {
+    public ResponseEntity<ReserveResponseDTO> update(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable Long id,
+            @RequestBody ReserveUpdateRequestDTO updateRequestDTO) {
         // Busca o pedido existente para preservar o restaurantId e userId
         Reserve existingReserve = updateReserveUseCase.findById(id);
         var reserveDomain = reserveMapper.toDomain(updateRequestDTO, id, existingReserve.getRestaurantId(), existingReserve.getUserId());

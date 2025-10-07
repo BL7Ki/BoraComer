@@ -1,10 +1,8 @@
 package pos.java.bora_comer.infra.delivery.user;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import pos.java.bora_comer.core.usercase.user.DeleteUserUseCase;
 import pos.java.bora_comer.infra.delivery.user.doc.DeleteUserControllerDocs;
 
@@ -18,8 +16,10 @@ public class DeleteUserController implements DeleteUserControllerDocs {
         this.deleteUserUseCase = deleteUserUseCase;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(
+            @RequestHeader("Authorization") String authorization,
             @PathVariable Long id) {
         deleteUserUseCase.execute(id);
 

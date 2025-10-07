@@ -1,19 +1,38 @@
 package pos.java.bora_comer.infra.delivery.user.doc;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 public interface DeleteUserControllerDocs {
 
     @Operation(
-            summary = "Deletar um usuário",
-            description = "Endpoint para deletar um usuário com base no ID fornecido."
+            summary = "Deletar usuário",
+            description = "Endpoint para deletar um usuário pelo id. Requer autenticação via JWT."
     )
-    @ApiResponse(responseCode = "204", description = "Usuário deletado com sucesso")
-    @ApiResponse(responseCode = "400", description = "Requisição inválida")
-    @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
-    @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
-    ResponseEntity<Void> deleteUser(@PathVariable Long id);
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Usuário deletado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
+            @ApiResponse(responseCode = "401", description = "Não autorizado")
+    })
+    ResponseEntity<Void> deleteUser(
+            @Parameter(
+                    name = "Authorization",
+                    description = "JWT token",
+                    required = true,
+                    example = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            )
+            @RequestHeader("Authorization") String authorization,
+            @Parameter(
+                    name = "id",
+                    description = "ID do usuário",
+                    required = true,
+                    example = "1"
+            )
+            @PathVariable Long id
+    );
 }

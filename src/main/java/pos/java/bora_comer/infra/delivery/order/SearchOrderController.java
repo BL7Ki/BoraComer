@@ -2,6 +2,7 @@ package pos.java.bora_comer.infra.delivery.order;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import pos.java.bora_comer.core.domain.order.Order;
@@ -24,14 +25,19 @@ public class SearchOrderController implements SearchOrderControllerDocs {
         this.orderMapper = orderMapper;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
-    public ResponseEntity<OrderResponseDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<OrderResponseDTO> findById(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable Long id) {
         var order = searchOrderUseCase.findById(id);
         return ResponseEntity.ok(orderMapper.toResponseDTO(order));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<List<OrderResponseDTO>> findAll(
+            @RequestHeader("Authorization") String authorization,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {

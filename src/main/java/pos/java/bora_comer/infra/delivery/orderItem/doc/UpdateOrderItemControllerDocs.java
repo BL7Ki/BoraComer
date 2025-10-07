@@ -1,11 +1,14 @@
 package pos.java.bora_comer.infra.delivery.orderItem.doc;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import pos.java.bora_comer.infra.delivery.orderItem.dto.OrderItemResponseDTO;
 import pos.java.bora_comer.infra.delivery.orderItem.dto.OrderItemUpdateRequestDTO;
 
@@ -15,19 +18,34 @@ import org.springframework.http.ResponseEntity;
 public interface UpdateOrderItemControllerDocs {
 
     @Operation(
-            summary = "Atualizar Item do Pedido por ID",
-            description = "Endpoint para atualizar os dados de um item do pedido específico."
+            summary = "Atualizar item de pedido",
+            description = "Endpoint para atualizar um item de pedido. Requer autenticação via JWT."
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Item do Pedido atualizado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Requisição inválida"),
-            @ApiResponse(responseCode = "404", description = "Item do Pedido não encontrado"),
-            @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
+            @ApiResponse(responseCode = "200", description = "Item de pedido atualizado com sucesso"),
+            @ApiResponse(responseCode = "401", description = "Não autorizado"),
+            @ApiResponse(responseCode = "404", description = "Item de pedido não encontrado")
     })
-    @RequestBody(
-            required = true,
-            description = "Dados atualizados do item do pedido",
-            content = @Content(schema = @Schema(implementation = OrderItemUpdateRequestDTO.class))
-    )
-    ResponseEntity<OrderItemResponseDTO> update(Long id, OrderItemUpdateRequestDTO orderItemUpdateRequestDTO);
+    ResponseEntity<OrderItemResponseDTO> update(
+            @Parameter(
+                    name = "Authorization",
+                    description = "JWT token",
+                    required = true,
+                    example = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            )
+            @RequestHeader("Authorization") String authorization,
+            @Parameter(
+                    name = "id",
+                    description = "ID do item de pedido",
+                    required = true,
+                    example = "1"
+            )
+            @PathVariable Long id,
+            @Parameter(
+                    name = "updateRequestDTO",
+                    description = "Dados para atualização do item de pedido",
+                    required = true
+            )
+            @RequestBody OrderItemUpdateRequestDTO updateRequestDTO
+    );
 }

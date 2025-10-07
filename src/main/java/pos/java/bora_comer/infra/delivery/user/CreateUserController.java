@@ -1,10 +1,8 @@
 package pos.java.bora_comer.infra.delivery.user;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.CreateUserUseCase;
@@ -27,8 +25,11 @@ public class CreateUserController implements CreateUserControllerDocs {
         this.createUserUseCase = createUserUseCase;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
-    public ResponseEntity<UserResponseDTO> create(@RequestBody UserRequestDTO userRequestDTO) {
+    public ResponseEntity<UserResponseDTO> create(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody UserRequestDTO userRequestDTO) {
 
         var userDomain = userMapper.toDomain(userRequestDTO);
 

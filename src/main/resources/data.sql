@@ -122,3 +122,9 @@ CREATE TABLE IF NOT EXISTS tb_reservas (
 -- Exemplo de reserva (opcional)
 INSERT INTO tb_reservas (data_hora, quantidade, restaurante_id, usuario_id)
 VALUES ('2025-01-01 22:00:00', 2, 1, 1);
+
+INSERT INTO tb_usuarios (nome, email, login, senha, data_criacao, data_alteracao, role, rua, bairro, cidade, estado, cep, tipo_usuario_id)
+VALUES ('Teste', 'teste@example.com', 'lucastorres', '$2a$10$WkxC5by7FW1dxnZZMSIWf.0ep0dZ01OLjsZVt8iYhwq6TOUk4N9Rq', CURRENT_TIMESTAMP, null, 'ADMIN', 'Rua Principal', 'Centro', 'Cidade Exemplo', 'SP', '12345-678', 1);
+
+INSERT INTO tb_usuarios (nome, email, login, senha, data_criacao, data_alteracao, role, rua, bairro, cidade, estado, cep, tipo_usuario_id)
+VALUES ('Testedois', 'testedois@example.com', 'lucastorresdois', '$2a$10$WkxC5by7FW1dxnZZMSIWf.0ep0dZ01OLjsZVt8iYhwq6TOUk4N9Rq', CURRENT_TIMESTAMP, null, 'ADMIN', 'Rua Principal', 'Centro', 'Cidade Exemplo', 'SP', '12345-678', 2);

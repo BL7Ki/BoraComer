@@ -32,7 +32,8 @@ public class UserSearchGatewayImpl implements UserSearchGateway {
 
     @Override
     public Optional<User> findById(Long id) {
-        return Optional.empty();
+        return userRepository.findById(id)
+                .map(userEntity -> userMapper.toDomain(userEntity, userEntity.getUserTypeEntity()));
     }
 
     @Transactional(readOnly = true)

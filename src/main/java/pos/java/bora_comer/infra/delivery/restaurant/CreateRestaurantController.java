@@ -1,6 +1,7 @@
 package pos.java.bora_comer.infra.delivery.restaurant;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pos.java.bora_comer.core.domain.restaurant.Restaurant;
 import pos.java.bora_comer.core.mapper.restaurant.RestaurantMapper;
@@ -23,8 +24,12 @@ public class CreateRestaurantController implements CreateRestaurantControllerDoc
         this.createRestaurantUseCase = createRestaurantUseCase;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
-    public ResponseEntity<RestaurantResponseDTO> create(@RequestBody RestaurantRequestDTO restaurantRequestDTO) {
+    public ResponseEntity<RestaurantResponseDTO> create(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody RestaurantRequestDTO restaurantRequestDTO
+    ) {
         var restaurantDomain = restaurantMapper.toDomain(restaurantRequestDTO);
         Restaurant createdRestaurant = createRestaurantUseCase.execute(restaurantDomain);
         RestaurantResponseDTO responseDTO = restaurantMapper.toResponseDTO(createdRestaurant);

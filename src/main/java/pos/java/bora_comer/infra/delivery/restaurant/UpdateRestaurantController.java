@@ -1,6 +1,7 @@
 package pos.java.bora_comer.infra.delivery.restaurant;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pos.java.bora_comer.core.domain.restaurant.Restaurant;
 import pos.java.bora_comer.core.mapper.restaurant.RestaurantMapper;
@@ -21,9 +22,12 @@ public class UpdateRestaurantController implements UpdateRestaurantControllerDoc
         this.updateRestaurantUseCase = updateRestaurantUseCase;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/{id}")
-    public ResponseEntity<RestaurantResponseDTO> update(@PathVariable Long id,
-                                                        @RequestBody RestaurantUpdateRequestDTO updateRequestDTO) {
+    public ResponseEntity<RestaurantResponseDTO> update(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable Long id,
+            @RequestBody RestaurantUpdateRequestDTO updateRequestDTO) {
         // Busca o restaurante existente para preservar o ownerId
         Restaurant existingRestaurant = updateRestaurantUseCase.findById(id);
         var restaurantDomain = restaurantMapper.toDomain(updateRequestDTO, id, existingRestaurant.getOwnerId());

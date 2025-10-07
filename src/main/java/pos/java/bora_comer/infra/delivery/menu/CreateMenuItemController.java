@@ -3,6 +3,7 @@ package pos.java.bora_comer.infra.delivery.menu;
 import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import pos.java.bora_comer.core.domain.menu.MenuItem;
@@ -24,8 +25,13 @@ public class CreateMenuItemController implements CreateMenuItemControllerDocs {
         this.createMenuItemUseCase = createMenuItemUseCase;
     }
 
+
     @PostMapping
-    public ResponseEntity<MenuItemResponseDTO> create(@RequestBody MenuItemRequestDTO menuItemRequestDTO) {
+    @PreAuthorize("isAuthenticated()")
+    @Override
+    public ResponseEntity<MenuItemResponseDTO> create(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody MenuItemRequestDTO menuItemRequestDTO) {
         var menuItemDomain = menuItemMapper.toDomain(menuItemRequestDTO);
         MenuItem createdMenuItem = createMenuItemUseCase.execute(menuItemDomain);
         MenuItemResponseDTO responseDTO = menuItemMapper.toResponseDTO(createdMenuItem);

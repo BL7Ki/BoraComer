@@ -64,4 +64,8 @@ public class JwtService { // gera e valida tokens
                 .getBody();
         return claimsResolver.apply(claims);
     }
+
+    public String extractRole(String jwt) {
+        return extractClaim(jwt, claims -> claims.get("role", String.class));
+    }
 }

@@ -22,13 +22,15 @@ class DeleteUserControllerTest {
     @InjectMocks
     private DeleteUserController controller;
 
+    private String autorizationHeader = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo";
+
     @Test
     void deveriaDeletarUsuarioERetornar204() {
         // Arrange
         Long userId = 1L;
 
         // Act
-        ResponseEntity<Void> response = controller.deleteUser(userId);
+        ResponseEntity<Void> response = controller.deleteUser(autorizationHeader, userId);
 
         // Assert
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());

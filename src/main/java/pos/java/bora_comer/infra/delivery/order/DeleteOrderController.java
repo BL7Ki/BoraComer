@@ -1,6 +1,7 @@
 package pos.java.bora_comer.infra.delivery.order;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import pos.java.bora_comer.core.usercase.order.DeleteOrderUseCase;
@@ -16,8 +17,11 @@ public class DeleteOrderController implements DeleteOrderControllerDocs {
         this.deleteOrderUseCase = deleteOrderUseCase;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable Long id) {
         deleteOrderUseCase.execute(id);
         return ResponseEntity.noContent().build();
     }
