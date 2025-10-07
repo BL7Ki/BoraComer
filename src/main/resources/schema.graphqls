@@ -54,11 +54,20 @@ type Restaurant {
 
 # --- PEDIDO (ORDER) ---
 
+enum OrderStatus {
+    PENDING
+    PROCESSING
+    DELIVERING
+    FINALIZED
+    CANCELLED
+}
+
 type Order {
     id: ID!
-    dateTimeOrder: String! # String por enquanto mas depois mudar
+    dateTimeOrder: String!
     delivery: Boolean!
     lastModifiedDate: String!
+    status: OrderStatus!
     user: User! # Relacionamento
     restaurant: Restaurant! # Relacionamento
 }
@@ -69,7 +78,7 @@ type Order {
 type UserPage {
     content: [User!]!
     totalPages: Int!
-    totalElements: Long!
+    totalElements: Int!
     number: Int!
     size: Int!
 }
@@ -77,7 +86,7 @@ type UserPage {
 type RestaurantPage {
     content: [Restaurant!]!
     totalPages: Int!
-    totalElements: Long!
+    totalElements: Int!
     number: Int!
     size: Int!
 }
@@ -85,7 +94,7 @@ type RestaurantPage {
 type OrderPage {
     content: [Order!]!
     totalPages: Int!
-    totalElements: Long!
+    totalElements: Int!
     number: Int!
     size: Int!
 }
@@ -93,7 +102,7 @@ type OrderPage {
 type UserTypePage {
     content: [UserType!]!
     totalPages: Int!
-    totalElements: Long!
+    totalElements: Int!
     number: Int!
     size: Int!
 }
@@ -158,6 +167,7 @@ input UpdateOrderInput {
     lastModifiedDate: String
     restaurantId: ID
     userId: ID
+    # Status não é incluído aqui, pois é alterado por mutações específicas como finalizeOrder
 }
 
 # --- UserType Input ---
