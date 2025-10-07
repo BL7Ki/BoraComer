@@ -3,6 +3,7 @@ package pos.java.bora_comer.infra.delivery.orderItem;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import pos.java.bora_comer.core.domain.orderItem.OrderItem;
 import pos.java.bora_comer.core.mapper.orderItem.OrderItemMapper;
 import pos.java.bora_comer.core.usercase.orderItem.SearchOrderItemUseCase;
 import pos.java.bora_comer.infra.delivery.orderItem.dto.OrderItemResponseDTO;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import java.util.List;
 
@@ -23,7 +25,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static pos.java.bora_comer.util.factory.OrderItemTestFactory.createDefaultWithId;
 import static pos.java.bora_comer.util.factory.OrderItemTestFactory.createResponseDTOWithId;
 
-@WebMvcTest(SearchOrderItemController.class)
+@WebMvcTest(
+        controllers = SearchOrderItemController.class,
+        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
+
+)
 public class SearchOrderItemControllerTest {
 
     @Autowired
@@ -34,6 +40,9 @@ public class SearchOrderItemControllerTest {
 
     @MockBean
     private OrderItemMapper orderItemMapper;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void shouldFindOrderItemByIdSuccessfully() throws Exception {

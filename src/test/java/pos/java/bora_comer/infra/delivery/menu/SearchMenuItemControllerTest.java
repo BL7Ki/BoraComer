@@ -3,6 +3,7 @@ package pos.java.bora_comer.infra.delivery.menu;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import pos.java.bora_comer.core.domain.menu.MenuItem;
 import pos.java.bora_comer.core.mapper.menu.MenuItemMapper;
 import pos.java.bora_comer.core.usercase.menu.SearchMenuItemUseCase;
 import pos.java.bora_comer.infra.delivery.menu.dto.MenuItemResponseDTO;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import java.util.List;
 
@@ -23,7 +25,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static pos.java.bora_comer.util.factory.MenuItemTestFactory.createDefaultWithId;
 import static pos.java.bora_comer.util.factory.MenuItemTestFactory.createResponseDTOWithId;
 
-@WebMvcTest(SearchMenuItemController.class)
+@WebMvcTest(
+        controllers = SearchMenuItemController.class,
+        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
+
+)
 public class SearchMenuItemControllerTest {
 
     @Autowired
@@ -34,6 +40,9 @@ public class SearchMenuItemControllerTest {
 
     @MockBean
     private MenuItemMapper menuItemMapper;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void shouldFindMenuItemByIdSuccessfully() throws Exception {

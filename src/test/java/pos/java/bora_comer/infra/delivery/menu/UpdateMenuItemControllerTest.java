@@ -2,6 +2,7 @@ package pos.java.bora_comer.infra.delivery.menu;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import pos.java.bora_comer.core.domain.menu.MenuItem;
 import pos.java.bora_comer.core.mapper.menu.MenuItemMapper;
 import pos.java.bora_comer.core.usercase.menu.UpdateMenuItemUseCase;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -22,7 +24,10 @@ import static pos.java.bora_comer.util.factory.MenuItemTestFactory.createUpdateR
 
 import java.math.BigDecimal;
 
-@WebMvcTest(UpdateMenuItemController.class)
+@WebMvcTest(
+        controllers = UpdateMenuItemController.class,
+        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
+)
 public class UpdateMenuItemControllerTest {
 
     @Autowired
@@ -36,6 +41,9 @@ public class UpdateMenuItemControllerTest {
 
     @MockBean
     private UpdateMenuItemUseCase updateMenuItemUseCase;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void shouldUpdateMenuItemSuccessfully() throws Exception {

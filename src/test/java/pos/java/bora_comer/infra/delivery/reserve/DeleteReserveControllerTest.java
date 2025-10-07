@@ -3,17 +3,22 @@ package pos.java.bora_comer.infra.delivery.reserve;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import pos.java.bora_comer.core.usercase.reserve.DeleteReserveUseCase;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(DeleteReserveController.class)
+@WebMvcTest(
+        controllers = DeleteReserveController.class,
+        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
+)
 public class DeleteReserveControllerTest {
 
     @Autowired
@@ -21,6 +26,9 @@ public class DeleteReserveControllerTest {
 
     @MockBean
     private DeleteReserveUseCase deleteReserveUseCase;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void shouldDeleteReserveSuccessfully() throws Exception {

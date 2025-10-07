@@ -2,6 +2,7 @@ package pos.java.bora_comer.infra.delivery.orderItem;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import pos.java.bora_comer.core.domain.orderItem.OrderItem;
 import pos.java.bora_comer.core.mapper.orderItem.OrderItemMapper;
 import pos.java.bora_comer.core.usercase.orderItem.UpdateOrderItemUseCase;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -22,7 +24,10 @@ import static pos.java.bora_comer.util.factory.OrderItemTestFactory.createUpdate
 
 import java.time.LocalDateTime;
 
-@WebMvcTest(UpdateOrderItemController.class)
+@WebMvcTest(
+        controllers = UpdateOrderItemController.class,
+        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
+)
 public class UpdateOrderItemControllerTest {
 
     @Autowired
@@ -36,6 +41,9 @@ public class UpdateOrderItemControllerTest {
 
     @MockBean
     private UpdateOrderItemUseCase updateOrderItemUseCase;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void shouldUpdateOrderItemSuccessfully() throws Exception {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -13,13 +14,17 @@ import pos.java.bora_comer.core.mapper.restaurant.RestaurantMapper;
 import pos.java.bora_comer.core.usercase.restaurant.CreateRestaurantUseCase;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantRequestDTO;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantResponseDTO;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pos.java.bora_comer.util.factory.RestaurantTestFactory.*;
 
-@WebMvcTest(CreateRestaurantController.class)
+@WebMvcTest(
+        controllers = CreateRestaurantController.class,
+        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
+)
 class CreateRestaurantControllerTest {
 
     @Autowired
@@ -33,6 +38,9 @@ class CreateRestaurantControllerTest {
 
     @MockBean
     private CreateRestaurantUseCase createRestaurantUseCase;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void shouldCreateRestaurantSuccessfully() throws Exception {

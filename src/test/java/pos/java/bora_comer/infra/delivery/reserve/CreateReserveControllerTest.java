@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -14,6 +15,7 @@ import pos.java.bora_comer.core.mapper.reserve.ReserveMapper;
 import pos.java.bora_comer.core.usercase.reserve.CreateReserveUseCase;
 import pos.java.bora_comer.infra.delivery.reserve.dto.ReserveRequestDTO;
 import pos.java.bora_comer.infra.delivery.reserve.dto.ReserveResponseDTO;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -22,7 +24,10 @@ import static pos.java.bora_comer.util.factory.ReserveTestFactory.createResponse
 import static pos.java.bora_comer.util.factory.ReserveTestFactory.createRequestDTOWithId;
 import static pos.java.bora_comer.util.factory.ReserveTestFactory.createDefaultWithId;
 
-@WebMvcTest(CreateReserveController.class)
+@WebMvcTest(
+        controllers = CreateReserveController.class,
+        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
+)
 class CreateReserveControllerTest {
 
     @Autowired
@@ -36,6 +41,9 @@ class CreateReserveControllerTest {
 
     @MockBean
     private CreateReserveUseCase createReserveUseCase;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void shouldCreateReserveSuccessfully() throws Exception {

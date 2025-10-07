@@ -3,6 +3,7 @@ package pos.java.bora_comer.infra.delivery.restaurant;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import pos.java.bora_comer.core.domain.restaurant.Restaurant;
 import pos.java.bora_comer.core.mapper.restaurant.RestaurantMapper;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantResponseDTO;
 import pos.java.bora_comer.core.usercase.restaurant.SearchRestaurantUseCase;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import java.util.List;
 
@@ -22,7 +24,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static pos.java.bora_comer.util.factory.RestaurantTestFactory.createDefaultWithId;
 import static pos.java.bora_comer.util.factory.RestaurantTestFactory.createResponseDTOWithId;
 
-@WebMvcTest(SearchRestaurantController.class)
+@WebMvcTest(
+        controllers = SearchRestaurantController.class,
+        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
+)
 public class SearchRestaurantControllerTest {
 
     @Autowired
@@ -33,6 +38,9 @@ public class SearchRestaurantControllerTest {
 
     @MockBean
     private RestaurantMapper restaurantMapper;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void shouldFindRestaurantByIdSuccessfully() throws Exception {

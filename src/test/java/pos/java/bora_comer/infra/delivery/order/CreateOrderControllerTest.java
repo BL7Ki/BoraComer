@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -14,6 +15,7 @@ import pos.java.bora_comer.core.mapper.order.OrderMapper;
 import pos.java.bora_comer.core.usercase.order.CreateOrderUseCase;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderRequestDTO;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderResponseDTO;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -22,7 +24,10 @@ import static pos.java.bora_comer.util.factory.OrderTestFactory.createResponseDT
 import static pos.java.bora_comer.util.factory.OrderTestFactory.createRequestDTOWithId;
 import static pos.java.bora_comer.util.factory.OrderTestFactory.createDefaultWithId;
 
-@WebMvcTest(CreateOrderController.class)
+@WebMvcTest(
+        controllers = CreateOrderController.class,
+        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
+)
 class CreateOrderControllerTest {
 
     @Autowired
@@ -36,6 +41,9 @@ class CreateOrderControllerTest {
 
     @MockBean
     private CreateOrderUseCase createOrderUseCase;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void shouldCreateOrderSuccessfully() throws Exception {

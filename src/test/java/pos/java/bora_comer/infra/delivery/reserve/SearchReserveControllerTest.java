@@ -3,6 +3,7 @@ package pos.java.bora_comer.infra.delivery.reserve;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import pos.java.bora_comer.core.domain.reserve.Reserve;
 import pos.java.bora_comer.core.mapper.reserve.ReserveMapper;
 import pos.java.bora_comer.core.usercase.reserve.SearchReserveUseCase;
 import pos.java.bora_comer.infra.delivery.reserve.dto.ReserveResponseDTO;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import java.util.List;
 
@@ -23,7 +25,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static pos.java.bora_comer.util.factory.ReserveTestFactory.createDefaultWithId;
 import static pos.java.bora_comer.util.factory.ReserveTestFactory.createResponseDTOWithId;
 
-@WebMvcTest(SearchReserveController.class)
+@WebMvcTest(
+        controllers = SearchReserveController.class,
+        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
+)
 public class SearchReserveControllerTest {
 
     @Autowired
@@ -34,6 +39,9 @@ public class SearchReserveControllerTest {
 
     @MockBean
     private ReserveMapper reserveMapper;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void shouldFindReserveByIdSuccessfully() throws Exception {

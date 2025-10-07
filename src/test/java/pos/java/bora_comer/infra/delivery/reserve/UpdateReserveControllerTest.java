@@ -2,6 +2,7 @@ package pos.java.bora_comer.infra.delivery.reserve;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import pos.java.bora_comer.core.domain.reserve.Reserve;
 import pos.java.bora_comer.core.mapper.reserve.ReserveMapper;
 import pos.java.bora_comer.core.usercase.reserve.UpdateReserveUseCase;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -22,7 +24,10 @@ import static pos.java.bora_comer.util.factory.ReserveTestFactory.createUpdateRe
 
 import java.time.LocalDateTime;
 
-@WebMvcTest(UpdateReserveController.class)
+@WebMvcTest(
+        controllers = UpdateReserveController.class,
+        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
+)
 public class UpdateReserveControllerTest {
 
     @Autowired
@@ -36,6 +41,9 @@ public class UpdateReserveControllerTest {
 
     @MockBean
     private UpdateReserveUseCase updateReserveUseCase;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void shouldUpdateReserveSuccessfully() throws Exception {
