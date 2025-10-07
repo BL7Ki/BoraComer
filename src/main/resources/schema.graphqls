@@ -1,0 +1,218 @@
+# ====================================================================
+# SCHEMAS, TYPES e ENUMS
+# ====================================================================
+
+# --- USUÁRIO (USER) ---
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    username: String!
+    address: Address! # Relacionamento
+    userRoleEnum: UserRole!
+    createdDate: String!
+    lastModifiedDate: String!
+    userType: UserType! # Relacionamento
+    orders: [Order!] # Relacionamento
+}
+
+type UserType {
+    id: ID!
+    name: UserTypeNameEnum!
+}
+
+type Address {
+    street: String!
+    neighborhood: String!
+    city: String!
+    state: String!
+    zipCode: String!
+}
+
+enum UserRole {
+    DEFAULT
+    ADMIN
+}
+
+enum UserTypeNameEnum {
+    DONO_RESTAURANTE
+    CLIENTE
+}
+
+# --- RESTAURANT ---
+
+type Restaurant {
+    id: ID!
+    name: String!
+    address: String!
+    cuisineType: String!
+    openingHours: String!
+    owner: User! # Relacionamento
+    orders: [Order!] # Relacionamento
+}
+
+# --- PEDIDO (ORDER) ---
+
+type Order {
+    id: ID!
+    dateTimeOrder: String! # String por enquanto mas depois mudar
+    delivery: Boolean!
+    lastModifiedDate: String!
+    user: User! # Relacionamento
+    restaurant: Restaurant! # Relacionamento
+}
+
+# --- PAGINAÇÃO (Page Objects) ---
+# Usado para mapear os retornos Page<Entity> do Spring Data
+
+type UserPage {
+    content: [User!]!
+    totalPages: Int!
+    totalElements: Long!
+    number: Int!
+    size: Int!
+}
+
+type RestaurantPage {
+    content: [Restaurant!]!
+    totalPages: Int!
+    totalElements: Long!
+    number: Int!
+    size: Int!
+}
+
+type OrderPage {
+    content: [Order!]!
+    totalPages: Int!
+    totalElements: Long!
+    number: Int!
+    size: Int!
+}
+
+type UserTypePage {
+    content: [UserType!]!
+    totalPages: Int!
+    totalElements: Long!
+    number: Int!
+    size: Int!
+}
+
+# ====================================================================
+# INPUTS (Para Mutação)
+# ====================================================================
+
+input AddressInput {
+    street: String!
+    neighborhood: String!
+    city: String!
+    state: String!
+    zipCode: String!
+}
+
+# --- User Inputs ---
+input CreateUserInput {
+    name: String!
+    email: String!
+    username: String!
+    password: String!
+    address: AddressInput!
+    userRoleEnum: UserRole!
+    userTypeNameEnum: UserTypeNameEnum!
+}
+
+input UpdateUserInput {
+    name: String
+    email: String
+    address: AddressInput
+}
+
+# --- Restaurant Inputs ---
+input CreateRestaurantInput {
+    name: String!
+    address: String!
+    cuisineType: String!
+    openingHours: String!
+    ownerId: ID!
+}
+
+input UpdateRestaurantInput {
+    name: String
+    address: String
+    cuisineType: String
+    openingHours: String
+    ownerId: ID
+}
+
+# --- Order Inputs ---
+input CreateOrderInput {
+    dateTimeOrder: String!
+    delivery: Boolean!
+    restaurantId: ID!
+    userId: ID!
+}
+
+input UpdateOrderInput {
+    dateTimeOrder: String
+    delivery: Boolean
+    lastModifiedDate: String
+    restaurantId: ID
+    userId: ID
+}
+
+# --- UserType Input ---
+input CreateUserTypeInput {
+    name: UserTypeNameEnum!
+}
+
+# ====================================================================
+# QUERIES (Leitura)
+# ====================================================================
+
+type Query {
+    # -- Usuário --
+    user(id: ID!): User
+    users(page: Int = 0, size: Int = 10): UserPage!
+
+    # -- Restaurante --
+    restaurant(id: ID!): Restaurant
+    restaurants(page: Int = 0, size: Int = 10, cuisineType: String): RestaurantPage!
+
+    # -- Pedido --
+    order(id: ID!): Order
+    orders(page: Int = 0, size: Int = 10): OrderPage!
+
+    # -- Tipo de Usuário --
+    userType(id: ID!): UserType
+    userTypes(page: Int = 0, size: Int = 10): UserTypePage!
+}
+
+# ====================================================================
+# MUTATIONS (Escrita)
+# ====================================================================
+
+type Mutation {
+    # -- Usuário --
+    createUser(input: CreateUserInput!): User!
+    updateUser(id: ID!, input: UpdateUserInput!): User!
+    deleteUser(id: ID!): Boolean!
+    changePassword(
+        userId: ID!,
+        currentPassword: String!,
+        newPassword: String!
+    ): User!
+    associateUserType(userId: ID!, userTypeId: ID!): User!
+
+    # -- Restaurante --
+    createRestaurant(input: CreateRestaurantInput!): Restaurant!
+    updateRestaurant(id: ID!, input: UpdateRestaurantInput!): Restaurant!
+    deleteRestaurant(id: ID!): Boolean!
+
+    # -- Pedido --
+    createOrder(input: CreateOrderInput!): Order!
+    updateOrder(id: ID!, input: UpdateOrderInput!): Order!
+    finalizeOrder(id: ID!): Order! # Exemplo de mutação de ação específica
+
+    # -- Tipo de Usuário --
+    createUserType(input: CreateUserTypeInput!): UserType!
+}
