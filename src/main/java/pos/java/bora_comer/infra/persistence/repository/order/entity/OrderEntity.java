@@ -1,6 +1,7 @@
 package pos.java.bora_comer.infra.persistence.repository.order.entity;
 
 import jakarta.persistence.*;
+import pos.java.bora_comer.core.domain.order.OrderStatus;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,7 +14,7 @@ public class OrderEntity {
 
     @Column(name = "data_hora", nullable = false)
     private LocalDateTime dateTimeOrder;
-    
+
     @Column(name = "delivery", nullable = false)
     private boolean delivery;
 
@@ -26,25 +27,31 @@ public class OrderEntity {
     private Long userId;
 
     @Column(name = "data_alteracao", nullable = false)
-    private LocalDateTime lastModifiedDate;    
+    private LocalDateTime lastModifiedDate;
 
-    // Getters and Setters
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_pedido", nullable = false)
+    private OrderStatus status;
+
+
+    // --- Getters and Setters ---
+
     public Long getId() {
         return id;
     }
-    
+
     public LocalDateTime getDateTimeOrder() {
         return dateTimeOrder;
     }
-        
+
     public boolean isDelivery() {
         return delivery;
     }
-    
+
     public Long getRestaurantId() {
         return restaurantId;
     }
-    
+
     public Long getUserId() {
         return userId;
     }
@@ -53,34 +60,41 @@ public class OrderEntity {
         return lastModifiedDate;
     }
 
-    // Construtor padrão para JPA
-    public OrderEntity() {   
-        this.lastModifiedDate = LocalDateTime.now();
+    public OrderStatus getStatus() {
+        return status;
     }
-    
-    // Factory method
-    public static OrderEntity create(LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId ) {
-        return new OrderEntity(dateTimeOrder, delivery, restaurantId, userId);
-    }       
 
-    // Construtor privado completo
-    private OrderEntity(LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId) {
+    // --- Construtores ---
+
+    // Construtor padrão para JPA
+    public OrderEntity() {
+    }
+
+    // Factory method (Atualizado para incluir status)
+    public static OrderEntity create(LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId, OrderStatus status) {
+        return new OrderEntity(dateTimeOrder, delivery, restaurantId, userId, status);
+    }
+
+    // Construtor privado completo (Atualizado para incluir status)
+    private OrderEntity(LocalDateTime dateTimeOrder, boolean delivery, Long restaurantId, Long userId, OrderStatus status) {
         this.dateTimeOrder = dateTimeOrder;
         this.delivery = delivery;
         this.restaurantId = restaurantId;
         this.userId = userId;
         this.lastModifiedDate = LocalDateTime.now();
+        this.status = status; // Inicializa o status
     }
 
-    // Atualizadores controlados
+    // --- Atualizadores Controlados ---
+
     public void updateRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
     }
-    
+
     public void updateUserId(Long userId) {
         this.userId = userId;
     }
-    
+
     public void updateDelivery(boolean delivery) {
         this.delivery = delivery;
     }
@@ -91,5 +105,9 @@ public class OrderEntity {
 
     public void updateLastModifiedDate() {
         this.lastModifiedDate = LocalDateTime.now();
+    }
+
+    public void updateStatus(OrderStatus status) {
+        this.status = status;
     }
 }
