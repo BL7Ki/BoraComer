@@ -43,7 +43,7 @@ public class MenuItemUpdateGatewayImpl implements MenuItemUpdateGateway {
         entity.updateName(menuItem.getName());
         entity.updateDescription(menuItem.getDescription());
         entity.updatePrice(menuItem.getPrice());
-        entity.updateInPlaceOnly(menuItem.isInPlaceOnly());
+        entity.updateDelivery(menuItem.isDelivery());
         entity.updateImagePath(menuItem.getImagePath());
         entity.updateLastModifiedDate();
 

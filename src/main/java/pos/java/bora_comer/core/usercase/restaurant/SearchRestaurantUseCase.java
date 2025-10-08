@@ -9,5 +9,5 @@ public interface SearchRestaurantUseCase {
 
     Restaurant findById(Long id) throws SummerNotFoundException;
 
-    Page<Restaurant> findAll(int page, int size) throws RestaurantDomainException;
+    Page<Restaurant> findAll(int page, int size, String cuisineType) throws RestaurantDomainException;
 }

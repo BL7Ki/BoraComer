@@ -2,11 +2,8 @@ package pos.java.bora_comer.infra.delivery.user;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
 import pos.java.bora_comer.core.usercase.user.SearchUserUseCase;
@@ -27,17 +24,22 @@ public class SearchUserController implements SearchUserControllerDocs {
         this.userMapper = userMapper;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDTO> findById(
+            @PathVariable Long id,
+            @RequestHeader("Authorization") String authorization
+    ) {
         var user = searchUserUseCase.findById(id);
         return ResponseEntity.ok(userMapper.toResponseDTO(user));
     }
 
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> findAll(
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestHeader("Authorization") String authorization
     ) {
 
         Page<User> users = searchUserUseCase.findAll(page, size);

@@ -3,7 +3,6 @@ package pos.java.bora_comer.infra.gateway.restaurant.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import pos.java.bora_comer.core.errors.SummerNotFoundException;
 import pos.java.bora_comer.infra.persistence.repository.restaurant.RestaurantRepository;
 import pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity;

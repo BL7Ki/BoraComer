@@ -1,6 +1,7 @@
 package pos.java.bora_comer.infra.delivery.restaurant;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pos.java.bora_comer.core.usercase.restaurant.DeleteRestaurantUseCase;
 import pos.java.bora_comer.infra.delivery.restaurant.doc.DeleteRestaurantControllerDocs;
@@ -15,8 +16,12 @@ public class DeleteRestaurantController implements DeleteRestaurantControllerDoc
         this.deleteRestaurantUseCase = deleteRestaurantUseCase;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable Long id
+    ) {
         deleteRestaurantUseCase.execute(id);
         return ResponseEntity.noContent().build();
     }

@@ -10,4 +10,5 @@ public interface UserSearchGateway {
 
     Optional<User> findById(Long id);
     Page<User> findAll(Pageable pageable);
+    Optional<User> findByUsername(String username);
 }

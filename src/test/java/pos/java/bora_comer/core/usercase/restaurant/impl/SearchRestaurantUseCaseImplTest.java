@@ -52,16 +52,16 @@ class SearchRestaurantUseCaseImplTest {
         Restaurant r2 = createDefaultWithId();
 
         Page<Restaurant> mockPage = new PageImpl<>(List.of(r1, r2));
-        when(restaurantSearchGateway.findAll(page, size)).thenReturn(mockPage);
+        when(restaurantSearchGateway.findAll(page, size, null)).thenReturn(mockPage);
 
         // Act
-        Page<Restaurant> resultPage = searchRestaurantUseCase.findAll(page, size);
+        Page<Restaurant> resultPage = searchRestaurantUseCase.findAll(page, size, null);
 
         // Assert
         assertThat(resultPage).isNotNull();
         assertThat(resultPage.getContent()).hasSize(2);
         assertThat(resultPage.getContent()).extracting(Restaurant::getName)
                 .containsExactly("Restaurante Japa", "Restaurante Japa");
-        verify(restaurantSearchGateway, times(1)).findAll(page, size);
+        verify(restaurantSearchGateway, times(1)).findAll(page, size, null);
     }
 }

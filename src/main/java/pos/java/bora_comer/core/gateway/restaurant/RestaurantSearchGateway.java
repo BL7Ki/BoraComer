@@ -7,5 +7,5 @@ public interface RestaurantSearchGateway {
 
     Restaurant findById(Long id);
 
-    Page<Restaurant> findAll(int page, int size);
+    Page<Restaurant> findAll(int page, int size, String cuisineType);
 }

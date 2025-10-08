@@ -14,13 +14,6 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     public CreateUserUseCaseImpl(UserCreateGateway userCreateGateway) {
         this.userCreateGateway = userCreateGateway;
     }
-    /**
-     * Método para criar um novo usuário.
-     *
-     * @param user Objeto que representa o usuário a ser criado.
-     * @return UserDomain O usuário criado.
-     * @throws UserDomainException Se ocorrer algum erro durante a criação do usuário.
-     */
 
     @Override
     public User execute(User user) throws UserDomainException {

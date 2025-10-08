@@ -8,7 +8,7 @@ public record MenuItemRequestDTO(
         @JsonProperty("nome") String name, 
         @JsonProperty("descricao") String description, 
         @JsonProperty("preco") BigDecimal price, 
-        @JsonProperty("so_no_local") boolean inPlaceOnly, 
+        @JsonProperty("delivery") boolean delivery, 
         @JsonProperty("imagem_caminho") String imagePath, 
         @JsonProperty("restaurante_id") Long restaurantId
 ) {}

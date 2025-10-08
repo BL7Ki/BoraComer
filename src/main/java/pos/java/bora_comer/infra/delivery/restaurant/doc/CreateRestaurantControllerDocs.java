@@ -1,12 +1,14 @@
 package pos.java.bora_comer.infra.delivery.restaurant.doc;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestHeader;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantRequestDTO;
 import pos.java.bora_comer.infra.delivery.restaurant.dto.RestaurantResponseDTO;
 
@@ -26,5 +28,14 @@ public interface CreateRestaurantControllerDocs {
             description = "Dados para criação do restaurante",
             content = @Content(schema = @Schema(implementation = RestaurantRequestDTO.class))
     )
-    ResponseEntity<RestaurantResponseDTO> create(RestaurantRequestDTO restaurantRequestDTO);
+    ResponseEntity<RestaurantResponseDTO> create(
+            @Parameter(
+                    name = "Authorization",
+                    description = "JWT token",
+                    required = true,
+                    example = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            )
+            @RequestHeader("Authorization") String authorization,
+            RestaurantRequestDTO restaurantRequestDTO
+    );
 }

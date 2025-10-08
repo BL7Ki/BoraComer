@@ -33,6 +33,8 @@ class CreateUserControllerTest {
     @InjectMocks
     private CreateUserController controller;
 
+    private String autorizationHeader = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo";
+
     @Test
     void deveriaCriarNovoUsuarioERetornar201() {
         // Arrange: cria os DTOs e objetos simulados
@@ -49,7 +51,7 @@ class CreateUserControllerTest {
         when(userMapper.toResponseDTO(domainUser)).thenReturn(responseDTO);
 
         // Act: executa o método da controller
-        ResponseEntity<UserResponseDTO> response = controller.create(requestDTO);
+        ResponseEntity<UserResponseDTO> response = controller.create(autorizationHeader, requestDTO);
 
         // Assert: valida status, body e location
         assertEquals(HttpStatus.CREATED, response.getStatusCode());

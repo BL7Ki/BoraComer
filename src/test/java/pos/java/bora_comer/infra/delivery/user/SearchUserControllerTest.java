@@ -35,6 +35,8 @@ class SearchUserControllerTest {
     @InjectMocks
     private SearchUserController controller;
 
+    private String autorizationHeader = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo";
+
     @Test
     void deveriaBuscarUsuarioPorIdERetornar200() {
         // Arrange
@@ -47,7 +49,7 @@ class SearchUserControllerTest {
         when(userMapper.toResponseDTO(domainUser)).thenReturn(responseDTO);
 
         // Act
-        ResponseEntity<UserResponseDTO> response = controller.findById(domainUser.getId());
+        ResponseEntity<UserResponseDTO> response = controller.findById(domainUser.getId(), autorizationHeader);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -78,7 +80,7 @@ class SearchUserControllerTest {
         when(userMapper.toResponseDTO(user2)).thenReturn(responseDTO2);
 
         // Act
-        ResponseEntity<List<UserResponseDTO>> response = controller.findAll(page, size);
+        ResponseEntity<List<UserResponseDTO>> response = controller.findAll(page, size, autorizationHeader);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());

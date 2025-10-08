@@ -2,6 +2,7 @@ package pos.java.bora_comer.infra.delivery.menu;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pos.java.bora_comer.core.domain.menu.MenuItem;
 import pos.java.bora_comer.core.mapper.menu.MenuItemMapper;
@@ -23,14 +24,19 @@ public class SearchMenuItemController implements SearchMenuItemControllerDocs {
         this.menuItemMapper = menuItemMapper;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
-    public ResponseEntity<MenuItemResponseDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<MenuItemResponseDTO> findById(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable Long id) {
         var menuItem = searchMenuItemUseCase.findById(id);
         return ResponseEntity.ok(menuItemMapper.toResponseDTO(menuItem));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<List<MenuItemResponseDTO>> findAll(
+            @RequestHeader("Authorization") String authorization,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {

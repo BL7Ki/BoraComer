@@ -2,6 +2,7 @@ package pos.java.bora_comer.infra.gateway.user.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pos.java.bora_comer.core.domain.user.User;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.user.UserMapper;
@@ -23,13 +24,15 @@ class UserCreateGatewayImplTest {
     private UserMapper userMapper;
     private UserCreateGatewayImpl userCreateGateway;
     private UserTypeRepository userTypeRepository;
+    private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void setUp() {
         userRepository = mock(UserRepository.class);
         userMapper = mock(UserMapper.class);
         userTypeRepository = mock(UserTypeRepository.class);
-        userCreateGateway = new UserCreateGatewayImpl(userRepository, userMapper, userTypeRepository);
+        passwordEncoder = mock(PasswordEncoder.class);
+        userCreateGateway = new UserCreateGatewayImpl(userRepository, userMapper, userTypeRepository, passwordEncoder);
     }
 
     @Test
