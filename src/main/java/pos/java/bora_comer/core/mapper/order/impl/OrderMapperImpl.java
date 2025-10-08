@@ -19,6 +19,7 @@ public class OrderMapperImpl implements OrderMapper {
             throw new OrderDomainException("OrderRequestDTO não pode ser nulo");
         }
 
+        // Order.create(5 args) que internamente define o status como PENDING.
         return Order.create(
                 orderRequestDTO.dateTimeOrder(),
                 orderRequestDTO.delivery(),
@@ -34,11 +35,13 @@ public class OrderMapperImpl implements OrderMapper {
             throw new OrderDomainException("Pedido não pode ser nulo");
         }
 
+        // OrderEntity.create agora exige 5 argumentos, incluindo o status.
         return OrderEntity.create(
                 order.getDateTimeOrder(),
                 order.isDelivery(),
                 order.getRestaurantId(),
-                order.getUserId() 
+                order.getUserId(),
+                order.getStatus()
         );
     }
 
@@ -48,13 +51,15 @@ public class OrderMapperImpl implements OrderMapper {
             throw new OrderDomainException("OrderEntity não pode ser nulo");
         }
 
+        // Order.create para reconstrução (com ID) exige 7 argumentos, incluindo o status.
         return Order.create(
                 orderEntity.getId(),
                 orderEntity.getDateTimeOrder(),
                 orderEntity.isDelivery(),
                 orderEntity.getRestaurantId(),
                 orderEntity.getUserId(),
-                orderEntity.getLastModifiedDate()
+                orderEntity.getLastModifiedDate(),
+                orderEntity.getStatus()
         );
     }
 
@@ -64,13 +69,15 @@ public class OrderMapperImpl implements OrderMapper {
             throw new OrderDomainException("Pedido não pode ser nulo");
         }
 
+        // Assumindo que OrderResponseDTO agora tem 7 campos (incluindo o status).
         return new OrderResponseDTO(
                 order.getId(),
                 order.getDateTimeOrder(),
                 order.isDelivery(),
                 order.getRestaurantId(),
                 order.getUserId(),
-                order.getLastModifiedDate()
+                order.getLastModifiedDate(),
+                order.getStatus()
         );
     }
 
@@ -80,13 +87,15 @@ public class OrderMapperImpl implements OrderMapper {
             throw new OrderDomainException("OrderUpdateRequestDTO não pode ser nulo");
         }
 
+        // O uso deste método para updates DEVE SER EVITADO.
         return Order.create(
                 id,
                 orderUpdateRequestDTO.dateTimeOrder(),
-                orderUpdateRequestDTO.delivery(),  
-                restaurantId, // preserva o restaurantId que vem do parâmetro
-                userId, // preserva o userId que vem do parâmetro
-                orderUpdateRequestDTO.lastModifiedDate()
+                orderUpdateRequestDTO.delivery(),
+                restaurantId,
+                userId,
+                orderUpdateRequestDTO.lastModifiedDate(),
+                orderUpdateRequestDTO.status()
         );
     }
 }

@@ -21,7 +21,7 @@ public class SearchRestaurantUseCaseImpl implements SearchRestaurantUseCase {
     }
 
     @Override
-    public Page<Restaurant> findAll(int page, int size) {
-        return restaurantSearchGateway.findAll(page, size);
+    public Page<Restaurant> findAll(int page, int size, String cuisineType) {
+        return restaurantSearchGateway.findAll(page, size, cuisineType);
     }
 }

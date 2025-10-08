@@ -1,6 +1,7 @@
 package pos.java.bora_comer.infra.delivery.order;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import pos.java.bora_comer.core.domain.order.Order;
@@ -22,9 +23,12 @@ public class UpdateOrderController implements UpdateOrderControllerDocs {
         this.updateOrderUseCase = updateOrderUseCase;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/{id}")
-    public ResponseEntity<OrderResponseDTO> update(@PathVariable Long id,
-                                                      @RequestBody OrderUpdateRequestDTO updateRequestDTO) {
+    public ResponseEntity<OrderResponseDTO> update(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable Long id,
+            @RequestBody OrderUpdateRequestDTO updateRequestDTO) {
         // Busca o pedido existente para preservar o restaurantId e userId
         Order existingOrder = updateOrderUseCase.findById(id);
         var orderDomain = orderMapper.toDomain(updateRequestDTO, id, existingOrder.getRestaurantId(), existingOrder.getUserId());

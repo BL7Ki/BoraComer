@@ -2,6 +2,8 @@ package pos.java.bora_comer.infra.delivery.login;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pos.java.bora_comer.core.usercase.login.UserLoginUseCase;
 import pos.java.bora_comer.core.domain.login.LoginEnum;
 import pos.java.bora_comer.infra.delivery.login.dto.LoginRequestDTO;
+import pos.java.bora_comer.infra.delivery.login.dto.LoginResponseDTO;
 import pos.java.bora_comer.infra.delivery.user.doc.LoginControllerDocs;
 
 @RestController
@@ -17,20 +20,16 @@ public class LoginController implements LoginControllerDocs {
 
     private final UserLoginUseCase userLoginUseCase;
 
-    public LoginController(UserLoginUseCase userLoginUseCase) {
+    public LoginController(UserLoginUseCase userLoginUseCase, PasswordEncoder passwordEncoder) {
         this.userLoginUseCase = userLoginUseCase;
     }
 
+    @Override
     @PostMapping
-    public ResponseEntity<String> validateLogin(
-            @RequestBody LoginRequestDTO loginRequestDTO
-    ) {
-        LoginEnum result = userLoginUseCase.execute(loginRequestDTO.login(), loginRequestDTO.password());
+    public ResponseEntity<LoginResponseDTO> validateLogin(@RequestBody LoginRequestDTO loginRequestDTO) {
 
-        if (result == LoginEnum.SUCCESS) {
-            return ResponseEntity.ok(result.getMessage());
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result.getMessage());
-        }
+        String token = userLoginUseCase.execute(loginRequestDTO.login(), loginRequestDTO.password());
+        return ResponseEntity.ok(new LoginResponseDTO(token, "Bearer"));
     }
 }
+

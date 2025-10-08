@@ -3,6 +3,7 @@ package pos.java.bora_comer.infra.delivery.reserve;
 import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import pos.java.bora_comer.core.domain.reserve.Reserve;
@@ -24,8 +25,11 @@ public class CreateReserveController implements CreateReserveControllerDocs {
         this.createReserveUseCase = createReserveUseCase;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
-    public ResponseEntity<ReserveResponseDTO> create(@RequestBody ReserveRequestDTO reserveRequestDTO) {
+    public ResponseEntity<ReserveResponseDTO> create(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody ReserveRequestDTO reserveRequestDTO) {
         var reserveDomain = reserveMapper.toDomain(reserveRequestDTO);
         Reserve createdReserve = createReserveUseCase.execute(reserveDomain);
         ReserveResponseDTO responseDTO = reserveMapper.toResponseDTO(createdReserve);

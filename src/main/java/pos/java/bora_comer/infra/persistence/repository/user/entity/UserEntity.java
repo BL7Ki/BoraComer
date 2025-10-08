@@ -157,6 +157,10 @@ public class UserEntity {
         this.email = email;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void updateAddress(Address address) {
         this.address.setStreet(address.getStreet());
         this.address.setCity(address.getCity());

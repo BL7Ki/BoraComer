@@ -3,6 +3,7 @@ package pos.java.bora_comer.infra.delivery.order;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import pos.java.bora_comer.core.domain.order.Order;
 import pos.java.bora_comer.core.mapper.order.OrderMapper;
 import pos.java.bora_comer.core.usercase.order.SearchOrderUseCase;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderResponseDTO;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import java.util.List;
 
@@ -22,8 +24,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pos.java.bora_comer.util.factory.OrderTestFactory.createDefaultWithId;
 import static pos.java.bora_comer.util.factory.OrderTestFactory.createResponseDTOWithId;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
-@WebMvcTest(SearchOrderController.class)
+@WebMvcTest(controllers = SearchOrderController.class)
+@AutoConfigureMockMvc(addFilters = false)
+
 public class SearchOrderControllerTest {
 
     @Autowired
@@ -34,6 +40,10 @@ public class SearchOrderControllerTest {
 
     @MockBean
     private OrderMapper orderMapper;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private String autorizationHeader = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo";
 
     @Test
     void shouldFindOrderByIdSuccessfully() throws Exception {
@@ -47,6 +57,9 @@ public class SearchOrderControllerTest {
         Mockito.when(orderMapper.toResponseDTO(mockOrder)).thenReturn(responseDTO);
 
         mockMvc.perform(get("/orders/{id}", id)
+                        .with(user("usuario_jwt_teste").roles("ADMIN"))
+                        .with(csrf())
+                        .header("Authorization", autorizationHeader)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(10L))
@@ -79,6 +92,9 @@ public class SearchOrderControllerTest {
         mockMvc.perform(get("/orders")
                         .param("page", String.valueOf(page))
                         .param("size", String.valueOf(size))
+                        .with(user("usuario_jwt_teste").roles("ADMIN"))
+                        .with(csrf())
+                        .header("Authorization", autorizationHeader)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(10L))
@@ -89,7 +105,7 @@ public class SearchOrderControllerTest {
                 .andExpect(jsonPath("$[1].restaurante_id").value(1L))
                 .andExpect(jsonPath("$[1].usuario_id").value(1L))
                 .andExpect(jsonPath("$[1].delivery").value(true));
-                ;
-                
+        ;
+
     }
 }

@@ -1,38 +1,41 @@
 package pos.java.bora_comer.infra.delivery.userType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pos.java.bora_comer.core.domain.userType.UserType;
-import pos.java.bora_comer.core.errors.CustomExceptionHandler;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.userType.UserTypeMapper;
 import pos.java.bora_comer.core.usercase.userType.CreateUserTypeUseCase;
 import pos.java.bora_comer.util.factory.UserTypeFactory;
 import pos.java.bora_comer.infra.delivery.userType.dto.CreateUserTypeRequestDTO;
 import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeResponseDTO;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
-@ExtendWith(MockitoExtension.class)
+@WebMvcTest(controllers = CreateUserTypeController.class)
+@AutoConfigureMockMvc(addFilters = false)
+
 class CreateUserTypeControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private UserTypeMapper userTypeMapper;
 
-    @Mock
+    @MockBean
     private CreateUserTypeUseCase createUserTypeUseCase;
 
     @InjectMocks
@@ -40,13 +43,9 @@ class CreateUserTypeControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @BeforeEach
-    void setup() {
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(controller)
-                .setControllerAdvice(new CustomExceptionHandler())
-                .build();
-    }
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private String autorizationHeader = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo";
 
     @Test
     void deveCriarUserTypeComSucesso() throws Exception {
@@ -64,6 +63,9 @@ class CreateUserTypeControllerTest {
         when(userTypeMapper.toResponse(userTypeSalvo)).thenReturn(responseDTO);
 
         mockMvc.perform(post("/user-types")
+                        .with(user("usuario_jwt_teste").roles("ADMIN"))
+                        .with(csrf())
+                        .header("Authorization", autorizationHeader)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isCreated())
@@ -84,6 +86,9 @@ class CreateUserTypeControllerTest {
                 .thenThrow(new UserDomainException("User type already exists with name: ADMIN"));
 
         mockMvc.perform(post("/user-types")
+                        .with(user("usuario_jwt_teste").roles("ADMIN"))
+                        .with(csrf())
+                        .header("Authorization", autorizationHeader)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest())

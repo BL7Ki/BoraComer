@@ -25,27 +25,21 @@ public class UserSearchGatewayImpl implements UserSearchGateway {
 
     @Transactional(readOnly = true)
     @Override
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(userEntity -> userMapper.toDomain(userEntity, userEntity.getUserTypeEntity()));
+    }
+
+    @Override
     public Optional<User> findById(Long id) {
-
-        Optional<UserEntity> userEntity = userRepository.findById(id);
-
-        if (userEntity.isEmpty()) {
-            return Optional.empty();
-        }
-
-        User user = userMapper.toDomain(userEntity.get(), userEntity.get().getUserTypeEntity());
-
-        return Optional.of(user);
+        return userRepository.findById(id)
+                .map(userEntity -> userMapper.toDomain(userEntity, userEntity.getUserTypeEntity()));
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<User> findAll(Pageable pageable) {
-
-        Page<User> userPage = userRepository.findAll(pageable)
+        return userRepository.findAll(pageable)
                 .map(userEntity -> userMapper.toDomain(userEntity, userEntity.getUserTypeEntity()));
-
-        return userPage;
     }
-
 }

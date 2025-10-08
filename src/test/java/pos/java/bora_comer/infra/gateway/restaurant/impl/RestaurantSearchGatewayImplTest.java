@@ -60,20 +60,18 @@ class RestaurantSearchGatewayImplTest {
     }
 
     @Test
-    @DisplayName("findAll should return paged Restaurants")
-    void findAll_shouldReturnPagedRestaurants() {
+    @DisplayName("findAll should return paged Restaurants when cuisineType is null")
+    void findAll_shouldReturnPagedRestaurants_whenCuisineTypeIsNull() {
         int page = 0;
         int size = 2;
 
-        // Criando mocks das entidades reais
-        pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity entity1 = mock(pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity.class);
-        pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity entity2 = mock(pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity.class);
+        var entity1 = mock(pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity.class);
+        var entity2 = mock(pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity.class);
 
         PageRequest pageRequest = PageRequest.of(page, size);
+        Page<pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity> entityPage =
+                new PageImpl<>(List.of(entity1, entity2), pageRequest, 2);
 
-        Page<pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity> entityPage = new PageImpl<>(List.of(entity1, entity2), pageRequest, 2);
-
-        // Criando mocks dos domínios convertidos
         Restaurant domain1 = mock(Restaurant.class);
         Restaurant domain2 = mock(Restaurant.class);
 
@@ -81,7 +79,7 @@ class RestaurantSearchGatewayImplTest {
         when(restaurantMapper.toDomain(entity1)).thenReturn(domain1);
         when(restaurantMapper.toDomain(entity2)).thenReturn(domain2);
 
-        Page<Restaurant> resultPage = gateway.findAll(page, size);
+        Page<Restaurant> resultPage = gateway.findAll(page, size, null);
 
         assertEquals(2, resultPage.getContent().size());
         assertTrue(resultPage.getContent().containsAll(List.of(domain1, domain2)));
@@ -91,7 +89,33 @@ class RestaurantSearchGatewayImplTest {
         verify(restaurantMapper).toDomain(entity2);
     }
 
-    // Dummy RestaurantEntity mock class to satisfy type in tests
+    @Test
+    @DisplayName("findAll should call findByCuisineType when cuisineType is provided")
+    void findAll_shouldFilterByCuisineType_whenProvided() {
+        int page = 0;
+        int size = 2;
+        String cuisineType = "Japonesa";
+
+        var entity = mock(pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity.class);
+        var domain = mock(Restaurant.class);
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity> entityPage =
+                new PageImpl<>(List.of(entity), pageRequest, 1);
+
+        when(restaurantRepository.findByCuisineType(cuisineType, pageRequest)).thenReturn(entityPage);
+        when(restaurantMapper.toDomain(entity)).thenReturn(domain);
+
+        Page<Restaurant> resultPage = gateway.findAll(page, size, cuisineType);
+
+        assertEquals(1, resultPage.getContent().size());
+        assertEquals(domain, resultPage.getContent().get(0));
+
+        verify(restaurantRepository).findByCuisineType(cuisineType, pageRequest);
+        verify(restaurantMapper).toDomain(entity);
+    }
+
+    // Dummy RestaurantEntity mock class
     private static class RestaurantEntityMock extends pos.java.bora_comer.infra.persistence.repository.restaurant.entity.RestaurantEntity {
         private final Long id;
         public RestaurantEntityMock(Long id) { this.id = id; }

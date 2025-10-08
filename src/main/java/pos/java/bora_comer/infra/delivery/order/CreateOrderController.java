@@ -3,6 +3,7 @@ package pos.java.bora_comer.infra.delivery.order;
 import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import pos.java.bora_comer.core.domain.order.Order;
@@ -24,8 +25,11 @@ public class CreateOrderController implements CreateOrderControllerDocs {
         this.createOrderUseCase = createOrderUseCase;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
-    public ResponseEntity<OrderResponseDTO> create(@RequestBody OrderRequestDTO orderRequestDTO) {
+    public ResponseEntity<OrderResponseDTO> create(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody OrderRequestDTO orderRequestDTO) {
         var orderDomain = orderMapper.toDomain(orderRequestDTO);
         Order createdOrder = createOrderUseCase.execute(orderDomain);
         OrderResponseDTO responseDTO = orderMapper.toResponseDTO(createdOrder);

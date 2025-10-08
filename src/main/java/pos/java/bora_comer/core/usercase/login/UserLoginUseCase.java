@@ -4,5 +4,5 @@ import pos.java.bora_comer.core.domain.login.LoginEnum;
 
 public interface UserLoginUseCase {
 
-    LoginEnum execute(String login, String password);
+    String execute(String login, String password); // agora retorna o JWT
 }

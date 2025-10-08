@@ -3,20 +3,22 @@ package pos.java.bora_comer.util.factory;
 import java.time.LocalDateTime;
 
 import pos.java.bora_comer.core.domain.order.Order;
+import pos.java.bora_comer.core.domain.order.OrderStatus;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderRequestDTO;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderResponseDTO;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO;
 
 public class OrderTestFactory {
-    
+
     // Construtor privado para impedir instanciação
     private OrderTestFactory() {
         // impede instanciação
     }
-    
+
     private static final String dateStr = "2024-10-10T12:00:00";
     private static final LocalDateTime dateTime = LocalDateTime.parse(dateStr);
-    
+    private static final OrderStatus status = OrderStatus.PENDING;
+
     public static Order createDefault() {
         return Order.create(
                 dateTime,
@@ -34,7 +36,9 @@ public class OrderTestFactory {
                 true,
                 1L,
                 1L,
-                dateTime
+                dateTime,
+                status
+
         );
     }
 
@@ -45,7 +49,8 @@ public class OrderTestFactory {
                 true,
                 1L,
                 1L,
-                dateTime
+                dateTime,
+                status
         );
     }
 
@@ -65,7 +70,8 @@ public class OrderTestFactory {
                 false,
                 1L,
                 1L,
-                dateTime
+                dateTime,
+                status
         );
     }
 
@@ -76,7 +82,8 @@ public class OrderTestFactory {
                 delivery,
                 restaurantId,
                 userId,
-                lastModifiedDate
+                lastModifiedDate,
+                status
         );
     }
 }
