@@ -70,7 +70,6 @@ VALUES
 ('Temaki de Salmão', 'Temaki recheado com salmão fresco e cebolinha', 24.90, false, '/imagens/temaki.jpg', 1),
 ('Sashimi Especial', 'Fatias selecionadas de salmão e atum', 39.90, true, '/imagens/sashimi.jpg', 1);
 
--- Criação da tabela de pedidos
 
 CREATE TABLE IF NOT EXISTS tb_pedidos (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -78,15 +77,16 @@ CREATE TABLE IF NOT EXISTS tb_pedidos (
     delivery BOOLEAN NOT NULL,
     restaurante_id BIGINT NOT NULL,
     usuario_id BIGINT NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'PENDING',
     data_alteracao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_pedido_resturante FOREIGN KEY (restaurante_id) REFERENCES tb_restaurantes(id),
     CONSTRAINT fk_pedido_usuario FOREIGN KEY (usuario_id) REFERENCES tb_usuarios(id)
 );
 
--- Exemplo de pedido (opcional)
-INSERT INTO tb_pedidos (data_hora, delivery, restaurante_id, usuario_id)
-VALUES (CURRENT_TIMESTAMP, true, 1, 1);
+-- Exemplo de pedido - Incluindo o status padrão
+INSERT INTO tb_pedidos (data_hora, delivery, restaurante_id, usuario_id, status)
+VALUES (CURRENT_TIMESTAMP, true, 1, 1, 'PENDING');
 
 -- Criação da tabela de pedidos_itens
 
@@ -98,11 +98,11 @@ CREATE TABLE IF NOT EXISTS tb_pedidos_items (
     data_alteracao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_pedido_item_pedido FOREIGN KEY (pedido_id) REFERENCES tb_pedidos(id),
-CONSTRAINT fk_pedido_item_menu_item FOREIGN KEY (menu_item_id) REFERENCES tb_menu_items(id)
+    CONSTRAINT fk_pedido_item_menu_item FOREIGN KEY (menu_item_id) REFERENCES tb_menu_items(id)
 );
 -- Exemplo de pedido item (opcional)
 INSERT INTO tb_pedidos_items (pedido_id, menu_item_id, quantidade, data_alteracao)
-VALUES (1, 1, 2,CURRENT_TIMESTAMP);
+VALUES (1, 1, 2, CURRENT_TIMESTAMP);
 
 
 -- Criação da tabela de reservas
