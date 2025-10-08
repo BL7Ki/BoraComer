@@ -40,9 +40,10 @@ public class SearchRestaurantController implements SearchRestaurantControllerDoc
     public ResponseEntity<List<RestaurantResponseDTO>> findAll(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "cuisineType", required = false) String cuisineType,
             @RequestHeader("Authorization") String authorization
     ) {
-        Page<Restaurant> restaurants = searchRestaurantUseCase.findAll(page, size);
+        Page<Restaurant> restaurants = searchRestaurantUseCase.findAll(page, size, cuisineType);
 
         List<RestaurantResponseDTO> responseList = restaurants.stream()
                 .map(restaurantMapper::toResponseDTO)

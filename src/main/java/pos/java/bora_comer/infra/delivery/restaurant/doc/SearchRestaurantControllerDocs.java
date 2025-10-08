@@ -43,7 +43,7 @@ public interface SearchRestaurantControllerDocs {
 
     @Operation(
             summary = "Buscar todos os restaurantes",
-            description = "Endpoint para buscar todos os restaurantes com paginação."
+            description = "Endpoint para buscar todos os restaurantes com paginação e filtro opcional por tipo de cozinha."
     )
     @ApiResponse(responseCode = "200", description = "Restaurantes encontrados com sucesso",
             content = @Content(
@@ -54,8 +54,31 @@ public interface SearchRestaurantControllerDocs {
     @ApiResponse(responseCode = "400", description = "Requisição inválida")
     @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
     ResponseEntity<List<RestaurantResponseDTO>> findAll(
+            @Parameter(
+                    name = "page",
+                    description = "Número da página (inicia em 0)",
+                    in = ParameterIn.QUERY,
+                    schema = @Schema(type = "integer", defaultValue = "0")
+            )
             @RequestParam(value = "page", defaultValue = "0") int page,
+
+            @Parameter(
+                    name = "size",
+                    description = "Tamanho da página",
+                    in = ParameterIn.QUERY,
+                    schema = @Schema(type = "integer", defaultValue = "10")
+            )
             @RequestParam(value = "size", defaultValue = "10") int size,
+
+            @Parameter(
+                    name = "cuisineType",
+                    description = "Filtro opcional pelo tipo de cozinha (ex: Italiana, Japonesa)",
+                    required = false,
+                    in = ParameterIn.QUERY,
+                    schema = @Schema(type = "string")
+            )
+            @RequestParam(value = "cuisineType", required = false) String cuisineType,
+
             @Parameter(
                     name = "Authorization",
                     description = "Token JWT para autenticação",
