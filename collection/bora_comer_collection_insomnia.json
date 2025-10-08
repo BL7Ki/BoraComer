@@ -734,7 +734,7 @@
               "method": "POST",
               "body": {
                 "mimeType": "text/plain",
-                "text": "{\n  \"data_hora\": \"2024-10-10T12:00:00\",\n  \"delivery\": true,\n  \"restaurante_id\": 2,\n  \"usuario_id\": 1,\n  \"data_alteracao\": \"2024-10-10T12:00:00\" \n}"
+                "text": "{\n  \"data_hora\": \"2024-10-10T12:00:00\",\n  \"delivery\": true,\n  \"restaurante_id\": 2,\n  \"usuario_id\": 1\n}"
               },
               "headers": [
                 {
@@ -842,6 +842,34 @@
               }
             },
             {
+              "url": "http://localhost:8080/orders/1/finalize",
+              "name": "finalizar um pedido (Status FINALIZED)",
+              "meta": {
+                "id": "req_finalize_order_test",
+                "created": 1759616172664,
+                "modified": 1759616172664,
+                "isPrivate": false,
+                "sortKey": -1759587805491.5
+              },
+              "method": "PUT",
+              "headers": [
+                {
+                  "name": "User-Agent",
+                  "value": "Insomnia/2023.5.7"
+                }
+              ],
+              "settings": {
+                "renderRequestBody": true,
+                "encodeUrl": true,
+                "followRedirects": "global",
+                "cookies": {
+                  "send": true,
+                  "store": true
+                },
+                "rebuildPath": true
+              }
+            },
+            {
               "url": "http://localhost:8080/orders/2",
               "name": "deletar um pedido",
               "meta": {
@@ -910,254 +938,13 @@
               "url": "http://localhost:8080/orderitems/1",
               "name": "consultar um item de pedido por ID",
               "meta": {
-                "id": "req_da09279d5f4a4368afee84b85099d86b",
-                "created": 1759587808848,
-                "modified": 1759592373936,
+                "id": "req_1c989cf801cf4c6a879ca69a1f239d6f",
+                "created": 1759587808847,
+                "modified": 1759589554470,
                 "isPrivate": false,
                 "sortKey": -1759587805488
               },
               "method": "GET",
-              "settings": {
-                "renderRequestBody": true,
-                "encodeUrl": true,
-                "followRedirects": "global",
-                "cookies": {
-                  "send": true,
-                  "store": true
-                },
-                "rebuildPath": true
-              }
-            },
-            {
-              "url": "http://localhost:8080/orderitems",
-              "name": "consultar todos os itens de pedido",
-              "meta": {
-                "id": "req_492a165ad995417bbe4feb87f68c2e9c",
-                "created": 1759587808850,
-                "modified": 1759589579052,
-                "isPrivate": false,
-                "sortKey": -1759587805487
-              },
-              "method": "GET",
-              "parameters": [
-                {
-                  "name": "page",
-                  "value": "0",
-                  "disabled": false
-                },
-                {
-                  "name": "size",
-                  "value": "10",
-                  "disabled": false
-                }
-              ],
-              "settings": {
-                "renderRequestBody": true,
-                "encodeUrl": true,
-                "followRedirects": "global",
-                "cookies": {
-                  "send": true,
-                  "store": true
-                },
-                "rebuildPath": true
-              }
-            },
-            {
-              "url": "http://localhost:8080/orderitems/1",
-              "name": "atualizar um item de pedido",
-              "meta": {
-                "id": "req_9d8be837bf7147a984a49f73c19d977d",
-                "created": 1759587808852,
-                "modified": 1759616495364,
-                "isPrivate": false,
-                "sortKey": -1759587805486
-              },
-              "method": "PUT",
-              "body": {
-                "mimeType": "text/plain",
-                "text": "{\n  \"pedido_id\": 1,\n  \"menu_item_id\": 2,\n  \"quantidade\": 5,\n\t\n}"
-              },
-              "headers": [
-                {
-                  "name": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "settings": {
-                "renderRequestBody": true,
-                "encodeUrl": true,
-                "followRedirects": "global",
-                "cookies": {
-                  "send": true,
-                  "store": true
-                },
-                "rebuildPath": true
-              }
-            },
-            {
-              "url": "http://localhost:8080/orderitems/2",
-              "name": "deletar um item de pedido",
-              "meta": {
-                "id": "req_476f426f93834b34a2579c26c3336474",
-                "created": 1759587808854,
-                "modified": 1759592573623,
-                "isPrivate": false,
-                "sortKey": -1759587805485
-              },
-              "method": "DELETE",
-              "settings": {
-                "renderRequestBody": true,
-                "encodeUrl": true,
-                "followRedirects": "global",
-                "cookies": {
-                  "send": true,
-                  "store": true
-                },
-                "rebuildPath": true
-              }
-            }
-          ]
-        },
-        {
-          "name": "reserve",
-          "meta": {
-            "id": "fld_111329184abb42139d76b8296b88cfab",
-            "created": 1759616205727,
-            "modified": 1759616205727,
-            "sortKey": -1759587805493
-          },
-          "children": [
-            {
-              "url": "http://localhost:8080/reserves",
-              "name": "criar uma reserva",
-              "meta": {
-                "id": "req_bded079b1cbf491189e592bbfdcfb3a2",
-                "created": 1759616205729,
-                "modified": 1759616473779,
-                "isPrivate": false,
-                "sortKey": -1759587805495
-              },
-              "method": "POST",
-              "body": {
-                "mimeType": "text/plain",
-                "text": "{\n  \"data_hora\": \"2024-10-10T12:00:00\",\n  \"quantidade\": 2,\n  \"restaurante_id\": 2,\n  \"usuario_id\": 1,\n  \"data_alteracao\": \"2024-10-10T12:00:00\" \n}"
-              },
-              "headers": [
-                {
-                  "name": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "settings": {
-                "renderRequestBody": true,
-                "encodeUrl": true,
-                "followRedirects": "global",
-                "cookies": {
-                  "send": true,
-                  "store": true
-                },
-                "rebuildPath": true
-              }
-            },
-            {
-              "url": "http://localhost:8080/reserves/1",
-              "name": "consultar uma reserva por ID",
-              "meta": {
-                "id": "req_30fd218b946243f3b81836436b096e8e",
-                "created": 1759616205732,
-                "modified": 1759616313206,
-                "isPrivate": false,
-                "sortKey": -1759587805494
-              },
-              "method": "GET",
-              "settings": {
-                "renderRequestBody": true,
-                "encodeUrl": true,
-                "followRedirects": "global",
-                "cookies": {
-                  "send": true,
-                  "store": true
-                },
-                "rebuildPath": true
-              }
-            },
-            {
-              "url": "http://localhost:8080/reserves",
-              "name": "consultar todas as reservas",
-              "meta": {
-                "id": "req_b2f1fa9a9e0f4f3297509d5f1bbd44b5",
-                "created": 1759616205734,
-                "modified": 1759616307314,
-                "isPrivate": false,
-                "sortKey": -1759587805493
-              },
-              "method": "GET",
-              "parameters": [
-                {
-                  "name": "page",
-                  "value": "0",
-                  "disabled": false
-                },
-                {
-                  "name": "size",
-                  "value": "10",
-                  "disabled": false
-                }
-              ],
-              "settings": {
-                "renderRequestBody": true,
-                "encodeUrl": true,
-                "followRedirects": "global",
-                "cookies": {
-                  "send": true,
-                  "store": true
-                },
-                "rebuildPath": true
-              }
-            },
-            {
-              "url": "http://localhost:8080/reserves/1",
-              "name": "atualizar uma reserva",
-              "meta": {
-                "id": "req_9da44b2b0fdc4b6a82f0e45a2a2843f8",
-                "created": 1759616205736,
-                "modified": 1759616566378,
-                "isPrivate": false,
-                "sortKey": -1759587805492
-              },
-              "method": "PUT",
-              "body": {
-                "mimeType": "text/plain",
-                "text": "{\n  \"data_hora\": \"2024-11-10T13:00:00\",\n  \"quantidade\": 6,\n\t\"data_alteracao\": \"2024-10-10T13:05:00\"\n}"
-              },
-              "headers": [
-                {
-                  "name": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "settings": {
-                "renderRequestBody": true,
-                "encodeUrl": true,
-                "followRedirects": "global",
-                "cookies": {
-                  "send": true,
-                  "store": true
-                },
-                "rebuildPath": true
-              }
-            },
-            {
-              "url": "http://localhost:8080/reserves/2",
-              "name": "deletar uma reserva",
-              "meta": {
-                "id": "req_4737cbd517494c85a14c38c5d47549a7",
-                "created": 1759616205739,
-                "modified": 1759616279563,
-                "isPrivate": false,
-                "sortKey": -1759587805491
-              },
-              "method": "DELETE",
               "settings": {
                 "renderRequestBody": true,
                 "encodeUrl": true,
@@ -1173,22 +960,5 @@
         }
       ]
     }
-  ],
-  "cookieJar": {
-    "name": "Default Jar",
-    "meta": {
-      "id": "jar_c9113c809a8b4cd8bf69eb64c2cfb640",
-      "created": 1759587808860,
-      "modified": 1759587808860
-    }
-  },
-  "environments": {
-    "name": "Base Environment",
-    "meta": {
-      "id": "env_7226106b7f4941efa01cea0f9b90362a",
-      "created": 1759587808858,
-      "modified": 1759587808858,
-      "isPrivate": false
-    }
-  }
+  ]
 }
