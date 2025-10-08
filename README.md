@@ -549,3 +549,25 @@ Para facilitar os testes das requisições da API, incluímos uma collection do 
 - endpoints protegidos conforme o perfil do usuário.
 - header Authorization
 ---
+
+### 18.6 Login validaçao usuarios
+
+**Requisição usuario CLIENTE:**
+```bash
+POST /login
+Content-Type: application/json
+{
+  "login": "lucastorresdois",
+  "password": "senha123"
+}
+``` 
+
+**Requisição usuario DONO_RESTAURANTE:**
+```bash
+POST /login
+Content-Type: application/json
+{
+  "login": "lucastorres",
+  "password": "senha123"
+}
+``` 
