@@ -571,3 +571,12 @@ Content-Type: application/json
   "password": "senha123"
 }
 ``` 
+
+**Resposta:**
+```json
+{
+	"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo",
+	"type": "Bearer"
+}
+
+```
