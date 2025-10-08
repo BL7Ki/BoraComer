@@ -60,7 +60,7 @@ spring:
   sql:
     init:
       mode: always
-      
+
 ```
 
 ### 5.3 Rodar o projeto
@@ -164,8 +164,8 @@ O sistema foi desenvolvido utilizando a **Clean Architecture (Arquitetura Limpa)
 ### **DIP (Dependency Inversion Principle)**
 - As classes dependem de abstrações (interfaces) em vez de implementações concretas.
 - Exemplos:
-  - `CreateUserController` depende da interface `CreateUserUseCase`, e não de sua implementação concreta.
-  - `CreateUserUseCaseImpl` utiliza a abstração `UserMapper` para realizar o mapeamento de objetos.
+    - `CreateUserController` depende da interface `CreateUserUseCase`, e não de sua implementação concreta.
+    - `CreateUserUseCaseImpl` utiliza a abstração `UserMapper` para realizar o mapeamento de objetos.
 
 ### 1. **Camada de Domínio**
 - Contém as classes centrais do domínio, como `User` e `Address`.
@@ -272,21 +272,21 @@ Content-Type: application/json
 **Resposta:**
 ```json
 {
-	"id": 2,
-	"nome": "Joao Silva ",
-	"email": "joao.silva@example.com",
-	"nome_usuario": "tiagosilva",
-	"endereco": {
-		"rua": "Rua das Flores doces",
-		"bairro": "Bairro das cascatas pretas",
-		"cidade": "Minas",
-		"estado": "PE",
-		"cep": "12345-400"
-	},
-	"papel": "ADMIN",
-	"data_criacao": "2025-07-13T15:17:20.601449100",
-	"data_alteracao": null,
-	"tipo_usuario": "CLIENTE"
+  "id": 2,
+  "nome": "Joao Silva ",
+  "email": "joao.silva@example.com",
+  "nome_usuario": "tiagosilva",
+  "endereco": {
+    "rua": "Rua das Flores doces",
+    "bairro": "Bairro das cascatas pretas",
+    "cidade": "Minas",
+    "estado": "PE",
+    "cep": "12345-400"
+  },
+  "papel": "ADMIN",
+  "data_criacao": "2025-07-13T15:17:20.601449100",
+  "data_alteracao": null,
+  "tipo_usuario": "CLIENTE"
 }
 ```
 
@@ -415,7 +415,7 @@ POST /user-types
 Content-Type: application/json
 
 {
-  "name": "Dono de Restaurante"
+"name": "Dono de Restaurante"
 
 }
 ```
@@ -443,12 +443,12 @@ POST /menu-items
 Content-Type: application/json
 
 {
-  "nome": "Temaki de Salmão",
-  "descricao": "Temaki recheado com salmão fresco e cebolinha",
-  "preco": 24.90,
-  "soNoLocal": false,
-  "imagemCaminho": "/imagens/temaki.jpg",
-  "restauranteId": 1
+"nome": "Temaki de Salmão",
+"descricao": "Temaki recheado com salmão fresco e cebolinha",
+"preco": 24.90,
+"soNoLocal": false,
+"imagemCaminho": "/imagens/temaki.jpg",
+"restauranteId": 1
 }
 
 ```
@@ -494,3 +494,89 @@ Para facilitar os testes das requisições da API, incluímos uma collection do 
 - Listar todos os itens de cardápio (`GET /menu-items`)
 - Atualizar item de cardápio (`PUT /menu-items/{id}`)
 - Deletar item de cardápio (`DELETE /menu-items/{id}`)
+
+## 17. Video de Demonstração apresentando as funcionalidades solicitadas e o projeto executando e funcionando.
+
+*  Link do vídeo:
+   https://www.youtube.com/watch?v=Xphdvojwo5M&feature=youtu.be
+
+## 18 Fase 3: Evolução do Sistema
+
+### 18.1 Requisitos e Funcionalidades
+
+**Funcionalidades obrigatórias:**
+- Autenticação e autorização com Spring Security e JWT (expiração de 6 horas).
+- Perfis (roles): `ADMIN` (gerente) e `CLIENT` (cliente).
+- CRUD de Usuário (apenas gerente).
+- CRUD de Restaurante (apenas gerente).
+- CRUD de Cardápio (apenas gerente).
+- Reservas de mesas com verificação de conflitos de horário
+- Cliente solicita reserva; gerente lista/gerencia reservas.
+- Pedidos (delivery e presencial) com atualização de status e listagem por usuário
+- Cliente solicita pedido; gerente lista/atualiza pedidos.
+- Acesso controlado por perfis (roles) em todos os endpoints.
+- Notificações dos pedidos criados e finalizados.
+
+### 18.2 Comunicação Assíncrona
+
+- Mensageria via RabbitMQ:
+    - Eventos: pedido criado, pedido finalizado.
+    - O `notification-service` consome esses eventos e envia lembretes (mock em log/console).
+    - Configuração via Docker Compose.
+
+### 18.3 GraphQL
+
+- Serviço GraphQL para consultas flexíveis:
+    - Histórico de pedidos (com filtros).
+    - Reservas futuras e passadas.
+    - Consulta de cardápio.
+
+
+### 18.4 Endpoints Adicionais
+
+- Reservas de mesas:
+    - `/reserves` (POST, GET, PUT, DELETE)
+- Pedidos:
+    - `/orders` (POST, GET, PUT, DELETE)
+- Notificações (via mensageria, não exposto como endpoint REST)
+
+- Itens do Pedido:
+    - `/order-items` (POST, GET, PUT, DELETE)
+
+### 18.5 Authenticação e Autorização
+- Implementação de JWT para autenticação.
+- Controle de acesso baseado em perfis (roles).
+- endpoints protegidos conforme o perfil do usuário.
+- header Authorization
+---
+
+### 18.6 Login validaçao usuarios
+
+**Requisição usuario CLIENTE:**
+```bash
+POST /login
+Content-Type: application/json
+{
+  "login": "lucastorresdois",
+  "password": "senha123"
+}
+``` 
+
+**Requisição usuario DONO_RESTAURANTE:**
+```bash
+POST /login
+Content-Type: application/json
+{
+  "login": "lucastorres",
+  "password": "senha123"
+}
+``` 
+
+**Resposta:**
+```json
+{
+	"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo",
+	"type": "Bearer"
+}
+
+```
