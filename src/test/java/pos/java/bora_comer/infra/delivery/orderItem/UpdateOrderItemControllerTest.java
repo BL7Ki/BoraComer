@@ -2,7 +2,6 @@ package pos.java.bora_comer.infra.delivery.orderItem;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import pos.java.bora_comer.core.domain.orderItem.OrderItem;
 import pos.java.bora_comer.core.mapper.orderItem.OrderItemMapper;
 import pos.java.bora_comer.core.usercase.orderItem.UpdateOrderItemUseCase;
@@ -12,6 +11,7 @@ import pos.java.bora_comer.infra.delivery.orderItem.dto.OrderItemUpdateRequestDT
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -21,13 +21,14 @@ import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pos.java.bora_comer.util.factory.OrderItemTestFactory.createUpdateRequestDTOWithId;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 import java.time.LocalDateTime;
 
-@WebMvcTest(
-        controllers = UpdateOrderItemController.class,
-        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
-)
+@WebMvcTest(controllers = UpdateOrderItemController.class)
+@AutoConfigureMockMvc(addFilters = false)
+
 public class UpdateOrderItemControllerTest {
 
     @Autowired
@@ -44,6 +45,7 @@ public class UpdateOrderItemControllerTest {
 
     @MockBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private String autorizationHeader = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo";
 
     @Test
     void shouldUpdateOrderItemSuccessfully() throws Exception {
@@ -55,7 +57,7 @@ public class UpdateOrderItemControllerTest {
 
         OrderItemUpdateRequestDTO updateRequestDTO = createUpdateRequestDTOWithId();
 
-        OrderItem existingOrderItem = OrderItem.create(  
+        OrderItem existingOrderItem = OrderItem.create(
                 id,
                 orderId,
                 menuItemId,
@@ -65,7 +67,7 @@ public class UpdateOrderItemControllerTest {
 
         Mockito.when(updateOrderItemUseCase.findById(id)).thenReturn(existingOrderItem);
 
-        OrderItem domainOrderItem = OrderItem.create(    
+        OrderItem domainOrderItem = OrderItem.create(
                 id,
                 orderId,
                 menuItemId,
@@ -87,6 +89,9 @@ public class UpdateOrderItemControllerTest {
         Mockito.when(orderItemMapper.toResponseDTO(domainOrderItem)).thenReturn(responseDTO);
 
         mockMvc.perform(put("/orderitems/{id}", id)
+                        .with(user("usuario_jwt_teste").roles("ADMIN"))
+                        .with(csrf())
+                        .header("Authorization", autorizationHeader)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateRequestDTO))
                         .accept(MediaType.APPLICATION_JSON))

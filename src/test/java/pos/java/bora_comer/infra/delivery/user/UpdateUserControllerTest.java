@@ -166,8 +166,8 @@ class UpdateUserControllerTest {
     void deveAssociarTipoUsuarioComSucesso() throws Exception {
         // Nenhuma exceção esperada do use case
         mockMvc.perform(put("/users/1/tipo-usuario/2").header(
-                "Authorization",
-                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                        "Authorization",
+                        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
                 ))
                 .andExpect(status().isOk());
     }
@@ -178,8 +178,8 @@ class UpdateUserControllerTest {
                 .when(updateUserUseCase).userAssociate(1L, 2L);
 
         mockMvc.perform(put("/users/1/tipo-usuario/2").header(
-                "Authorization",
-                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                        "Authorization",
+                        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
                 ))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Usuário não encontrado."));
@@ -191,8 +191,8 @@ class UpdateUserControllerTest {
                 .when(updateUserUseCase).userAssociate(1L, 99L);
 
         mockMvc.perform(put("/users/1/tipo-usuario/99").header(
-                "Authorization",
-                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                        "Authorization",
+                        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
                 ))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Tipo de usuário não encontrado"));

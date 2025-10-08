@@ -1,25 +1,23 @@
 package pos.java.bora_comer.infra.delivery.userType;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pos.java.bora_comer.core.domain.userType.UserType;
-import pos.java.bora_comer.core.errors.CustomExceptionHandler;
 import pos.java.bora_comer.core.errors.UserDomainException;
 import pos.java.bora_comer.core.mapper.userType.UserTypeMapper;
 import pos.java.bora_comer.core.usercase.userType.SearchUserTypeUseCase;
 import pos.java.bora_comer.util.factory.UserTypeFactory;
 import pos.java.bora_comer.infra.delivery.userType.dto.UserTypeResponseDTO;
+import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
 import java.util.List;
 
@@ -27,31 +25,30 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
-
-@ExtendWith(MockitoExtension.class)
+@WebMvcTest(controllers = SearchUserTypeController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class SearchUserTypeControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private SearchUserTypeUseCase searchUserTypeUseCase;
 
-    @Mock
+    @MockBean
     private UserTypeMapper userTypeMapper;
 
     @InjectMocks
     private SearchUserTypeController controller;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @BeforeEach
-    void setup() {
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(controller)
-                .setControllerAdvice(new CustomExceptionHandler())
-                .build();
-    }
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private String autorizationHeader = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo";
+
 
     @Test
     void deveBuscarTodosUserTypesComSucesso() throws Exception {
@@ -73,6 +70,9 @@ class SearchUserTypeControllerTest {
         mockMvc.perform(get("/user-types/search")
                         .param("page", String.valueOf(page))
                         .param("size", String.valueOf(size))
+                        .with(user("usuario_jwt_teste").roles("ADMIN"))
+                        .with(csrf())
+                        .header("Authorization", autorizationHeader)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1L))
@@ -92,6 +92,9 @@ class SearchUserTypeControllerTest {
         mockMvc.perform(get("/user-types/search")
                         .param("page", String.valueOf(page))
                         .param("size", String.valueOf(size))
+                        .with(user("usuario_jwt_teste").roles("ADMIN"))
+                        .with(csrf())
+                        .header("Authorization", autorizationHeader)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -19,11 +19,11 @@ import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pos.java.bora_comer.util.factory.RestaurantTestFactory.createUpdateRequestDTOWithId;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
-@WebMvcTest(
-        controllers = UpdateRestaurantController.class,
-        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
-)
+@WebMvcTest(controllers = UpdateRestaurantController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class UpdateRestaurantControllerTest {
 
     @Autowired
@@ -40,6 +40,7 @@ public class UpdateRestaurantControllerTest {
 
     @MockBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private String autorizationHeader = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo";
 
     @Test
     void shouldUpdateRestaurantSuccessfully() throws Exception {
@@ -83,6 +84,9 @@ public class UpdateRestaurantControllerTest {
         Mockito.when(restaurantMapper.toResponseDTO(domainRestaurant)).thenReturn(responseDTO);
 
         mockMvc.perform(put("/restaurants/{id}", id)
+                        .with(user("usuario_jwt_teste").roles("ADMIN"))
+                        .with(csrf())
+                        .header("Authorization", autorizationHeader)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateRequestDTO))
                         .accept(MediaType.APPLICATION_JSON))

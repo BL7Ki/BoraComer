@@ -3,7 +3,7 @@ package pos.java.bora_comer.infra.delivery.restaurant;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -23,11 +23,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pos.java.bora_comer.util.factory.RestaurantTestFactory.createDefaultWithId;
 import static pos.java.bora_comer.util.factory.RestaurantTestFactory.createResponseDTOWithId;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
-@WebMvcTest(
-        controllers = SearchRestaurantController.class,
-        excludeAutoConfiguration = {SecurityAutoConfiguration.class}
-)
+@WebMvcTest(controllers = SearchRestaurantController.class)
+@AutoConfigureMockMvc(addFilters = false)
+
 public class SearchRestaurantControllerTest {
 
     @Autowired
@@ -41,6 +42,7 @@ public class SearchRestaurantControllerTest {
 
     @MockBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private String autorizationHeader = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo";
 
     @Test
     void shouldFindRestaurantByIdSuccessfully() throws Exception {
@@ -54,6 +56,9 @@ public class SearchRestaurantControllerTest {
         Mockito.when(restaurantMapper.toResponseDTO(mockRestaurant)).thenReturn(responseDTO);
 
         mockMvc.perform(get("/restaurants/{id}", id)
+                        .with(user("usuario_jwt_teste").roles("ADMIN"))
+                        .with(csrf())
+                        .header("Authorization", autorizationHeader)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(10L))
@@ -79,13 +84,16 @@ public class SearchRestaurantControllerTest {
 
         RestaurantResponseDTO dto2 = createResponseDTOWithId();
 
-        Mockito.when(searchRestaurantUseCase.findAll(page, size)).thenReturn(pageResult);
+        Mockito.when(searchRestaurantUseCase.findAll(page, size, null)).thenReturn(pageResult);
         Mockito.when(restaurantMapper.toResponseDTO(restaurant1)).thenReturn(dto1);
         Mockito.when(restaurantMapper.toResponseDTO(restaurant2)).thenReturn(dto2);
 
         mockMvc.perform(get("/restaurants")
                         .param("page", String.valueOf(page))
                         .param("size", String.valueOf(size))
+                        .with(user("usuario_jwt_teste").roles("ADMIN"))
+                        .with(csrf())
+                        .header("Authorization", autorizationHeader)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(10L))

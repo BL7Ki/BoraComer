@@ -2,6 +2,7 @@ package pos.java.bora_comer.infra.delivery.menu;
 
 import java.net.URI;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ public class CreateMenuItemController implements CreateMenuItemControllerDocs {
 
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("isAuthenticated()")
     @Override
     public ResponseEntity<MenuItemResponseDTO> create(

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import pos.java.bora_comer.core.domain.order.Order;
+import pos.java.bora_comer.core.domain.order.OrderStatus;
 import pos.java.bora_comer.core.errors.OrderDomainException;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderRequestDTO;
 import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO;
@@ -19,7 +20,8 @@ class OrderMapperImplTest {
 
     private OrderMapperImpl mapper;
     private static final String dateStr = "2024-10-10T12:00:00";
-    private static final LocalDateTime dateTime = LocalDateTime.parse(dateStr);    
+    private static final LocalDateTime dateTime = LocalDateTime.parse(dateStr);
+    private static final OrderStatus status = OrderStatus.PENDING;
 
     @BeforeEach
     void setUp() {
@@ -66,7 +68,7 @@ class OrderMapperImplTest {
         assertEquals(true, entity.isDelivery());
         assertEquals(1L, entity.getUserId());
         assertTrue(entity.getRestaurantId() == 1L);
-        
+
     }
 
     @Test
@@ -82,7 +84,8 @@ class OrderMapperImplTest {
                 dateTime,
                 true,
                 1L,
-                1L
+                1L,
+                status
         );
 
         var domain = mapper.toDomain(entity);
@@ -110,7 +113,8 @@ class OrderMapperImplTest {
                 true,
                 1L,
                 1L,
-                dateTime
+                dateTime,
+                status
         );
 
         var dto = mapper.toResponseDTO(domain);
@@ -151,9 +155,9 @@ class OrderMapperImplTest {
         assertEquals(true, domain.isDelivery());
         assertEquals(restaurantID, domain.getRestaurantId());
         assertFalse(domain.getUserId() == null);
-        
-    }   
-    
+
+    }
+
 
     @Test
     @DisplayName("toDomain(OrderUpdateRequestDTO, Long, Long) returns valid domain with ID and restaurantId and userId")
