@@ -59,7 +59,10 @@ class CreateRestaurantControllerTest {
         // when & then
         mockMvc.perform(post("/restaurants")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDTO)))
+                        .content(objectMapper.writeValueAsString(requestDTO)).header(
+                                "Authorization",
+                                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo"
+                        ))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "/restaurants/10"))
                 .andExpect(jsonPath("$.id").value(10L))

@@ -494,3 +494,58 @@ Para facilitar os testes das requisições da API, incluímos uma collection do 
 - Listar todos os itens de cardápio (`GET /menu-items`)
 - Atualizar item de cardápio (`PUT /menu-items/{id}`)
 - Deletar item de cardápio (`DELETE /menu-items/{id}`)
+
+## 17. Video de Demonstração apresentando as funcionalidades solicitadas e o projeto executando e funcionando.
+
+*  Link do vídeo:
+   https://www.youtube.com/watch?v=Xphdvojwo5M&feature=youtu.be
+
+## 18 Fase 3: Evolução do Sistema
+
+### 18.1 Requisitos e Funcionalidades
+
+**Funcionalidades obrigatórias:**
+- Autenticação e autorização com Spring Security e JWT (expiração de 6 horas).
+- Perfis (roles): `ADMIN` (gerente) e `CLIENT` (cliente).
+- CRUD de Usuário (apenas gerente).
+- CRUD de Restaurante (apenas gerente).
+- CRUD de Cardápio (apenas gerente).
+- Reservas de mesas com verificação de conflitos de horário
+- Cliente solicita reserva; gerente lista/gerencia reservas.
+- Pedidos (delivery e presencial) com atualização de status e listagem por usuário
+- Cliente solicita pedido; gerente lista/atualiza pedidos.
+- Acesso controlado por perfis (roles) em todos os endpoints.
+- Notificações dos pedidos criados e finalizados.
+
+### 18.2 Comunicação Assíncrona
+
+- Mensageria via RabbitMQ:
+    - Eventos: pedido criado, pedido finalizado.
+    - O `notification-service` consome esses eventos e envia lembretes (mock em log/console).
+    - Configuração via Docker Compose.
+
+### 18.3 GraphQL
+
+- Serviço GraphQL para consultas flexíveis:
+    - Histórico de pedidos (com filtros).
+    - Reservas futuras e passadas.
+    - Consulta de cardápio.
+
+
+### 18.4 Endpoints Adicionais
+
+- Reservas de mesas:
+    - `/reserves` (POST, GET, PUT, DELETE)
+- Pedidos:
+    - `/orders` (POST, GET, PUT, DELETE)
+- Notificações (via mensageria, não exposto como endpoint REST)
+
+- Itens do Pedido:
+    - `/order-items` (POST, GET, PUT, DELETE)
+
+### 18.5 Authenticação e Autorização
+- Implementação de JWT para autenticação.
+- Controle de acesso baseado em perfis (roles).
+- endpoints protegidos conforme o perfil do usuário.
+- header Authorization
+---
