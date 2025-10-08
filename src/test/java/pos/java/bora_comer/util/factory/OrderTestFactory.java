@@ -70,7 +70,8 @@ public class OrderTestFactory {
                 false,
                 1L,
                 1L,
-                dateTime
+                dateTime,
+                status
         );
     }
 

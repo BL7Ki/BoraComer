@@ -1,6 +1,14 @@
 package pos.java.bora_comer.infra.delivery.order;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import pos.java.bora_comer.core.domain.order.Order;
+import pos.java.bora_comer.core.domain.order.OrderStatus;
+import pos.java.bora_comer.core.mapper.order.OrderMapper;
+import pos.java.bora_comer.core.usercase.order.UpdateOrderUseCase;
+import pos.java.bora_comer.infra.delivery.order.dto.OrderResponseDTO;
+import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,24 +17,20 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import pos.java.bora_comer.core.domain.order.Order;
-import pos.java.bora_comer.core.domain.order.OrderStatus;
-import pos.java.bora_comer.core.mapper.order.OrderMapper;
-import pos.java.bora_comer.core.usercase.order.UpdateOrderUseCase;
-import pos.java.bora_comer.infra.delivery.order.dto.OrderResponseDTO;
-import pos.java.bora_comer.infra.delivery.order.dto.OrderUpdateRequestDTO;
 import pos.java.bora_comer.infra.security.jwt.JwtAuthenticationFilter;
 
-import java.time.LocalDateTime;
-
-import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pos.java.bora_comer.util.factory.OrderTestFactory.createUpdateRequestDTOWithId;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+
+import java.time.LocalDateTime;
 
 @WebMvcTest(controllers = UpdateOrderController.class)
 @AutoConfigureMockMvc(addFilters = false)
-class UpdateOrderControllerTest {
+
+public class UpdateOrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -42,28 +46,43 @@ class UpdateOrderControllerTest {
 
     @MockBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private String autorizationHeader = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc3RvcnJlc2RvaXMiLCJyb2xlIjoiQ0xJRU5URSIsImlhdCI6MTc1OTg2MDc4MCwiZXhwIjoxNzU5ODgyMzgwfQ.LOFMI7Hp6cBtzS5avcR8fXPnwxVuxsl0wG2vUqrZGqo";
 
     @Test
     void shouldUpdateOrderSuccessfully() throws Exception {
-        // given
         Long id = 10L;
         Long restauranteId = 1L;
         Long userId = 1L;
-        LocalDateTime dateTime = LocalDateTime.parse("2024-10-10T12:00:00");
+        String dateStr = "2024-10-10T12:00:00";
+        LocalDateTime dateTime = LocalDateTime.parse(dateStr);
         OrderStatus status = OrderStatus.PENDING;
 
         OrderUpdateRequestDTO updateRequestDTO = createUpdateRequestDTOWithId();
 
-        // domínio simulado (sem status vindo do DTO)
+        Order existingOrder = Order.create(
+                id,
+                dateTime,
+                true,
+                restauranteId,
+                userId,
+                dateTime,
+                status
+        );
+
+        Mockito.when(updateOrderUseCase.findById(id)).thenReturn(existingOrder);
+
         Order domainOrder = Order.create(
                 id,
                 updateRequestDTO.dateTimeOrder(),
                 updateRequestDTO.delivery(),
-                updateRequestDTO.restaurantId(),
                 updateRequestDTO.userId(),
+                updateRequestDTO.restaurantId(),
                 updateRequestDTO.lastModifiedDate(),
-                status // define manualmente o status no teste
+                updateRequestDTO.status()
         );
+
+        Mockito.when(orderMapper.toDomain(updateRequestDTO, id, restauranteId, userId)).thenReturn(domainOrder);
+        Mockito.when(updateOrderUseCase.execute(domainOrder)).thenReturn(domainOrder);
 
         OrderResponseDTO responseDTO = new OrderResponseDTO(
                 id,
@@ -72,23 +91,23 @@ class UpdateOrderControllerTest {
                 userId,
                 restauranteId,
                 updateRequestDTO.lastModifiedDate(),
-                status
+                updateRequestDTO.status()
         );
 
-        // mocks
-        Mockito.when(orderMapper.toDomain(any(OrderUpdateRequestDTO.class), any(Long.class), any(Long.class), any(Long.class)))
-                .thenReturn(domainOrder);
-        Mockito.when(updateOrderUseCase.execute(domainOrder)).thenReturn(domainOrder);
         Mockito.when(orderMapper.toResponseDTO(domainOrder)).thenReturn(responseDTO);
 
-        // when & then
         mockMvc.perform(put("/orders/{id}", id)
+                        .with(user("usuario_jwt_teste").roles("ADMIN"))
+                        .with(csrf())
+                        .header("Authorization", autorizationHeader)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updateRequestDTO)))
+                        .content(objectMapper.writeValueAsString(updateRequestDTO))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.delivery").value(updateRequestDTO.delivery()))
                 .andExpect(jsonPath("$.restaurante_id").value(restauranteId))
                 .andExpect(jsonPath("$.usuario_id").value(userId));
+
     }
 }

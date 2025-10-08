@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static pos.java.bora_comer.util.factory.MenuItemTestFactory.*;
+import static pos.java.bora_comer.util.factory.MenuItemTestFactory.*; // Presumindo que você usa isso
 
 @WebMvcTest(
         controllers = CreateMenuItemController.class,
@@ -49,11 +49,7 @@ class CreateMenuItemControllerTest {
     @Test
     void shouldCreateMenuItemSuccessfully() throws Exception {
         // given
-        MenuItemRequestDTO requestDTO = createRequestDTOWithId();
-        MenuItem domain = createDefaultWithId();
-
-        MenuItemResponseDTO responseDTO = new MenuItemResponseDTO(
-                10L,
+        MenuItemRequestDTO requestDTO = new MenuItemRequestDTO(
                 "Sushi",
                 "Sushi de salmão com arroz",
                 new BigDecimal("29.99"),
@@ -62,20 +58,64 @@ class CreateMenuItemControllerTest {
                 1L
         );
 
+        MenuItem domainWithoutId = MenuItem.create(
+                "Sushi",
+                "Sushi de salmão com arroz",
+                new BigDecimal("29.99"),
+                true,
+                "sushi.jpg",
+                1L
+        );
+
+        Long createdId = 10L;
+        MenuItem createdDomainWithId = MenuItem.create(
+                createdId,
+                "Sushi",
+                "Sushi de salmão com arroz",
+                new BigDecimal("29.99"),
+                true,
+                "sushi.jpg",
+                1L
+        );
+
+        MenuItemResponseDTO responseDTO = new MenuItemResponseDTO(
+                createdId,
+                "Sushi",
+                "Sushi de salmão com arroz",
+                new BigDecimal("29.99"),
+                true,
+                "sushi.jpg",
+                1L
+        );
+
+
         // mocks
-        Mockito.when(menuItemMapper.toDomain(any(MenuItemRequestDTO.class))).thenReturn(domain);
-        Mockito.when(createMenuItemUseCase.execute(any(MenuItem.class))).thenReturn(domain);
-        Mockito.when(menuItemMapper.toResponseDTO(any(MenuItem.class))).thenReturn(responseDTO);
+        // Mapeamento de RequestDTO -> Domain (sem ID)
+        Mockito.when(menuItemMapper.toDomain(requestDTO)).thenReturn(domainWithoutId);
+
+        // Execução do UseCase (Domain sem ID -> Domain com ID)
+        Mockito.when(createMenuItemUseCase.execute(domainWithoutId)).thenReturn(createdDomainWithId);
+
+        // Mapeamento de Domain (com ID) -> ResponseDTO
+        Mockito.when(menuItemMapper.toResponseDTO(createdDomainWithId)).thenReturn(responseDTO);
 
         // when & then
         mockMvc.perform(post("/menu-items")
+                        .header("Authorization", "Bearer token-valido")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/menu-items/" + createdId))
+                .andExpect(jsonPath("$.id").value(createdId))
+                .andExpect(jsonPath("$.nome").value(responseDTO.name()))
+                .andExpect(jsonPath("$.descricao").value(responseDTO.description()))
+                .andExpect(jsonPath("$.preco").value(responseDTO.price()))
+                .andExpect(jsonPath("$.delivery").value(responseDTO.delivery()));
+
 
         // verify
         Mockito.verify(menuItemMapper).toDomain(requestDTO);
-        Mockito.verify(createMenuItemUseCase).execute(domain);
-        Mockito.verify(menuItemMapper).toResponseDTO(domain);
+        Mockito.verify(createMenuItemUseCase).execute(domainWithoutId);
+        Mockito.verify(menuItemMapper).toResponseDTO(createdDomainWithId);
     }
 }

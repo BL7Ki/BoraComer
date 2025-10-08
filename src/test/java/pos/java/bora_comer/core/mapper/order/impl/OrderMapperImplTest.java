@@ -142,7 +142,8 @@ class OrderMapperImplTest {
                 true,
                 1L,
                 1L,
-                dateTime
+                dateTime,
+                status
         );
         Long id = 555L;
 
@@ -167,7 +168,8 @@ class OrderMapperImplTest {
                 true,
                 88L,
                 99L,
-                dateTime
+                dateTime,
+                status
         );
         Long id = 555L;
         Long restaurantId = 88L;

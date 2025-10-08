@@ -95,9 +95,7 @@ public class OrderMapperImpl implements OrderMapper {
                 restaurantId,
                 userId,
                 orderUpdateRequestDTO.lastModifiedDate(),
-                null // O status original DEVE ser fornecido aqui, mas como é uma falha arquitetural, deixamos nulo ou PENDING.
-                // Colocamos 'null' aqui para forçar a atenção, pois um UseCase deveria prover o status original.
-                // Se precisar de um valor para compilar, use OrderStatus.PENDING (mas é semanticamente errado).
+                orderUpdateRequestDTO.status()
         );
     }
 }
