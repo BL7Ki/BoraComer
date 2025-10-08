@@ -9,24 +9,43 @@ services:
     image: oscarfonts/h2
     container_name: bora-comer-h2
     ports:
-      - "1521:1521"
-      - "81:81"
+      - "1521:1521" # Porta TCP para acesso remoto (necessária pelo Spring Boot)
+      - "81:81"     # Porta da UI web do H2
     environment:
       H2_OPTIONS: "-tcp -tcpAllowOthers -web -webAllowOthers"
     volumes:
       - h2_data:/opt/h2-data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: bora-comer-rabbitmq
+    ports:
+      - "5672:5672"   # Porta padrão para comunicação AMQP (o app se conecta aqui)
+      - "15672:15672" # Porta da UI de gerenciamento (http://localhost:15672)
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
 
   app:
     image: openjdk:21-jdk
     container_name: bora-comer-app
     depends_on:
       - h2
+      - rabbitmq
     volumes:
       - ./target:/app
     working_dir: /app
     command: ["java", "-jar", "bora-comer-0.0.1-SNAPSHOT.jar"]
     environment:
       SPRING_PROFILES_ACTIVE: test
+      # Configurações do Spring para encontrar o RabbitMQ pelo nome do serviço
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+
+      SPRING_DATASOURCE_URL: jdbc:h2:tcp://h2:1521/./h2_data/db
+
     ports:
       - "8080:8080"
 
