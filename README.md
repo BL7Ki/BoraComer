@@ -562,6 +562,7 @@ Content-Type: application/json
 }
 ``` 
 
+
 **Requisição usuario DONO_RESTAURANTE:**
 ```bash
 POST /login
